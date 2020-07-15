@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_file"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/file"></ImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@id/image_file"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/filename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+
+            <TextView
+                android:id="@+id/filearm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ff999999"
+                android:textSize="12sp"></TextView>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_delete"
+            android:layout_marginRight="12dp"
+            android:layout_width="14.67dp"
+            android:layout_height="14.67dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/delete">
+
+        </ImageView>
+    </RelativeLayout>
+
+</RelativeLayout>

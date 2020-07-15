@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="45.67dp"
+            android:layout_height="45.67dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/logooa"></ImageView>
+
+        <ImageView
+            android:id="@+id/image_red"
+            android:layout_marginLeft="-10dp"
+            android:layout_marginTop="12dp"
+             android:layout_toRightOf="@id/image_logo"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:src="@drawable/reddot"
+            ></ImageView>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/status"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textColor="#ff000000"
+            android:textSize="15sp"></TextView>
+
+        <TextView
+            android:id="@+id/status_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status"
+            android:layout_marginTop="2dp"
+            android:textColor="#ffbbbbbb"
+            android:textSize="13sp"></TextView>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="12dp"
+            android:textColor="#ffbbbbbb"
+            android:textSize="11sp"></TextView>
+    </RelativeLayout>
+</LinearLayout>

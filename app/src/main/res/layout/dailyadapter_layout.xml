@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#fff7f7f7">
+
+        <TextView
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+
+            android:textColor="#ff006bff"
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="13dp"
+            android:layout_toRightOf="@id/progress"
+            android:text="/100%"
+            android:textColor="#ff006bff"
+            android:textSize="15sp"></TextView>
+
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="8dp"
+            android:text="adasdasd"
+            android:textColor="#ff000000"
+            android:textSize="15sp"></TextView>
+
+        <ProgressBar
+            android:id="@+id/pb_progressbar"
+            style="@style/StyleProgressBarMini"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:layout_below="@+id/progress"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/shape_progressbar_bg"
+            android:max="100" />
+
+        <TextView
+            android:id="@+id/jobContent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/pb_progressbar"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:textColor="#ff000000"
+            android:textSize="15sp"></TextView>
+    </RelativeLayout>
+
+
+</LinearLayout>

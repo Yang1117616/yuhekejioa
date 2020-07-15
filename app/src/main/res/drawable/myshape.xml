@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--&lt;!&ndash;渐变色&ndash;&gt;-->
+    <!--<gradient-->
+    <!--android:endColor="#000"-->
+    <!--android:gradientRadius="100dp"-->
+    <!--android:startColor="#fff"-->
+    <!--android:type="radial" />-->
+    <solid android:color="@color/pickerview_timebtn_nor"></solid>
+    <corners android:radius="30dp"></corners>
+    <size
+        android:width="50dp"
+        android:height="50dp" />
+</shape>

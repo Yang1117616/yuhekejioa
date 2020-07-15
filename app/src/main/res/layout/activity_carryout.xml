@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".My_recrive.CarryoutActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="完成填写"
+                android:textColor="@color/theme_black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="42.66dp">
+
+            <TextView
+                android:id="@+id/current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:text="任务编号"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+
+            <TextView
+                android:id="@+id/taskNos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="#ffe5e5e5"></View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11.66dp"
+            android:layout_marginTop="5dp"
+            android:text="补充说明"
+            android:textColor="#ff000000"
+            android:textSize="15sp"></TextView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="15.66dp">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top|left"
+                android:layout_marginTop="16.33dp"
+                android:background="@null"
+                android:editable="true"
+                android:hint="请输入任务结果"
+                android:inputType="none"
+                android:maxLength="500"
+                android:textColor="#000000"
+                android:textColorHint="#ffbbbbbb"
+                android:textSize="15sp"></EditText>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="#ffe5e5e5"></View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/updatingfiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11.66dp"
+                android:layout_marginTop="5dp"
+                android:text="附件上传"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+
+            <ImageView
+                android:id="@+id/add_image"
+                android:layout_width="16dp"
+                android:layout_height="19dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/add_file"></ImageView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/nestedlistView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/updatingfiles"
+                android:layout_marginTop="10dp"
+                android:scrollbarSize="5dp"
+                android:scrollbarThumbVertical="@color/theme_gray"
+                android:scrollbars="vertical"
+
+                ></androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="50dp"
+            android:id="@+id/store_details_ll_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="315dp"
+                android:layout_height="43dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_backgroud"
+                android:text="提交"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"></Button>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

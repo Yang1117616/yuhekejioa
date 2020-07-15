@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LineBreakLayout">
+        <!--标签之间左右距离-->
+        <attr name="leftAndRightSpace" format="dimension" />
+        <!--标签行距-->
+        <attr name="rowSpace" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="TagFlowLayout">
+        <attr name="auto_select_effect" format="boolean"></attr>
+        <attr name="max_select" format="integer"></attr>
+        <attr name="gravity">
+            <enum name="left" value="-1" />
+            <enum name="center" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+    </declare-styleable>
+
+
+    <!--WheelView 属性-->
+    <declare-styleable name="WheelView">
+        <!--set number of item displayed, default is 3-->
+        <attr name="npv_ShowCount" format="reference|integer" />
+        <!--set if show divider, default is true-->
+        <attr name="npv_ShowDivider" format="reference|boolean" />
+        <attr name="npv_DividerColor" format="reference|color" />
+        <attr name="npv_DividerMarginLeft" format="reference|dimension" />
+        <attr name="npv_DividerMarginRight" format="reference|dimension" />
+        <attr name="npv_DividerHeight" format="reference|dimension" />
+        <attr name="npv_TextColorNormal" format="reference|color" />
+        <attr name="npv_TextColorSelected" format="reference|color" />
+        <attr name="npv_TextColorHint" format="reference|color" />
+        <attr name="npv_TextSizeNormal" format="reference|dimension" />
+        <attr name="npv_TextSizeSelected" format="reference|dimension" />
+        <attr name="npv_TextSizeHint" format="reference|dimension" />
+        <attr name="npv_TextArray" format="reference" />
+        <attr name="npv_MinValue" format="reference|integer" />
+        <attr name="npv_MaxValue" format="reference|integer" />
+        <attr name="npv_WrapSelectorWheel" format="reference|boolean" />
+        <attr name="npv_HintText" format="reference|string" />
+        <attr name="npv_EmptyItemHint" format="reference|string" />
+        <attr name="npv_MarginStartOfHint" format="reference|dimension" />
+        <attr name="npv_MarginEndOfHint" format="reference|dimension" />
+        <attr name="npv_ItemPaddingHorizental" format="reference|dimension" />
+        <attr name="npv_ItemPaddingVertical" format="reference|dimension" />
+
+        <!--just used to measure maxWidth for wrap_content without hint,
+            the string array will never be displayed.
+            you can set this attr if you want to keep the wraped numberpickerview
+            width unchanged when alter the content list-->
+        <attr name="npv_AlternativeTextArrayWithMeasureHint" format="reference" />
+        <attr name="npv_AlternativeTextArrayWithoutMeasureHint" format="reference" />
+        <!--the max length of hint content-->
+        <attr name="npv_AlternativeHint" format="reference|string" />
+    </declare-styleable>
+    <declare-styleable name="RoundAngleImageView">
+        <attr name="roundWidth" format="dimension" />
+        <attr name="roundHeight" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="pickerview">
+        <attr name="wheelview_gravity">
+            <enum name="center" value="17"/>
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+        </attr>
+        <attr name="wheelview_textSize" format="dimension"/>
+        <attr name="wheelview_textColorOut" format="color"/>
+        <attr name="wheelview_textColorCenter" format="color"/>
+        <attr name="wheelview_dividerColor" format="color"/>
+        <attr name="wheelview_dividerWidth" format="dimension"/>
+        <attr name="wheelview_lineSpacingMultiplier" format="float"/>
+    </declare-styleable>
+</resources>

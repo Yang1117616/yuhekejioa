@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_wheel_dialog_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="取消"
+            android:textColor="@color/theme_black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/theme_black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_wheel_dialog_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="完成"
+            android:textColor="@color/dialogtext"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.example.yuhekejioa.WheelDialog.WheelView
+            android:id="@+id/WheelView_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:contentDescription="test_number_picker_view"
+            app:npv_ItemPaddingHorizental="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_ShowCount="5"
+            app:npv_TextSizeNormal="14sp"
+            app:npv_TextSizeSelected="16sp"
+            app:npv_WrapSelectorWheel="true" />
+
+        <com.example.yuhekejioa.WheelDialog.WheelView
+            android:id="@+id/WheelView_dialog_two"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:contentDescription="test_number_picker_view"
+            app:npv_ItemPaddingHorizental="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_ShowCount="5"
+            app:npv_TextSizeNormal="14sp"
+            app:npv_TextSizeSelected="16sp"
+            app:npv_WrapSelectorWheel="true" />
+
+        <com.example.yuhekejioa.WheelDialog.WheelView
+            android:id="@+id/WheelView_dialog_three"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:contentDescription="test_number_picker_view"
+            app:npv_ItemPaddingHorizental="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_ShowCount="5"
+            app:npv_TextSizeNormal="14sp"
+            app:npv_TextSizeSelected="16sp"
+            app:npv_WrapSelectorWheel="true" />
+    </LinearLayout>
+</LinearLayout>

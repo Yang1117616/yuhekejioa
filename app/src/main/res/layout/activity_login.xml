@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context=".My_Initiated.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="73.33dp"
+            android:layout_height="56.67dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/yuhelogo"></de.hdodenhof.circleimageview.CircleImageView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_phone"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="31.33dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="31.33dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="18.33dp"
+            android:layout_gravity="center"
+            android:src="@drawable/phone"></ImageView>
+
+        <EditText
+            android:id="@+id/login_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:background="@null"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:hint="请输入账号"
+            android:maxLines="1"
+            android:textColor="#000000"
+            android:textColorHint="#BBBBBB"
+            android:cursorVisible="true"
+
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.67dp"
+        android:layout_marginLeft="31.33dp"
+        android:layout_marginRight="31.33dp"
+        android:background="#ffe6e6e6"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="31.33dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="31.33dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="16dp"
+            android:layout_height="18.33dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/password"></ImageView>
+
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/image"
+            android:background="@null"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="#000000"
+            android:textColorHint="#BBBBBB"
+            android:cursorVisible="true"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/image_yincang"
+            android:layout_width="14.67dp"
+            android:layout_height="13.33dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/yincnag"></ImageView>
+
+        <ImageView
+            android:id="@+id/image_xianshi"
+            android:layout_width="14.67dp"
+            android:layout_height="13.33dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/image_yincang"
+            android:src="@drawable/xianshi"></ImageView>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.67dp"
+        android:layout_marginLeft="31.33dp"
+        android:layout_marginRight="31.33dp"
+        android:background="#ffe6e6e6"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="315.67dp"
+            android:layout_height="43.67dp"
+            android:layout_marginLeft="29.67dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="29.67dp"
+            android:background="@drawable/button_backgroud"
+            android:text="登录"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"></Button>
+
+    </RelativeLayout>
+
+</LinearLayout>
