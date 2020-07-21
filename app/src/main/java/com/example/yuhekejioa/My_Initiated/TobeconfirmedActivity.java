@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -29,8 +30,10 @@ import com.example.yuhekejioa.Bean.DeterminBean;
 import com.example.yuhekejioa.My_recrive.CarryoutActivity;
 import com.example.yuhekejioa.My_recrive.ProcessingActivity;
 import com.example.yuhekejioa.My_recrive.ReportActivity;
+import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
@@ -94,6 +97,10 @@ public class TobeconfirmedActivity extends AppCompatActivity {
 
     private TextView edit_title;
 
+    private TextView choosedepartment_text;//接收部门
+    private TextView receiver_text;//接收人
+    private String statusStr;
+    private Dialog loadingDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -122,6 +129,8 @@ public class TobeconfirmedActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.accomplish_List);
         edit_title = findViewById(R.id.edit_title);
 
+        choosedepartment_text = findViewById(R.id.choosedepartment_text);//接收部门
+        receiver_text = findViewById(R.id.receiver_text);//接收人
 
         report.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +154,7 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                 Intent intent = new Intent(TobeconfirmedActivity.this, TerminationActivity.class);
                 intent.putExtra("taskId", id);
                 intent.putExtra("taskNo", taskNo);
-                intent.putExtra("inspected", 0);
+                intent.putExtra("statusStr", statusStr);
                 TobeconfirmedActivity.this.startActivity(intent);
             }
         });
@@ -174,7 +183,9 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                         final String updateTime = data.getString("wantFinishTiem");//结束时间
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         final String title = data.getString("title");
-
+                        final String receiveDept = data.getString("receiveDept");//接收部门
+                        final String receiveNickName = data.getString("receiveNickName");//接收人
+                        statusStr = data.getString("statusStr");
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//获取里面的集合
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);//集合中的实体类
@@ -200,6 +211,8 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                                 enddate_text.setText(updateTime);
                                 editText.setText(taskDescribe);
                                 edit_title.setText(title);
+                                choosedepartment_text.setText(receiveDept);
+                                receiver_text.setText(receiveNickName);
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TobeconfirmedActivity.this);
                                 recyclerView.setLayoutManager(linearLayoutManager);
@@ -243,12 +256,25 @@ public class TobeconfirmedActivity extends AppCompatActivity {
 
     //文件下载
     private void initwangluo(DeterminBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(TobeconfirmedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         //下载文件
         NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
             @Override
             public void onSuccess(String res) {
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
                 Intent intent = new Intent();
                 //设置intent的Action属性
                 intent.setAction(Intent.ACTION_VIEW);
@@ -272,9 +298,32 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(TobeconfirmedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(TobeconfirmedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(TobeconfirmedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
+            }
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
         });
     }

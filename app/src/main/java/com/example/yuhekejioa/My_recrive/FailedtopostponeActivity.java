@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -18,11 +19,13 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
 import com.example.yuhekejioa.My_Initiated.MyExtensioninprogressActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 
@@ -77,6 +80,8 @@ public class FailedtopostponeActivity extends AppCompatActivity implements View.
             "", "*/*"};
     private String url;
     private TextView edit_title;
+    private Dialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -173,7 +178,7 @@ public class FailedtopostponeActivity extends AppCompatActivity implements View.
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerView.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(FailedtopostponeActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(FailedtopostponeActivity.this, list);
                                 recyclerView.setAdapter(adapter);
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
@@ -216,12 +221,25 @@ public class FailedtopostponeActivity extends AppCompatActivity implements View.
     }
 
     private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(FailedtopostponeActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         //下载文件
         NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
             @Override
             public void onSuccess(String res) {
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
                 Intent intent = new Intent();
                 //设置intent的Action属性
                 intent.setAction(Intent.ACTION_VIEW);
@@ -245,9 +263,33 @@ public class FailedtopostponeActivity extends AppCompatActivity implements View.
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(FailedtopostponeActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(FailedtopostponeActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(FailedtopostponeActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
         });
     }

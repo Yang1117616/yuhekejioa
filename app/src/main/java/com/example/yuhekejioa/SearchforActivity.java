@@ -38,7 +38,7 @@ import java.util.List;
 
 // 首页-----搜索页面
 public class SearchforActivity extends AppCompatActivity implements View.OnClickListener {
-    private ImageView back;//返回按钮
+    private RelativeLayout back;//返回按钮
     private EditText edit_searchfor;//输入框
     private ImageView image_delete;//输入框删除按钮
     private TextView text_searchfor;
@@ -50,7 +50,6 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
     private List<SearchforBean.DataBean.ListBean> list = new ArrayList<>();
     private SearchforAdapter adapter;
     private RelativeLayout relative_no;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -60,6 +59,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_searchfor);
         initview();
     }
+
 
     private void initview() {
         back = findViewById(R.id.back);
@@ -93,7 +93,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
 //            }
 //        });
         home_RefreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
-        //    home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));
+   //     home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));
         relative_no.setVisibility(View.GONE);
         recyclerview.setVisibility(View.GONE);
         edit_searchfor.addTextChangedListener(new TextWatcher() {
@@ -118,23 +118,18 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchforActivity.this);
-
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.setHasFixedSize(true);
         adapter = new SearchforAdapter(SearchforActivity.this, list);
         recyclerview.setAdapter(adapter);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initData();
-    }
+
 
     //网络请求
     private void initData() {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("pageNum", String.valueOf(1));
+        hashMap.put("pageNum", String.valueOf(pageNum));
         hashMap.put("pageSize", String.valueOf(20));
         hashMap.put("title", title);
         NetworkUtils.sendPost(Constant.ip + "/app/index/search", hashMap, this, new NetworkUtils.HttpCallback() {
@@ -251,7 +246,6 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

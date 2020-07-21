@@ -70,7 +70,6 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
-import static com.example.yuhekejioa.My_Initiated.InitiateActivity.IMPORT_REQUEST_CODE;
 
 //  我发起的-----修改页面
 public class ModifyActivity extends AppCompatActivity implements View.OnClickListener {
@@ -87,7 +86,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private List<Integer> list_int = new ArrayList<>();//选择部门传的部门id
     private int deptId;//部门id
 
-    private JSONArray deptList;//接收部门接口中的集合
+
     private String deptName;//选择的部门
 
 
@@ -139,6 +138,8 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
 
     private EditText edittitle;
+    private String[] list_arr;
+    private TextView start_time;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -178,7 +179,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                         final String updateTime = data.getString("wantFinishTiem");//结束时间
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         String tasktitle = data.getString("title");//任务标题
-
+                        String createTime = data.getString("createTime");//发起时间
 
                         receive = data.getString("receive");
                         //   canUpdateReceive = data.getInt("canUpdateReceive");
@@ -209,6 +210,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 editText.setText(taskDescribe);
                                 choosedepartment_text.setText(receiveDept);
                                 edittitle.setText(tasktitle);//添加任务标题
+                                start_time.setText(createTime);//发起时间
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ModifyActivity.this);
                                 nestedListView.setLayoutManager(linearLayoutManager);
@@ -285,7 +287,13 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(ModifyActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(ModifyActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ModifyActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     e.printStackTrace();
                 }
             }
@@ -304,9 +312,8 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         add_image = findViewById(R.id.add_image);
         button_submit = findViewById(R.id.button_submit);
         nestedListView = findViewById(R.id.nestedlistView);
-
+        start_time = findViewById(R.id.start_time);
         edittitle = findViewById(R.id.edit_title);
-
         back.setOnClickListener(this);
         button_submit.setOnClickListener(this);
         choosedepartment_text.setOnClickListener(this);//接收部门
@@ -333,14 +340,14 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    //intent.setType("*/*");//设置类型，我这里是任意类型，可以过滤文件类型
-                    //   intent.setType("*/*");//可以传任意类型文件
+
+                    intent.setType("*/*");//可以传任意类型文件
                     /*
                     选择指定上次传的文件类型：text word全部类型  ppt  excel */
-                    intent.setType("text/plain");
-                    intent.setType("application/msword");
-                    intent.setType("application/vnd.ms-powerpoint");
-                    intent.setType("application/vnd.ms-excel");
+//                    intent.setType("text/plain");
+//                    intent.setType("application/msword");
+//                    intent.setType("application/vnd.ms-powerpoint");
+//                    intent.setType("application/vnd.ms-excel");
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     startActivityForResult(intent, IMPORT_REQUEST_CODE);
@@ -404,6 +411,33 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
 
     //提交方法
     private void initsubmit() {
+
+
+           /*
+        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
+         */
+        //获取上传文件的后缀名
+        for (int i = 0; i < list_file.size(); i++) {
+            String filename = list_file.get(i).getFilename();
+            String substring = filename.substring(filename.lastIndexOf(".") + 1);
+            if (substring.equals("doc")) {
+            } else if (substring.equals("docx")) {
+            } else if (substring.equals("xls")) {
+            } else if (substring.equals("xlsx")) {
+            } else if (substring.equals("ppt")) {
+            } else if (substring.equals("pptx")) {
+            } else if (substring.equals("txt")) {
+            } else if (substring.equals("xmind")) {
+            } else if (substring.equals("rar")) {
+            } else if (substring.equals("zip")) {
+            } else if (substring.equals("gz")) {
+            } else if (substring.equals("bz2")) {
+            } else if (substring.equals("pdf")){ }else{
+                Toast.makeText(this, "只能上传这几种类型文件", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         //接收部门
         String choosed = choosedepartment_text.getText().toString();
         if (choosed.equals("请选择")) {
@@ -576,7 +610,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     //选择部门
     private void showdialog1() {
         HashMap<String, String> hashMap = new HashMap<>();
-        NetworkUtils.sendGet(Constant.ip + "/app/task/add", hashMap, ModifyActivity.this, new NetworkUtils.HttpCallback() {
+        NetworkUtils.sendGet(Constant.ip + "/app/task/getDepts", hashMap, ModifyActivity.this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(final JSONObject res) {
                 //如果res为空的话就不进行下面的操作
@@ -590,18 +624,30 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                         //接口中获取的实体类
                         final JSONObject data = res.getJSONObject("data");
                         //实体类中的集合
-                        deptList = data.getJSONArray("deptList");
-                        //循环遍历集合
-                        String[] list_arr = new String[deptList.length()];
-                        for (int i = 0; i < deptList.length(); i++) {
-                            //获取集合中的实体类
-                            JSONObject jsonObject = deptList.getJSONObject(i);
-                            //获取想要的数据
-                            list_int.add(jsonObject.getInt("deptId"));
-                            deptName = jsonObject.getString("deptName");
-                            list_arr[i] = deptName;
-
+                        JSONArray children = data.getJSONArray("children");
+                        for (int i = 0; i < children.length(); i++) {
+                            JSONObject jsonObject = children.getJSONObject(i);
+                            JSONArray children1 = jsonObject.getJSONArray("children");
+                            list_arr = new String[children1.length()];
+                            for (int j = 0; j < children1.length(); j++) {
+                                JSONObject jsonObject1 = children1.getJSONObject(j);
+                                list_int.add(jsonObject1.getInt("deptId"));
+                                deptName = jsonObject1.getString("deptName");
+                                list_arr[i] = deptName;
+                            }
                         }
+//                        //循环遍历集合
+//                        String[] list_arr = new String[deptList.length()];
+//                        for (int i = 0; i < deptList.length(); i++) {
+//                            //获取集合中的实体类
+//                            JSONObject jsonObject = deptList.getJSONObject(i);
+//                            //获取想要的数据
+//                            list_int.add(jsonObject.getInt("deptId"));
+//                            deptName = jsonObject.getString("deptName");
+//                            list_arr[i] = deptName;
+//
+//                        }
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -675,9 +721,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTimeSelect(Date date, View v) {
                 enddate_text.setText(getTime(date));
-
                 Log.i("pvTime", "onTimeSelect");
-
             }
         }).setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
             @Override
@@ -700,7 +744,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             params.leftMargin = 0;
             params.rightMargin = 0;
             pvTime.getDialogContainerLayout().setLayoutParams(params);
-
+            mDialog.setTitle("重新修改时间");
             Window dialogWindow = mDialog.getWindow();
             if (dialogWindow != null) {
                 dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式

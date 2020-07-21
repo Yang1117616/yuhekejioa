@@ -140,8 +140,7 @@ public class MeInitiateActivity extends AppCompatActivity {
                             int taskStatus = jsonObject.getInt("taskStatus");//状态码
                             int id = jsonObject.getInt("id");
                             String title = jsonObject.getString("title");//任务单标题
-
-
+                            //  String inspected = jsonObject.getString("inspected");//显示结果
                             String statusStr = jsonObject.getString("statusStr");
 
                             String taskDescribe = jsonObject.getString("taskDescribe");//任务描述
@@ -158,7 +157,7 @@ public class MeInitiateActivity extends AppCompatActivity {
                             mereceiveBean.setStatusStr(statusStr);
                             mereceiveBean.setTitle(title);
                             mereceiveBean.setId(id);
-
+                            //  mereceiveBean.setInspected(inspected);
                             list.add(mereceiveBean);
                         }
                         runOnUiThread(new Runnable() {

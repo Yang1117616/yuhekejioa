@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,18 +24,15 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,11 +40,10 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.example.yuhekejioa.Adapter.FatherBean;
 import com.example.yuhekejioa.Adapter.FileAdapter;
-import com.example.yuhekejioa.Adapter.MyAdapter;
 
-import com.example.yuhekejioa.Bean.InitiateBean;
-import com.example.yuhekejioa.Bean.InitiatexBean;
+import com.example.yuhekejioa.Bean.SonBean;
 import com.example.yuhekejioa.Bean.filebean;
 
 import com.example.yuhekejioa.R;
@@ -57,7 +52,6 @@ import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 import com.example.yuhekejioa.WheelDialog.WheelDialogFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,6 +59,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,87 +82,48 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
     private EditText editText;//输入任务描述输入框
     private ImageView add_image;
     private Button button_submit;
-
+    private String deptIds;
     private RecyclerView nestedListView;
     //接收人listview
-    private JSONArray deptList;
+    //private JSONArray deptList;
 
-    private List<InitiateBean.DataBean.DeptListBean> list_yhkj = new ArrayList<>();
+    //  private List<InitiateBean.DataBean.DeptListBean> list_yhkj = new ArrayList<>();
 
     private String deptName;
 
     private int deptId;
     private TimePickerView pvTime;
-    public static final int IMPORT_REQUEST_CODE = 10005;
+    //public static final int IMPORT_REQUEST_CODE = 10005;
     private List<filebean> list_file = new ArrayList<>();
     private String fileSizeString = "0.00";//文件大小
     private String upLoadFileName;//文件名字
     private File file;
     private String path;
-
-    private String userNo;
-
-    private String name;
-    private List<String> list_string = new ArrayList<>();
-    private List<Integer> list_int = new ArrayList<>();
+    //    private List<String> list_string = new ArrayList<>();
+//    private List<Integer> list_int = new ArrayList<>();
     //添加获取的文件路径集合
     private List<String> strings = new ArrayList<>();
     private final String[] MIME_MapTable = {
             //{后缀名，MIME类型}
             ".3gp", "video/3gpp",
-            ".apk", "application/vnd.android.package-archive",
-            ".asf", "video/x-ms-asf",
-            ".avi", "video/x-msvideo",
-            ".bin", "application/octet-stream",
-            ".bmp", "image/bmp",
-            ".c", "text/plain",
-            ".class", "application/octet-stream",
-            ".conf", "text/plain",
-            ".cpp", "text/plain",
-            ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".xls", "application/vnd.ms-excel",
-            ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            ".exe", "application/octet-stream",
-            ".gif", "image/gif",
-            ".gtar", "application/x-gtar",
-            ".gz", "application/x-gzip",
-            ".h", "text/plain",
-            ".htm", "text/html",
-            ".html", "text/html",
-            ".jar", "application/java-archive",
-            ".java", "text/plain",
-            ".jpeg", "image/jpeg",
-            ".jpg", "image/jpeg",
-            ".js", "application/x-javascript",
-            ".log", "text/plain",
-            ".mpc", "application/vnd.mpohun.certificate",
-            ".mpe", "video/mpeg",
-            ".mpeg", "video/mpeg",
-            ".mpg", "video/mpeg",
-            ".mpg4", "video/mp4",
-            ".mpga", "audio/mpeg",
-            ".msg", "application/vnd.ms-outlook",
-            ".ogg", "audio/ogg",
-            ".pdf", "application/pdf",
-            ".png", "image/png",
-            ".pps", "application/vnd.ms-powerpoint",
-            ".ppt", "application/vnd.ms-powerpoint",
-            ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            ".prop", "text/plain",
-            ".rc", "text/plain",
-            ".rmvb", "audio/x-pn-realaudio",
-            ".rtf", "application/rtf",
-            ".sh", "text/plain",
-            ".tar", "application/x-tar",
-            ".tgz", "application/x-compressed",
-            ".txt", "text/plain",
-            ".wav", "audio/x-wav",
-            ".wma", "audio/x-ms-wma",
-            ".wmv", "audio/x-ms-wmv",
-            ".wps", "application/vnd.ms-works",
-            ".xml", "text/plain",
-            ".z", "application/x-compress",
+            ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
+            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
+            ".c", "text/plain", ".class", "application/octet-stream",
+            ".conf", "text/plain", ".cpp", "text/plain",
+            ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".xls", "application/vnd.ms-excel", ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ".exe", "application/octet-stream", ".gif", "image/gif", ".gtar", "application/x-gtar",
+            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
+            ".jar", "application/java-archive", ".java", "text/plain",
+            ".jpeg", "image/jpeg", ".jpg", "image/jpeg", ".js", "application/x-javascript", ".log", "text/plain", ".mpc", "application/vnd.mpohun.certificate",
+            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
+            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
+            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
+            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", ".prop", "text/plain",
+            ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio",
+            ".rtf", "application/rtf", ".sh", "text/plain",
+            ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain", ".wav", "audio/x-wav",
+            ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress",
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
@@ -176,6 +132,23 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
     private String nickName;
     private String msg;
     private EditText edittitle;
+    private TextView typeofdelivery;//发送类型
+
+    private String[] string_typesof;//确认结果状态
+    private String username;
+
+    private RelativeLayout relative_receiving_department;//部门布局；
+    private RelativeLayout relative_receiver;//人员布局
+    private RelativeLayout relative_typeofdelivery;//发送类型
+    public static final int IMPORT_REQUEST_CODE = 10005;
+    private int Number;
+    private int types;
+    private StringBuilder sb;
+    private StringBuilder string_deptid;
+    private int deptId1;
+    private int role;
+    private String s;
+    private String receives;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -184,9 +157,70 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initiate);
+        Intent intent = getIntent();
+        username = intent.getStringExtra("nickName");//员工名称
         initView();
-        initwangluo();
         methodRequiresTwoPermission();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initwangluo();
+    }
+
+    //角色排序网络请求
+    private void initwangluo() {
+        NetworkUtils.sendPost(Constant.ip + "/app/user/getUserRole", null, this, new NetworkUtils.HttpCallback() {
+            @Override
+            public void onSuccess(JSONObject res) {
+                if (res == null || this == null) {
+                    return;
+                }
+                try {
+                    int code = res.getInt("code");
+                    if (code == 200) {
+                        JSONObject data = res.getJSONObject("data");
+                        role = data.getInt("role");
+                        deptId1 = data.getInt("deptId");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                /*
+                                获取用户角色：1、董事长；2、部门经理；3、员工；
+                                 */
+
+                                if (role == 1) {
+//                                    relative_receiving_department.setVisibility(View.GONE);
+//                                    relative_receiver.setVisibility(View.GONE);
+                                    typeofdelivery.setText("个人");
+                                } else if (role == 2) {
+//                                    relative_receiving_department.setVisibility(View.VISIBLE);
+//                                    relative_receiver.setVisibility(View.VISIBLE);
+                                    typeofdelivery.setText("个人");
+                                } else if (role == 3) {
+                                    relative_typeofdelivery.setVisibility(View.GONE);
+                                    relative_receiving_department.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     @AfterPermissionGranted(1)
@@ -197,13 +231,16 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    //   intent.setType("*/*");//可以传任意类型文件
+                    intent.setType("*/*");//可以传任意类型文件
                     /*
                     选择指定上次传的文件类型：text word全部类型  ppt  excel */
-                    intent.setType("text/plain");
-                    intent.setType("application/msword");
-                    intent.setType("application/vnd.ms-powerpoint");
-                    intent.setType("application/vnd.ms-excel");
+//                    intent.setType("text/plain");
+//                    intent.setType("application/msword");
+//                    intent.setType("application/pdf");// pdf
+//                    //intent.setType("application/msword");//doc
+//                    intent.setType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");//docx
+//                    intent.setType("application/vnd.ms-powerpoint");//ppt
+//                    intent.setType("video/mp4");//.mp4
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     //设置类型，我这里是任意类型，可以过滤文件类型
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -236,73 +273,6 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         Log.e("TAG", "onPermissionsDenied: ");
     }
 
-    private void initwangluo() {
-        HashMap<String, String> hashMap = new HashMap<>();
-        NetworkUtils.sendGet(Constant.ip + "/app/task/add", hashMap, InitiateActivity.this, new NetworkUtils.HttpCallback() {
-            @Override
-            public void onSuccess(final JSONObject res) {
-                //如果res为空的话就不进行下面的操作
-                if (res == null || this == null) {
-                    return;
-                }
-                try {
-                    int code = res.getInt("code");
-                    if (code == 200) {
-                        //接口中获取的实体类
-                        final JSONObject data = res.getJSONObject("data");
-                        //发起人姓名
-                        final String userName = data.getString("userName");
-                        //当前时间
-                        final String currentDate = data.getString("currentDate");
-                        //实体类中的集合
-                        deptList = data.getJSONArray("deptList");
-                        //循环遍历集合
-
-                        for (int i = 0; i < deptList.length(); i++) {
-                            //获取集合中的实体类
-                            JSONObject jsonObject = deptList.getJSONObject(i);
-                            //获取想要的数据
-
-                            InitiateBean.DataBean.DeptListBean deptListBean1 = new InitiateBean.DataBean.DeptListBean();
-                            deptListBean1.setDeptName(deptName);
-                            list_yhkj.add(deptListBean1);
-
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                sponsor_name.setText(userName);
-                                current_time1.setText(currentDate);
-                            }
-                        });
-                    } else {
-                        final String msg = (String) res.get("msg");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(final String msg) {
-                super.onError(msg);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
-
     private void initView() {
         back = findViewById(R.id.back);
         current_time1 = findViewById(R.id.current_time1);
@@ -315,19 +285,23 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         button_submit = findViewById(R.id.button_submit);
         nestedListView = findViewById(R.id.nestedlistView);
         edittitle = findViewById(R.id.edit_title);
-        TextView text = findViewById(R.id.text);
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(InitiateActivity.this,ChooseDepartmentActivity.class));
-            }
-        });
+        sponsor_name.setText(username);//获取用户名
+        //获取系统当前时间
+        long currentTime = System.currentTimeMillis();
+        String timeNow = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(currentTime);
+        current_time1.setText(timeNow);
+        typeofdelivery = findViewById(R.id.typeofdelivery);//发送类型
+
+        relative_receiving_department = findViewById(R.id.relative_receiving_department);
+        relative_receiver = findViewById(R.id.relative_receiver);
+        relative_typeofdelivery = findViewById(R.id.relative_typeofdelivery);//发送类型布局id
 
         back.setOnClickListener(this);//返回按钮
         choosedepartment_text.setOnClickListener(this);//接收部门
         receiver_text.setOnClickListener(this);//接收人
         enddate_text.setOnClickListener(this);//结束时间
         button_submit.setOnClickListener(this);//提交
+        typeofdelivery.setOnClickListener(this);
 
     }
 
@@ -337,16 +311,26 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             case R.id.back:
                 InitiateActivity.this.finish();
                 break;
-            case R.id.choosedepartment_text:
-                showdialog1();
+            case R.id.choosedepartment_text://点击跳转到选择部门页面
+                Intent intent = new Intent(InitiateActivity.this, ChooseDepartmentActivity.class);
+                startActivityForResult(intent, 1);
                 break;
-            case R.id.receiver_text:
-                String s = choosedepartment_text.getText().toString();//判断接收部门是否有数据
-                if (s.equals("请选择")) {
-                    Toast.makeText(this, "请选择接收部门", Toast.LENGTH_SHORT).show();
-                    return;
+            case R.id.receiver_text://选择跳转到选择人员
+
+                if (role == 1) {
+                    Intent intent1 = new Intent(InitiateActivity.this, ChooseapersonActivity.class);
+                    intent1.putExtra("deptId", deptId);
+                    startActivityForResult(intent1, 0);
+                } else if (role == 2) {
+                    Intent intent1 = new Intent(InitiateActivity.this, ChooseapersonActivity.class);
+                    intent1.putExtra("deptId", deptId);
+                    startActivityForResult(intent1, 0);
+                } else if (role == 3) {
+                    Intent intent1 = new Intent(InitiateActivity.this, ChooseapersonActivity.class);
+                    intent1.putExtra("deptId", deptId1);
+                    startActivityForResult(intent1, 0);
                 }
-                showdialog();
+
                 break;
             case R.id.enddate_text://时间
                 if (pvTime != null) {
@@ -357,119 +341,93 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             case R.id.button_submit:
                 initsubmit();
                 break;
+            case R.id.typeofdelivery://选择类型
+                inittypesof();
+                break;
 
         }
     }
 
-    //接收部门
-    private void showdialog1() {
-        HashMap<String, String> hashMap = new HashMap<>();
-        NetworkUtils.sendGet(Constant.ip + "/app/task/add", hashMap, InitiateActivity.this, new NetworkUtils.HttpCallback() {
+    //选择类型
+    private void inittypesof() {
+        final Bundle bundle = new Bundle();
+        bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
+        bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
+        bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
+        bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
+        bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
+        bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
+        string_typesof = new String[2];
+        string_typesof[0] = "个人";
+        string_typesof[1] = "群发";
+        bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, string_typesof);
+        WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
+        dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
             @Override
-            public void onSuccess(final JSONObject res) {
-                //如果res为空的话就不进行下面的操作
-                if (res == null || this == null) {
-                    return;
-                }
-                try {
-                    int code = res.getInt("code");
-                    if (code == 200) {
-                        list_int.clear();
-                        //接口中获取的实体类
-                        final JSONObject data = res.getJSONObject("data");
-                        //实体类中的集合
-                        deptList = data.getJSONArray("deptList");
-                        //循环遍历集合
-                        String[] list_arr = new String[deptList.length()];
-                        for (int i = 0; i < deptList.length(); i++) {
-                            //获取集合中的实体类
-                            JSONObject jsonObject = deptList.getJSONObject(i);
-                            //获取想要的数据
-                            //deptId = jsonObject.getInt("deptId");
-                            list_int.add(jsonObject.getInt("deptId"));
-                            deptName = jsonObject.getString("deptName");
-                            list_arr[i] = deptName;
-
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                final Bundle bundle = new Bundle();
-                                bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
-                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
-                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
-                                bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
-                                bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
-                                bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
-                                bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, list_arr);
-                                WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
-                                dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
-                                    @Override
-                                    public void onClickLeft(WheelDialogFragment dialog, String value) {
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onClickRight(WheelDialogFragment dialog, int value) {
-                                        deptId = list_int.get(value);
-                                        String s = list_arr[value];
-
-                                        choosedepartment_text.setText(s);
-                                        choosedepartment_text.setTextColor(Color.parseColor("#ff000000"));
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onValueChanged(WheelDialogFragment dialog, String value) {
-                                    }
-                                });
-                                dialogFragment.show(getSupportFragmentManager(), "");
-                            }
-                        });
-                    } else {
-
-                        final String msg = (String) res.get("msg");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void onClickLeft(WheelDialogFragment dialog, String value) {
+                dialog.dismiss();
             }
 
             @Override
-            public void onError(final String msg) {
-                super.onError(msg);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
+            public void onClickRight(WheelDialogFragment dialog, int value) {
+                String s = string_typesof[value];
+                typeofdelivery.setText(s);
+                //判断发送类型是个人还是群发 群发的话  部门和人员隐藏
+                String type = typeofdelivery.getText().toString();
+                if (type.equals("个人")) {
+                    relative_receiving_department.setVisibility(View.VISIBLE);
+                    relative_receiver.setVisibility(View.VISIBLE);
+                    types = 0;
+
+                } else if (type.equals("群发")) {
+                    relative_receiving_department.setVisibility(View.GONE);
+                    relative_receiver.setVisibility(View.GONE);
+                    types = 1;
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onValueChanged(WheelDialogFragment dialog, String value) {
             }
         });
+        dialogFragment.show(getSupportFragmentManager(), "");
     }
+
 
     //发起任务单
     private void initsubmit() {
-        //接收部门
-        String choosed = choosedepartment_text.getText().toString();
-        if (choosed.equals("请选择")) {
-            Toast.makeText(this, "请选择接收部门", Toast.LENGTH_SHORT).show();
-            return;
+        /*
+        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
+         */
+        //获取上传文件的后缀名
+        for (int i = 0; i < list_file.size(); i++) {
+            String filename = list_file.get(i).getFilename();
+            String substring = filename.substring(filename.lastIndexOf(".") + 1);
+            if (substring.equals("doc")) {
+            } else if (substring.equals("docx")) {
+            } else if (substring.equals("xls")) {
+            } else if (substring.equals("xlsx")) {
+            } else if (substring.equals("ppt")) {
+            } else if (substring.equals("pptx")) {
+            } else if (substring.equals("txt")) {
+            } else if (substring.equals("xmind")) {
+            } else if (substring.equals("rar")) {
+            } else if (substring.equals("zip")) {
+            } else if (substring.equals("gz")) {
+            } else if (substring.equals("bz2")) {
+            } else if (substring.equals("pdf")){ }else{
+                Toast.makeText(this, "只能上传这几种类型文件", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
-        //接受人
-        final String receiver = receiver_text.getText().toString();
-        if (receiver.equals("请选择")) {
-            Toast.makeText(this, "请选择接收人", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
+//        //获取文件的内存大小
+//        for (int i = 0; i < list_file.size(); i++) {
+//            String fileram = list_file.get(i).getFileram();//获取文件的大小
+//
+//        }
+
         //请选择时间
         String enddate = enddate_text.getText().toString();
         if (enddate.equals("请选择")) {
@@ -487,14 +445,15 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "请输入任务标题", Toast.LENGTH_SHORT).show();
             return;
         }
-
         //提交任务单接口
         HashMap<String, String> hashMap = new HashMap<>();
         //添加文件
-        hashMap.put("receive", userNo);//员工编号
         hashMap.put("taskDescribe", edit);//任务描述
         hashMap.put("wantFinishTiem", enddate);//时间
         hashMap.put("title", edit_title);
+        hashMap.put("isMass", String.valueOf(types));//是否群发
+        hashMap.put("receives", receives);//选择人员
+        hashMap.put("deptIds", deptIds);//选择部门
         NetworkUtils.uploadImage(Constant.ip + "/app/task/save", strings, hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -539,58 +498,104 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMPORT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    path = getPath(this, uri);
-                    if (path != null) {
-                        //获取到的file文件
-                        file = new File(path);
-                        if (file.exists()) {
-                            //文件路径
-                            strings.add(file.getPath());
-                            //文件名字
-                            upLoadFileName = file.getName();
-                        }
-                        //把文件内存大小转换格式
-                        long fileS = 0;
-                        if (file.exists()) {
-                            FileInputStream fis = null;
-                            try {
-                                fis = new FileInputStream(file);
-                                fileS = fis.available();
-                                fis.close();
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                file.createNewFile();
-                                Toast.makeText(this, "文件不存在", Toast.LENGTH_SHORT).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
+        //   if (requestCode == IMPORT_REQUEST_CODE) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case IMPORT_REQUEST_CODE:
+                    Uri uri = data.getData();
+                    if (uri != null) {
+                        path = getPath(this, uri);
+                        if (path != null) {
+                            //获取到的file文件
+                            file = new File(path);
+
+                            if (file.exists()) {
+                                //文件路径
+                                strings.add(file.getPath());
+                                //文件名字
+                                upLoadFileName = file.getName();
                             }
 
-                        }
-                        DecimalFormat df = new DecimalFormat("#0.00");
+                            //把文件内存大小转换格式
+                            long fileS = 0;
+                            if (file.exists()) {
+                                FileInputStream fis = null;
+                                try {
+                                    fis = new FileInputStream(file);
+                                    fileS = fis.available();
+                                    fis.close();
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                try {
+                                    file.createNewFile();
+                                    Toast.makeText(this, "文件不存在", Toast.LENGTH_SHORT).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
-                        if (fileS < 1024) {
-                            fileSizeString = df.format((double) fileS) + "B";
-                        } else if (fileS < 1048576) {
-                            fileSizeString = df.format((double) fileS / 1024) + "K";
-                        } else if (fileS < 1073741824) {
-                            fileSizeString = df.format((double) fileS / 1048576) + "M";
-                        } else {
-                            fileSizeString = df.format((double) fileS / 1073741824) + "G";
+                            }
+                            DecimalFormat df = new DecimalFormat("#0.00");
+
+                            if (fileS < 1024) {
+                                fileSizeString = df.format((double) fileS) + "B";
+                            } else if (fileS < 1048576) {
+                                fileSizeString = df.format((double) fileS / 1024) + "K";
+                            } else if (fileS < 1073741824) {
+                                fileSizeString = df.format((double) fileS / 1048576) + "M";
+                            } else {
+                                fileSizeString = df.format((double) fileS / 1073741824) + "G";
+                            }
+                            initfile();
                         }
-                        initfile();
                     }
-                }
+                    break;
+                case 0://选择人员
+                    //回调回来的集合
+                    List<SonBean> listx = (List<SonBean>) data.getSerializableExtra("listx");
+                    sb = new StringBuilder();
+                    for (int i = 0; i < listx.size(); i++) {
+                        if (sb.length() > 0) {
+                            sb.append(",");
+                        }
+                        sb.append(listx.get(i).getUserNo());
+                        Number = i + 1;
+                        if (i == 0) {
+                            receiver_text.setText(listx.get(0).getName());
+                            receiver_text.setTextColor(Color.parseColor("#000000"));
+
+                        } else {
+                            receiver_text.setText(listx.get(0).getName() + "等" + Number + "个人员");
+                            receiver_text.setTextColor(Color.parseColor("#000000"));
+                        }
+                    }
+                    receives = sb.toString();
+                    break;
+                case 1://选择部门
+                    List<FatherBean> list = (List<FatherBean>) data.getSerializableExtra("list");
+                    string_deptid = new StringBuilder();
+                    for (int i = 0; i < list.size(); i++) {
+                        deptId = list.get(i).getDeptId();//回传回来的部门数组
+                        s = String.valueOf(deptId);
+                        string_deptid.append(s).append(",");
+                        Log.e("TAG", "onActivityResult:" + string_deptid);
+                        Number = i + 1;
+                        if (i == 0) {
+                            relative_receiver.setVisibility(View.VISIBLE);
+                            choosedepartment_text.setText(list.get(0).getName());
+                            choosedepartment_text.setTextColor(Color.parseColor("#000000"));
+                            this.deptId = list.get(i).getDeptId();
+                        } else {
+                            relative_receiver.setVisibility(View.GONE);
+                            choosedepartment_text.setText(list.get(0).getName() + "等" + Number + "个部门");
+                            choosedepartment_text.setTextColor(Color.parseColor("#000000"));
+                        }
+                    }
+                    deptIds = string_deptid.toString();
             }
-            Log.e("导入失败", "");
         }
     }
 
@@ -641,8 +646,14 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(InitiateActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(InitiateActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
@@ -792,91 +803,184 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
     }
 
     //接收人
-    private void showdialog() {
-        //网络请求
-        HashMap<String, String> map = new HashMap<>();
-        map.put("deptId", String.valueOf(deptId));
-        NetworkUtils.sendPost(Constant.ip + "/app/task/getReceiveUser", map, this, new NetworkUtils.HttpCallback() {
-            @Override
-            public void onSuccess(JSONObject res) {
-                if (res == null || this == null) {
-                    return;
-                }
-                try {
-                    int code = res.getInt("code");
-                    if (code == 200) {
-                        JSONArray data = res.getJSONArray("data");
-                        list_string.clear();
-                        String[] arr1 = new String[data.length()];
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject jsonObject = data.getJSONObject(i);
-                            nickName = jsonObject.getString("nickName");
-                            list_string.add(jsonObject.getString("userNo"));
-                            arr1[i] = jsonObject.getString("nickName");
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                final Bundle bundle = new Bundle();
-                                bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
-                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
-                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
-                                bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
-                                bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
-                                bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
-                                bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, arr1);
-                                WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
-                                dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
-                                    @Override
-                                    public void onClickLeft(WheelDialogFragment dialog, String value) {
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onClickRight(WheelDialogFragment dialog, int value) {
-                                        userNo = list_string.get(value);
-                                        String s = arr1[value];
-                                        receiver_text.setText(s);
-                                        receiver_text.setTextColor(Color.parseColor("#ff000000"));
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onValueChanged(WheelDialogFragment dialog, String value) {
-                                    }
-                                });
-                                dialogFragment.show(getSupportFragmentManager(), "");
-
-                            }
-                        });
-                    } else {
-                        String msg = res.getString("msg");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(final String msg) {
-                super.onError(msg);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-
-
-    }
-
+//    private void showdialog() {
+//        //网络请求
+//        HashMap<String, String> map = new HashMap<>();
+//        map.put("deptId", String.valueOf(deptId));
+//        NetworkUtils.sendPost(Constant.ip + "/app/task/getReceiveUser", map, this, new NetworkUtils.HttpCallback() {
+//            @Override
+//            public void onSuccess(JSONObject res) {
+//                if (res == null || this == null) {
+//                    return;
+//                }
+//                try {
+//                    int code = res.getInt("code");
+//                    if (code == 200) {
+//                        JSONArray data = res.getJSONArray("data");
+//                        list_string.clear();
+//                        String[] arr1 = new String[data.length()];
+//                        for (int i = 0; i < data.length(); i++) {
+//                            JSONObject jsonObject = data.getJSONObject(i);
+//                            nickName = jsonObject.getString("nickName");
+//                            list_string.add(jsonObject.getString("userNo"));
+//                            arr1[i] = jsonObject.getString("nickName");
+//                        }
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                final Bundle bundle = new Bundle();
+//                                bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
+//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
+//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
+//                                bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
+//                                bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
+//                                bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
+//                                bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, arr1);
+//                                WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
+//                                dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
+//                                    @Override
+//                                    public void onClickLeft(WheelDialogFragment dialog, String value) {
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onClickRight(WheelDialogFragment dialog, int value) {
+//                                        userNo = list_string.get(value);
+//                                        String s = arr1[value];
+//                                        receiver_text.setText(s);
+//                                        receiver_text.setTextColor(Color.parseColor("#ff000000"));
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onValueChanged(WheelDialogFragment dialog, String value) {
+//                                    }
+//                                });
+//                                dialogFragment.show(getSupportFragmentManager(), "");
+//
+//                            }
+//                        });
+//                    } else {
+//                        String msg = res.getString("msg");
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(final String msg) {
+//                super.onError(msg);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
+//
+//
+//    }
+    //接收部门
+//    private void showdialog1() {
+//        HashMap<String, String> hashMap = new HashMap<>();
+//        NetworkUtils.sendGet(Constant.ip + "/app/task/add", hashMap, InitiateActivity.this, new NetworkUtils.HttpCallback() {
+//            @Override
+//            public void onSuccess(final JSONObject res) {
+//                //如果res为空的话就不进行下面的操作
+//                if (res == null || this == null) {
+//                    return;
+//                }
+//                try {
+//                    int code = res.getInt("code");
+//                    if (code == 200) {
+//                        list_int.clear();
+//                        //接口中获取的实体类
+//                        final JSONObject data = res.getJSONObject("data");
+//                        //实体类中的集合
+//                        deptList = data.getJSONArray("deptList");
+//                        //循环遍历集合
+//                        String[] list_arr = new String[deptList.length()];
+//                        for (int i = 0; i < deptList.length(); i++) {
+//                            //获取集合中的实体类
+//                            JSONObject jsonObject = deptList.getJSONObject(i);
+//                            //获取想要的数据
+//                            //deptId = jsonObject.getInt("deptId");
+//                            list_int.add(jsonObject.getInt("deptId"));
+//                            deptName = jsonObject.getString("deptName");
+//                            list_arr[i] = deptName;
+//
+//                        }
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//
+//                                final Bundle bundle = new Bundle();
+//                                bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
+//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
+//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
+//                                bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
+//                                bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
+//                                bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
+//                                bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, list_arr);
+//                                WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
+//                                dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
+//                                    @Override
+//                                    public void onClickLeft(WheelDialogFragment dialog, String value) {
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onClickRight(WheelDialogFragment dialog, int value) {
+//                                        deptId = list_int.get(value);
+//                                        String s = list_arr[value];
+//
+//                                        choosedepartment_text.setText(s);
+//                                        choosedepartment_text.setTextColor(Color.parseColor("#ff000000"));
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onValueChanged(WheelDialogFragment dialog, String value) {
+//                                    }
+//                                });
+//                                dialogFragment.show(getSupportFragmentManager(), "");
+//                            }
+//                        });
+//                    } else {
+//
+//                        final String msg = (String) res.get("msg");
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(final String msg) {
+//                super.onError(msg);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
+//    }
 
 }

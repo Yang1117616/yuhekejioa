@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,19 +26,28 @@ import com.example.yuhekejioa.My_recrive.CarryoutActivity;
 import com.example.yuhekejioa.My_recrive.ExtensioninprogressActivity;
 import com.example.yuhekejioa.My_recrive.FailedtopostponeActivity;
 import com.example.yuhekejioa.My_recrive.LookingforwardtoconfirmationActivity;
+import com.example.yuhekejioa.My_recrive.My_AcceptingmodificationActivity;
+import com.example.yuhekejioa.My_recrive.My_NotreceivedActivity;
 import com.example.yuhekejioa.My_recrive.ProcessingActivity;
 import com.example.yuhekejioa.My_recrive.ReportActivity;
 import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
 import com.example.yuhekejioa.My_recrive.XiugaipendingActivity;
 import com.example.yuhekejioa.My_recrive.XiugaiprocessingActivity;
 import com.example.yuhekejioa.R;
+import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.NetworkUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.ViewHolder> {
     Context context;
     List<MyreceiveBean.DataBean> list;
-
 
     public MyreceiveAdapter(Context context, List<MyreceiveBean.DataBean> list) {
         this.context = context;
@@ -378,6 +388,35 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     intent.putExtra("id", id);
                     intent.putExtra("confirmType", 2);
                     context.startActivity(intent);
+
+//                    HashMap<String, String> hashMap1 = new HashMap<>();
+//                    hashMap1.put("taskId", String.valueOf(id));
+//                    hashMap1.put("taskNo", taskNo);
+//                    hashMap1.put("confirmType", String.valueOf(2));
+//                    NetworkUtils.sendPost(Constant.ip + "/app/taskReceive/confirm", hashMap1, context, new NetworkUtils.HttpCallback() {
+//                        @Override
+//                        public void onSuccess(JSONObject res) {
+//                            if (res == null || this == null) {
+//                                return;
+//                            }
+//                            try {
+//                                int code = res.getInt("code");
+//                                if (code == 200) {
+//                                    final String msg = res.getString("msg");
+//                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(final String msg) {
+//                            super.onError(msg);
+//                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -455,6 +494,79 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     context.startActivity(intent);
                 }
             });
+        } else if (taskStatus == 20) {
+            //我接收的---延期不通过
+            holder.taskStatus.setImageResource(R.drawable.imageview20);
+            holder.modify.setText("完成");
+            holder.modify.setBackgroundResource(R.drawable.button_backgroud_blue);
+            holder.modify.setTextColor(Color.parseColor("#ff006bff"));
+            holder.termination.setText("汇报每日工作");
+            holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
+            holder.termination.setTextColor(Color.parseColor("#ff006bff"));
+
+            holder.button_examine.setVisibility(View.GONE);
+//            holder.button_examine.setText("申请延期");
+//            holder.button_examine.setBackgroundResource(R.drawable.button_backgroud_blue);
+//            holder.button_examine.setTextColor(Color.parseColor("#ff006bff"));
+
+            //跳转到查看每日工作页面
+            holder.modify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //跳转到完成页面
+                    Intent intent = new Intent(context, CarryoutActivity.class);
+                    intent.putExtra("taskNo", taskNo);
+                    intent.putExtra("id", id);
+                    context.startActivity(intent);
+                }
+            });
+            //跳转到汇报每日工作页面
+            holder.termination.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ReportActivity.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("taskNo", taskNo);
+                    context.startActivity(intent);
+                }
+            });
+            //跳转到我接收的------延期修改中页面
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, My_AcceptingmodificationActivity.class);
+                    intent.putExtra("taskId", id);
+                    intent.putExtra("canDelay", canDelay);
+                    context.startActivity(intent);
+                }
+            });
+//            holder.button_examine.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(context, ApplyforanextensionActivity.class);
+//                    //任务编号
+//                    intent.putExtra("taskNo", taskNo);
+//                    //原定时间
+//                    intent.putExtra("wantFinishTiem", wantFinishTiem);
+//
+//                    intent.putExtra("id", id);
+//                    context.startActivity(intent);
+//                }
+//            });
+        } else if (taskStatus == 19) {
+            holder.taskStatus.setImageResource(R.drawable.imageview19);
+            holder.modify.setVisibility(View.GONE);
+            holder.termination.setVisibility(View.GONE);
+            holder.button_examine.setVisibility(View.GONE);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, My_NotreceivedActivity.class);
+                    intent.putExtra("taskId", id);
+                    context.startActivity(intent);
+                }
+            });
+
         }
     }
 

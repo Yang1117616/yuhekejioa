@@ -84,6 +84,7 @@ public class NetworkUtils {
                         fos.write(buf, 0, len);
                         sum += len;
                         int progress = (int) (sum * 1.0f / total * 100);
+                        callback.onSuccess(progress);
                     }
                     fos.flush();
                     callback.onSuccess(file.getAbsolutePath());
@@ -795,6 +796,10 @@ public class NetworkUtils {
         // 成功回调
 
         public abstract void onSuccess(String res);
+
+        // 失败回调
+        public void onSuccess(int progress) {
+        }
 
         // 失败回调
         public void onError(String msg) {

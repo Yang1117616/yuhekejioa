@@ -37,5 +37,16 @@
                 android:textColor="#ff999999"
                 android:textSize="12sp"></TextView>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_delete"
+            android:layout_marginRight="12dp"
+            android:layout_width="14.67dp"
+            android:layout_height="14.67dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/delete">
+
+        </ImageView>
     </RelativeLayout>
 </RelativeLayout>

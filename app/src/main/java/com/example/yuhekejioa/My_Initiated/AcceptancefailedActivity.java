@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -22,9 +23,12 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
+import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 
@@ -82,6 +86,9 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
     private String url;
 
    private TextView edit_title;
+    private int id;
+    private Dialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -91,6 +98,7 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_webview);
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
+        id = intent.getIntExtra("id", 0);
         initview();
         initdata();
     }
@@ -120,7 +128,7 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
         HashMap<String, String> hashMap = new HashMap<>();
 
         hashMap.put("taskId", String.valueOf(taskId));
-
+        hashMap.put("msgId", String.valueOf(id));
         NetworkUtils.sendPost(Constant.ip + "/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -153,7 +161,6 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                             String name = jsonObject.getString("name");//文件名字
                             String fileSize = jsonObject.getString("fileSize");
                             url = Constant.ip + jsonObject.getString("url");//文件url
-
 
                             WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setName(name);
@@ -188,7 +195,7 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                                 recyclerview.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerview.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(AcceptancefailedActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(AcceptancefailedActivity.this, list);
                                 recyclerview.setAdapter(adapter);
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
@@ -224,12 +231,24 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
 
     //文件下载
     private void initwangluo(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(AcceptancefailedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         //下载文件
         NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
             @Override
             public void onSuccess(String res) {
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
                 Intent intent = new Intent();
                 //设置intent的Action属性
                 intent.setAction(Intent.ACTION_VIEW);
@@ -253,9 +272,33 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(AcceptancefailedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(AcceptancefailedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
         });
     }

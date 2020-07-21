@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.example.yuhekejioa.R;
 
 
+
 public class LoadingDialog {
 
     /**

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -20,12 +21,15 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
 import com.example.yuhekejioa.My_recrive.CarryoutActivity;
 import com.example.yuhekejioa.My_recrive.ProcessingActivity;
 import com.example.yuhekejioa.My_recrive.ReportActivity;
+import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 
@@ -82,6 +86,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
     private int canUpdate;//是否修改状态
     private int inspected;
     private String statusStr;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +163,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                                 recyclerview.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerview.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(ModificationinprogressActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(ModificationinprogressActivity.this, list);
                                 recyclerview.setAdapter(adapter);
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
@@ -202,12 +207,25 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
 
     //文件下载
     private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ModificationinprogressActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         //下载文件
         NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
             @Override
             public void onSuccess(String res) {
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
                 Intent intent = new Intent();
                 //设置intent的Action属性
                 intent.setAction(Intent.ACTION_VIEW);
@@ -231,9 +249,33 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(ModificationinprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ModificationinprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
         });
     }
@@ -249,7 +291,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
         back = findViewById(R.id.back);
         recyclerview = findViewById(R.id.accomplish_List);
         button_view = findViewById(R.id.button_view);//查看每日工作
-      //  report = findViewById(R.id.report);
+        //  report = findViewById(R.id.report);
         button_submit = findViewById(R.id.button_submit);
         edit_title = findViewById(R.id.edit_title);//任务描述
         back.setOnClickListener(this);
@@ -287,8 +329,8 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                 Intent intent3 = new Intent(ModificationinprogressActivity.this, CarryoutActivity.class);
                 intent3.putExtra("taskNo", taskNo);
                 intent3.putExtra("taskId", taskId);
-                intent3.putExtra("inspected",inspected);
-                intent3.putExtra("statusStr",statusStr);
+                intent3.putExtra("inspected", inspected);
+                intent3.putExtra("statusStr", statusStr);
                 startActivity(intent3);
                 ModificationinprogressActivity.this.finish();
                 break;

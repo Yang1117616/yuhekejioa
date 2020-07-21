@@ -54,6 +54,7 @@ import com.example.yuhekejioa.Utils.Constant;
 import com.example.yuhekejioa.Utils.GlideEngine;
 import com.example.yuhekejioa.Utils.MyLog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
+import com.example.yuhekejioa.Utils.SpringProgressView;
 import com.example.yuhekejioa.side.Relative_mailboxActivity;
 import com.example.yuhekejioa.side.Relative_pasActivity;
 import com.example.yuhekejioa.side.Relative_phoneActivity;
@@ -139,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView versionnumber;
     private RelativeLayout relative_searchfor;
     private String remark;
+    private String nickName;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -156,23 +159,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initEvent();
         methodRequiresTwoPermission();
         //版本强制更新办法
-        readRequiresTwoPermission();
+        //  readRequiresTwoPermission();
     }
 
-    private void readRequiresTwoPermission() {
-        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(MainActivity.this, perms)) {//获取到权限
-            download();
-        } else {
-            EasyPermissions.requestPermissions(
-                    new PermissionRequest.Builder(this, 1, perms)
-                            .setRationale(remark)
-                            .setPositiveButtonText(R.string.confirm)
-                            .setNegativeButtonText(R.string.cancel)
-                            .setTheme(R.style.Dialog)
-                            .build());
-        }
-    }
+//    private void readRequiresTwoPermission() {
+//        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+//        if (EasyPermissions.hasPermissions(MainActivity.this, perms)) {//获取到权限
+//            download();
+//        } else {
+//            EasyPermissions.requestPermissions(
+//                    new PermissionRequest.Builder(this, 1, perms)
+//                            .setRationale("啊啊啊啊啊啊")//remark
+//                            .setPositiveButtonText(R.string.confirm)
+//                            .setNegativeButtonText(R.string.cancel)
+//                            .setTheme(R.style.Dialog)
+//                            .build());
+//        }
+//    }
 
     //强制更新版本网络请求
     private void download() {
@@ -199,12 +202,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         int isForce = data.getInt("isForced");//是否强制更新
                         //更新说明
                         remark = data.getString("remark");
+
                         String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if (isNewest == 0) {
                                     if (isForce == 1) {//强制
+                                        //  dialog_update(MainActivity.this, download, absolutePath, remark).show();
                                         dialog_update(MainActivity.this, download, absolutePath, remark).show();
                                     } else {
                                         dialog_update_two(MainActivity.this, download, absolutePath, remark).show();
@@ -257,32 +262,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //强制更新
-    private Dialog dialog_update(MainActivity mainActivity, String download, String absolutePath, String remark) {
-        final Dialog dialog = new Dialog(mainActivity);
+    public Dialog dialog_update(MainActivity mainActivity, String download, String absolutePath, String remark) {
+        final Dialog dialog = new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
-        Drawable d = new ColorDrawable(ContextCompat.getColor(mainActivity, R.color.line_font));
+        Drawable d = new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.line_font));
         d.setAlpha(200);
         dialog.setContentView(R.layout.dialog_update);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setBackgroundDrawable(d);
         TextView dialog_version = dialog.findViewById(R.id.dialog_version);
+        TextView progress_tv = dialog.findViewById(R.id.progress_tv);
+        SpringProgressView progresss = dialog.findViewById(R.id.progress);
+        progresss.setCurrentCount(0);
+        progresss.setMaxCount(100);
+        TextView wait = dialog.findViewById(R.id.wait);
+
         dialog_version.setText(remark);
-        dialog.findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
+        Button confirm = dialog.findViewById(R.id.confirm);
+        dialog.setCanceledOnTouchOutside(false);
+        confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
-                dialog.cancel();
+                progresss.setVisibility(View.VISIBLE);
+                wait.setVisibility(View.VISIBLE);
+                confirm.setVisibility(View.GONE);
+                progresss.setVisibility(View.VISIBLE);
+                progress_tv.setVisibility(View.VISIBLE);
                 NetworkUtils.download(download, absolutePath, Constant.name, new NetworkUtils.downloadCallback() {
                     @Override
                     public void onSuccess(String res) {
-
                         getApkFile(Constant.name);
+                    }
+
+                    @Override
+                    public void onSuccess(int progress) {
+                        super.onSuccess(progress);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progresss.setCurrentCount(progress);
+                                progress_tv.setText(progress + "%");
+                            }
+                        });
                     }
                 });
             }
         });
-        dialog.setCanceledOnTouchOutside(false);
         return dialog;
     }
 
@@ -365,15 +391,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         accomplish_List.setAdapter(adapter);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initData();
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        initData();
         NetworkUtils.sendPost(Constant.ip + "/app/user/getUserInfo", null, MainActivity.this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -387,8 +409,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         JSONObject data = res.getJSONObject("data");
                         String phonenumber = data.getString("phonenumber");//手机号
                         String email = data.getString("email");//邮箱号
-                        String nickName = data.getString("nickName");//员工姓名
-
+                        //员工姓名
+                        nickName = data.getString("nickName");
                         //图片url
                         avatar = data.getString("avatar");
                         runOnUiThread(new Runnable() {
@@ -403,7 +425,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         .error(R.drawable.avatarlogo);
                                 Glide.with(MainActivity.this).load(Constant.ip + avatar).apply(options).into(circleImage);
                                 Glide.with(MainActivity.this).load(Constant.ip + avatar).apply(options).into(circle);
-
 
                             }
                         });
@@ -431,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void methodRequiresTwoPermission() {
         String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (EasyPermissions.hasPermissions(this, perms)) {//获取到权限
-
+            download();
         } else {
             EasyPermissions.requestPermissions(
                     new PermissionRequest.Builder(this, 1, perms)
@@ -591,6 +612,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //403的时候显示账号在另一台设备更新
     public Dialog dialog_one(Context context, String text) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -617,8 +639,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         dialog.setCanceledOnTouchOutside(false);
-        TextView customText = (TextView) dialog.findViewById(R.id.customText);
-        customText.setText(text);
+//        TextView customText = (TextView) dialog.findViewById(R.id.customText);
+//        customText.setText(text);
         return dialog;
     }
 
@@ -661,7 +683,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, MyAuditActivity.class));
                 break;
             case R.id.store_details_ll_close://发起
-                startActivity(new Intent(MainActivity.this, InitiateActivity.class));
+                Intent intent = new Intent(MainActivity.this, InitiateActivity.class);
+                intent.putExtra("nickName", nickName);
+
+                startActivity(intent);
                 break;
             case R.id.relative_phone://修改手机号侧面布局
                 startActivity(new Intent(MainActivity.this, Relative_phoneActivity.class));

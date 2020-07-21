@@ -126,6 +126,35 @@
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffe5e5e5"></View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:text="发起时间"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+
+
+            <TextView
+                android:id="@+id/start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:clickable="true"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
@@ -275,11 +304,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/updatingfiles"
+                android:layout_marginTop="10dp"
                 android:scrollbarSize="5dp"
                 android:scrollbarThumbVertical="@color/theme_gray"
-                android:scrollbars="vertical"
 
-                android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
 
 

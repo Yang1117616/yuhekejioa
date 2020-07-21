@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_toRightOf="@+id/touxiang"
-
+                android:text="接收人"
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
 

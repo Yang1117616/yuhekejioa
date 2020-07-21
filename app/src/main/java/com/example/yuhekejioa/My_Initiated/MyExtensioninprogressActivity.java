@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -18,12 +19,15 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
 import com.example.yuhekejioa.My_recrive.CarryoutActivity;
 import com.example.yuhekejioa.My_recrive.ExtensioninprogressActivity;
 import com.example.yuhekejioa.My_recrive.ReportActivity;
+import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 
@@ -81,6 +85,8 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
     private String url;
 
     private TextView edit_title;
+    private String statusStr;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +104,7 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
     private void initwangluo() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(taskId));
-        NetworkUtils.sendPost(Constant.ip + "/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
-
+        NetworkUtils.sendPost(Constant.ip +"/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
                 //如果res为空的话就不进行下面的操作
@@ -113,7 +118,7 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                         //任务编号
                         taskNo = data.getString("taskNo");
 
-                        inspected = data.getInt("inspected");//状态
+//                        inspected = data.getInt("inspected");//状态
 
                         final String createTime = data.getString("createTime");//发起时间
                         final String addNickName = data.getString("addNickName");//发起人
@@ -122,7 +127,8 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                         final String receiveDept = data.getString("receiveDept");//接收部门
                         final String receiveNickName = data.getString("receiveNickName");//接收人
                         final String title = data.getString("title");
-
+                        //任务状态
+                        statusStr = data.getString("statusStr");
                         JSONObject taskDelay = data.getJSONObject("taskDelay");//申请延期类
 
                         String newTime = taskDelay.getString("newTime");//申请延期时间
@@ -159,7 +165,7 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerView.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(MyExtensioninprogressActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(MyExtensioninprogressActivity.this, list);
                                 recyclerView.setAdapter(adapter);
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
@@ -203,11 +209,26 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
 
     //文件下载
     private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(MyExtensioninprogressActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         //下载文件
         NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
             @Override
             public void onSuccess(String res) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
+
 
                 Intent intent = new Intent();
                 //设置intent的Action属性
@@ -232,9 +253,33 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(MyExtensioninprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(MyExtensioninprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MyExtensioninprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
         });
     }
@@ -284,7 +329,7 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                 Intent intent1 = new Intent(MyExtensioninprogressActivity.this, TerminationActivity.class);
                 intent1.putExtra("taskNo", taskNo);
                 intent1.putExtra("taskId", taskId);
-                intent1.putExtra("inspected", inspected);
+                intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
                 MyExtensioninprogressActivity.this.finish();
                 break;

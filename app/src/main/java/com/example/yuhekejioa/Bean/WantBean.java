@@ -8,7 +8,7 @@ public class WantBean {
     /**
      * msg : 操作成功
      * code : 200
-     * data : {"searchValue":null,"createBy":"yangyinglin","createTime":"2020-07-14 11:20","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":296,"title":"未命名-标题","taskNo":"2020071411160002","sponsor":"YHYF008","sponsorIdentity":101,"wantFinishTiem":"2020-07-14 11:20","taskDescribe":"测试","options":"76AC53D1B353416F8507DB01177D78E5","auditComments":0,"state":null,"taskStatus":2,"auditStatus":1,"setBacks":0,"receive":"YHYF024","auditBy":null,"realTime":null,"taskType":null,"inspected":2,"inspectedState":null,"stopReason":null,"isDelay":0,"delayReason":null,"inspectedUpdateTime":null,"sysFilesSponsor":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":"76AC53D1B353416F8507DB01177D78E5","url":"/profile/upload/2020/07/14/a75a1c1b87bf16b7436542925e6efa53.docx","name":"2020年7月个人目标和以及自我培训计划.docx","fileSize":"20.38KB"}],"sysFilesReceive":[],"addNickName":"杨英林","receiveNickName":"张帆","auditName":null,"receiveDept":"研发中心","deptId":103,"result":"","canDelay":1,"canUpdate":1,"canUpdateReceive":1,"statusStr":"待确认","taskDelay":null}
+     * data : {"createBy":"caohuili","createTime":"2020-06-28 17:29","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":103,"title":"未命名-标题","taskNo":"2020062814060004","sponsor":"YH00001","sponsorIdentity":102,"wantFinishTiem":"2020-07-06 18:30","taskDescribe":"1, 招商手册内容的编辑 \n主要内容：\n① 我们是谁\n②我们是做什么的\n③我们所做的新零售的长远规划\n④我们定的客户群体是什么 \n⑤客户所面临的痛点是什么\n⑥我们将会为他解决什么问题\n⑦用什么方法  （列举）\nps：涉及到和客户见面的形式和洽谈的话术 ","options":"","auditComments":0,"state":null,"taskStatus":13,"auditStatus":1,"setBacks":100,"receive":"YHSC001","auditBy":null,"realTime":"2020-07-09 11:55","taskType":null,"inspected":null,"inspectedState":"不符合验收标准","stopReason":null,"isDelay":2,"delayReason":null,"inspectedUpdateTime":"2020-07-09 12:00","sysFilesSponsor":[{"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":"197E9BC002394EDE8C510DF3A88DBA85","url":"/profile/upload/2020/07/09/招商手册PPT.pdf","name":"招商手册PPT.pdf","fileSize":null},{"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":"597D357323154F6DAFAFB9DD858B7C54","url":"/profile/upload/2020/07/09/合伙人招商流程.doc","name":"合伙人招商流程.doc","fileSize":null}],"sysFilesReceive":[],"addNickName":"曹会力","receiveNickName":"郎竞赛","auditName":null,"isFixed":null,"isUpdate":0,"receiveDept":"市场中心","deptId":104,"result":"修改项：\n把给客户展示用的PPT里，\n1、\u201c给合伙人股权\u201d项去掉了\n2、把痛点分析中的\u201c无人驾驶技术\u201d还有几个其他痛点又单独摘出来重点分析了，阐述带来的影响；\n\n在招商流程中强化了招商话术思路的八个阶段\n并详细写了对话话术和思路\n但是其中涉及到的具体的推广细则，仓运营运营细则，把问题都提炼出来了，待企划出详细的规则制定后填充进去","canDelay":1,"canUpdate":1,"canUpdateReceive":1,"statusStr":"验收未通过","identity":null,"taskDelay":null}
      */
 
     private String msg;
@@ -41,52 +41,69 @@ public class WantBean {
 
     public static class DataBean {
         /**
-         * searchValue : null
-         * createBy : yangyinglin
-         * createTime : 2020-07-14 11:20
+         * createBy : caohuili
+         * createTime : 2020-06-28 17:29
          * updateBy : null
          * updateTime : null
          * remark : null
          * params : {}
-         * id : 296
+         * id : 103
          * title : 未命名-标题
-         * taskNo : 2020071411160002
-         * sponsor : YHYF008
-         * sponsorIdentity : 101
-         * wantFinishTiem : 2020-07-14 11:20
-         * taskDescribe : 测试
-         * options : 76AC53D1B353416F8507DB01177D78E5
+         * taskNo : 2020062814060004
+         * sponsor : YH00001
+         * sponsorIdentity : 102
+         * wantFinishTiem : 2020-07-06 18:30
+         * taskDescribe : 1, 招商手册内容的编辑
+         主要内容：
+         ① 我们是谁
+         ②我们是做什么的
+         ③我们所做的新零售的长远规划
+         ④我们定的客户群体是什么
+         ⑤客户所面临的痛点是什么
+         ⑥我们将会为他解决什么问题
+         ⑦用什么方法  （列举）
+         ps：涉及到和客户见面的形式和洽谈的话术
+         * options :
          * auditComments : 0
          * state : null
-         * taskStatus : 2
+         * taskStatus : 13
          * auditStatus : 1
-         * setBacks : 0
-         * receive : YHYF024
+         * setBacks : 100
+         * receive : YHSC001
          * auditBy : null
-         * realTime : null
+         * realTime : 2020-07-09 11:55
          * taskType : null
-         * inspected : 2
-         * inspectedState : null
+         * inspected : null
+         * inspectedState : 不符合验收标准
          * stopReason : null
-         * isDelay : 0
+         * isDelay : 2
          * delayReason : null
-         * inspectedUpdateTime : null
-         * sysFilesSponsor : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":"76AC53D1B353416F8507DB01177D78E5","url":"/profile/upload/2020/07/14/a75a1c1b87bf16b7436542925e6efa53.docx","name":"2020年7月个人目标和以及自我培训计划.docx","fileSize":"20.38KB"}]
+         * inspectedUpdateTime : 2020-07-09 12:00
+         * sysFilesSponsor : [{"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":"197E9BC002394EDE8C510DF3A88DBA85","url":"/profile/upload/2020/07/09/招商手册PPT.pdf","name":"招商手册PPT.pdf","fileSize":null},{"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":"597D357323154F6DAFAFB9DD858B7C54","url":"/profile/upload/2020/07/09/合伙人招商流程.doc","name":"合伙人招商流程.doc","fileSize":null}]
          * sysFilesReceive : []
-         * addNickName : 杨英林
-         * receiveNickName : 张帆
+         * addNickName : 曹会力
+         * receiveNickName : 郎竞赛
          * auditName : null
-         * receiveDept : 研发中心
-         * deptId : 103
-         * result :
+         * isFixed : null
+         * isUpdate : 0
+         * receiveDept : 市场中心
+         * deptId : 104
+         * result : 修改项：
+         把给客户展示用的PPT里，
+         1、“给合伙人股权”项去掉了
+         2、把痛点分析中的“无人驾驶技术”还有几个其他痛点又单独摘出来重点分析了，阐述带来的影响；
+
+         在招商流程中强化了招商话术思路的八个阶段
+         并详细写了对话话术和思路
+         但是其中涉及到的具体的推广细则，仓运营运营细则，把问题都提炼出来了，待企划出详细的规则制定后填充进去
          * canDelay : 1
          * canUpdate : 1
          * canUpdateReceive : 1
-         * statusStr : 待确认
+         * statusStr : 验收未通过
+         * identity : null
          * taskDelay : null
          */
 
-        private Object searchValue;
         private String createBy;
         private String createTime;
         private Object updateBy;
@@ -108,17 +125,19 @@ public class WantBean {
         private int setBacks;
         private String receive;
         private Object auditBy;
-        private Object realTime;
+        private String realTime;
         private Object taskType;
         private int inspected;
-        private Object inspectedState;
+        private String inspectedState;
         private Object stopReason;
         private int isDelay;
         private Object delayReason;
-        private Object inspectedUpdateTime;
+        private String inspectedUpdateTime;
         private String addNickName;
         private String receiveNickName;
         private Object auditName;
+        private Object isFixed;
+        private int isUpdate;
         private String receiveDept;
         private int deptId;
         private String result;
@@ -126,17 +145,10 @@ public class WantBean {
         private int canUpdate;
         private int canUpdateReceive;
         private String statusStr;
+        private Object identity;
         private Object taskDelay;
         private List<SysFilesSponsorBean> sysFilesSponsor;
         private List<?> sysFilesReceive;
-
-        public Object getSearchValue() {
-            return searchValue;
-        }
-
-        public void setSearchValue(Object searchValue) {
-            this.searchValue = searchValue;
-        }
 
         public String getCreateBy() {
             return createBy;
@@ -306,11 +318,11 @@ public class WantBean {
             this.auditBy = auditBy;
         }
 
-        public Object getRealTime() {
+        public String getRealTime() {
             return realTime;
         }
 
-        public void setRealTime(Object realTime) {
+        public void setRealTime(String realTime) {
             this.realTime = realTime;
         }
 
@@ -330,11 +342,11 @@ public class WantBean {
             this.inspected = inspected;
         }
 
-        public Object getInspectedState() {
+        public String getInspectedState() {
             return inspectedState;
         }
 
-        public void setInspectedState(Object inspectedState) {
+        public void setInspectedState(String inspectedState) {
             this.inspectedState = inspectedState;
         }
 
@@ -362,11 +374,11 @@ public class WantBean {
             this.delayReason = delayReason;
         }
 
-        public Object getInspectedUpdateTime() {
+        public String getInspectedUpdateTime() {
             return inspectedUpdateTime;
         }
 
-        public void setInspectedUpdateTime(Object inspectedUpdateTime) {
+        public void setInspectedUpdateTime(String inspectedUpdateTime) {
             this.inspectedUpdateTime = inspectedUpdateTime;
         }
 
@@ -392,6 +404,22 @@ public class WantBean {
 
         public void setAuditName(Object auditName) {
             this.auditName = auditName;
+        }
+
+        public Object getIsFixed() {
+            return isFixed;
+        }
+
+        public void setIsFixed(Object isFixed) {
+            this.isFixed = isFixed;
+        }
+
+        public int getIsUpdate() {
+            return isUpdate;
+        }
+
+        public void setIsUpdate(int isUpdate) {
+            this.isUpdate = isUpdate;
         }
 
         public String getReceiveDept() {
@@ -450,6 +478,14 @@ public class WantBean {
             this.statusStr = statusStr;
         }
 
+        public Object getIdentity() {
+            return identity;
+        }
+
+        public void setIdentity(Object identity) {
+            this.identity = identity;
+        }
+
         public Object getTaskDelay() {
             return taskDelay;
         }
@@ -479,20 +515,18 @@ public class WantBean {
 
         public static class SysFilesSponsorBean {
             /**
-             * searchValue : null
              * createBy : null
              * createTime : null
              * updateBy : null
              * updateTime : null
              * remark : null
              * params : {}
-             * id : 76AC53D1B353416F8507DB01177D78E5
-             * url : /profile/upload/2020/07/14/a75a1c1b87bf16b7436542925e6efa53.docx
-             * name : 2020年7月个人目标和以及自我培训计划.docx
-             * fileSize : 20.38KB
+             * id : 197E9BC002394EDE8C510DF3A88DBA85
+             * url : /profile/upload/2020/07/09/招商手册PPT.pdf
+             * name : 招商手册PPT.pdf
+             * fileSize : null
              */
 
-            private Object searchValue;
             private Object createBy;
             private Object createTime;
             private Object updateBy;
@@ -502,15 +536,7 @@ public class WantBean {
             private String id;
             private String url;
             private String name;
-            private String fileSize;
-
-            public Object getSearchValue() {
-                return searchValue;
-            }
-
-            public void setSearchValue(Object searchValue) {
-                this.searchValue = searchValue;
-            }
+            private Object fileSize;
 
             public Object getCreateBy() {
                 return createBy;
@@ -584,11 +610,11 @@ public class WantBean {
                 this.name = name;
             }
 
-            public String getFileSize() {
+            public Object getFileSize() {
                 return fileSize;
             }
 
-            public void setFileSize(String fileSize) {
+            public void setFileSize(Object fileSize) {
                 this.fileSize = fileSize;
             }
 

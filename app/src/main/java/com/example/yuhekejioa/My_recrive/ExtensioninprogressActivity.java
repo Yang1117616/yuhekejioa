@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
 import com.example.yuhekejioa.My_Initiated.MyExtensioninprogressActivity;
@@ -25,6 +27,7 @@ import com.example.yuhekejioa.My_Initiated.WaitActivity;
 import com.example.yuhekejioa.My_Initiated.YanqideterminedActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 
@@ -55,7 +58,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
     private int id;
-
+    private TextView postponementresult;
     private final String[] MIME_MapTable = {
             //{后缀名，MIME类型}
             ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
@@ -79,6 +82,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
             "", "*/*"};
     private String url;
     private TextView edit_title;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +122,11 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                         final String updateTime = data.getString("wantFinishTiem");//结束时间
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         String title = data.getString("title");//任务标题
+
+                        //延期原因
+                        final String delayReason = data.getString("delayReason");
+
+
                         JSONObject taskDelay = data.getJSONObject("taskDelay");//申请延期类
 
                         String newTime = taskDelay.getString("newTime");//申请延期时间
@@ -146,12 +155,13 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                                 editText.setText(taskDescribe);
                                 extensiontime.setText(newTime);//延期时间
                                 edit_title.setText(title);//任务标题
+                                postponementresult.setText(delayReason);//延期原因
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ExtensioninprogressActivity.this);
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerView.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(ExtensioninprogressActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(ExtensioninprogressActivity.this, list);
                                 recyclerView.setAdapter(adapter);
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
@@ -195,12 +205,25 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
 
     //文件下载
     private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ExtensioninprogressActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         //下载文件
         NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
             @Override
             public void onSuccess(String res) {
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
                 Intent intent = new Intent();
                 //设置intent的Action属性
                 intent.setAction(Intent.ACTION_VIEW);
@@ -224,9 +247,33 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(ExtensioninprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(ExtensioninprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ExtensioninprogressActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
+            }
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
         });
     }
@@ -245,6 +292,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
         report = findViewById(R.id.report);//汇报
         extensiontime = findViewById(R.id.extensiontime);//申请延期时间
         edit_title = findViewById(R.id.edit_title);
+        postponementresult = findViewById(R.id.postponementresult);//延期结果
 
         back.setOnClickListener(this);
         report.setOnClickListener(this);

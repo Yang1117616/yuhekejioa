@@ -40,7 +40,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".My_Initiated.ChooseDepartmentActivity"></activity>
+        <activity android:name=".My_recrive.My_NotreceivedActivity"></activity>
+        <activity android:name=".My_Initiated.NotreceivedActivity" />
+        <activity android:name=".My_recrive.My_AcceptingmodificationActivity" />
+        <activity android:name=".My_Initiated.AcceptingmodificationActivity" />
+        <activity android:name=".My_Initiated.ChooseapersonActivity" />
+        <activity android:name=".My_Initiated.ChooseDepartmentActivity" />
         <activity android:name=".SearchforActivity" />
         <activity android:name=".My_recrive.XiugaipendingActivity" />
         <activity android:name=".My_Initiated.ModificationpendingActivity" />
@@ -123,21 +128,21 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" /> <!-- For test only 测试状态通知栏，需要打开的Activity -->
-        <activity
-            android:name=".Jpush.TestActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="jpush.testAction" />
-
                 <category android:name="jpush.testCategory" />
             </intent-filter>
+        </activity> <!-- For test only 测试状态通知栏，需要打开的Activity -->
+        <activity
+            android:name=".Jpush.TestActivity"
+        >
         </activity> <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"

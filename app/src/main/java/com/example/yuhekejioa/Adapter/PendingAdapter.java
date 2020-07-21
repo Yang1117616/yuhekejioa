@@ -28,7 +28,7 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(context).inflate(R.layout.pendingadapter_layout, parent, false);
+        View inflate = LayoutInflater.from(context).inflate(R.layout.pending, parent, false);
         ViewHolder holder = new ViewHolder(inflate);
         return holder;
     }

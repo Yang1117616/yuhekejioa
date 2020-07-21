@@ -85,7 +85,7 @@
                     android:lines="1"
                     android:singleLine="true"
                     android:textColor="#ff000000"
-                    android:textSize="15sp"></TextView>
+                    android:textSize="12sp"></TextView>
             </LinearLayout>
 
             <LinearLayout

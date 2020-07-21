@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yuhekejioa.Bean.SearchforBean;
 import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
+import com.example.yuhekejioa.My_Initiated.AcceptingmodificationActivity;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationinprogressActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationpendingActivity;
@@ -22,6 +23,7 @@ import com.example.yuhekejioa.My_Initiated.ModifyActivity;
 import com.example.yuhekejioa.My_Initiated.MyExtensioninprogressActivity;
 import com.example.yuhekejioa.My_Initiated.MycompletedActivity;
 import com.example.yuhekejioa.My_Initiated.MyprocessingActivity;
+import com.example.yuhekejioa.My_Initiated.NotreceivedActivity;
 import com.example.yuhekejioa.My_Initiated.PostponementActivity;
 import com.example.yuhekejioa.My_Initiated.TerminatedActivity;
 import com.example.yuhekejioa.My_Initiated.TerminationActivity;
@@ -35,6 +37,8 @@ import com.example.yuhekejioa.My_recrive.DeterminedActivity;
 import com.example.yuhekejioa.My_recrive.ExtensioninprogressActivity;
 import com.example.yuhekejioa.My_recrive.FailedtopostponeActivity;
 import com.example.yuhekejioa.My_recrive.LookingforwardtoconfirmationActivity;
+import com.example.yuhekejioa.My_recrive.My_AcceptingmodificationActivity;
+import com.example.yuhekejioa.My_recrive.My_NotreceivedActivity;
 import com.example.yuhekejioa.My_recrive.ProcessingActivity;
 import com.example.yuhekejioa.My_recrive.ReportActivity;
 import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
@@ -43,10 +47,12 @@ import com.example.yuhekejioa.My_recrive.XiugaiprocessingActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.SearchforActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.ViewHolder> {
     Context context;
+
     List<SearchforBean.DataBean.ListBean> list;
 
     public SearchforAdapter(Context context, List<SearchforBean.DataBean.ListBean> list) {
@@ -79,8 +85,11 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
      根据identity：来显示 接收人或者是发起人
       */
         if (identity == 1) {
-            holder.receiver.setText("接收人");//里面是发起人
+            holder.receiver.setText("发起人");//里面是发起人
             holder.addNickName.setText(addNickName);
+
+
+
             if (taskStatus == 2) {
                 holder.taskStatus.setImageResource(R.drawable.imageview2);
                 holder.modify.setText("修改");
@@ -464,13 +473,68 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
                         context.startActivity(intent);
                     }
                 });
+            } else if (taskStatus == 20) {
+                //跳转到 我发起的 ------验收修改中
+                holder.taskStatus.setImageResource(R.drawable.imageview20);
+                holder.modify.setText("终止");
+
+
+                holder.termination.setText("查看每日工作");
+                holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
+                holder.termination.setTextColor(Color.parseColor("#ff006bff"));
+
+                holder.button_examine.setVisibility(View.GONE);
+                //跳转到我发起的-------终止页面
+                holder.modify.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, TerminationActivity.class);
+                        intent.putExtra("taskId", id);
+                        intent.putExtra("taskNo", taskNo);
+                        intent.putExtra("inspected", 0);
+                        intent.putExtra("statusStr", statusStr);
+                        context.startActivity(intent);
+                    }
+                });
+                //跳转到我发起的--------查看每日工作
+                holder.termination.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, DailyActivity.class);
+                        intent.putExtra("taskNo", taskNo);
+                        context.startActivity(intent);
+                    }
+                });
+                //跳转到我发起的--------修改待确认页面
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, AcceptingmodificationActivity.class);
+                        intent.putExtra("taskId", id);
+                        context.startActivity(intent);
+                    }
+                });
+            } else if (taskStatus == 19) {
+                //跳转到我发起的 未接收界面
+                holder.taskStatus.setImageResource(R.drawable.imageview19);
+                holder.modify.setVisibility(View.GONE);
+                holder.termination.setVisibility(View.GONE);
+                holder.button_examine.setVisibility(View.GONE);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, NotreceivedActivity.class);
+                        intent.putExtra("taskId", id);
+                        context.startActivity(intent);
+                    }
+                });
             }
             //sdasdas
-
         } else if (identity == 2) {
-            holder.receiver.setText("发起人");
+            holder.receiver.setText("接收人");
             holder.addNickName.setText(receiveNickName);
             if (taskStatus == 1) {
+
                 holder.taskStatus.setImageResource(R.drawable.imageview1);
                 holder.modify.setText("完成");
                 holder.modify.setBackgroundResource(R.drawable.button_backgroud_blue);
@@ -781,6 +845,35 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
                         intent.putExtra("id", id);
                         intent.putExtra("confirmType", 2);
                         context.startActivity(intent);
+
+//                    HashMap<String, String> hashMap1 = new HashMap<>();
+//                    hashMap1.put("taskId", String.valueOf(id));
+//                    hashMap1.put("taskNo", taskNo);
+//                    hashMap1.put("confirmType", String.valueOf(2));
+//                    NetworkUtils.sendPost(Constant.ip + "/app/taskReceive/confirm", hashMap1, context, new NetworkUtils.HttpCallback() {
+//                        @Override
+//                        public void onSuccess(JSONObject res) {
+//                            if (res == null || this == null) {
+//                                return;
+//                            }
+//                            try {
+//                                int code = res.getInt("code");
+//                                if (code == 200) {
+//                                    final String msg = res.getString("msg");
+//                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(final String msg) {
+//                            super.onError(msg);
+//                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
                     }
                 });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -858,6 +951,79 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
                         context.startActivity(intent);
                     }
                 });
+            } else if (taskStatus == 20) {
+                //我接收的---延期不通过
+                holder.taskStatus.setImageResource(R.drawable.imageview20);
+                holder.modify.setText("完成");
+                holder.modify.setBackgroundResource(R.drawable.button_backgroud_blue);
+                holder.modify.setTextColor(Color.parseColor("#ff006bff"));
+                holder.termination.setText("汇报每日工作");
+                holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
+                holder.termination.setTextColor(Color.parseColor("#ff006bff"));
+
+                holder.button_examine.setVisibility(View.GONE);
+//            holder.button_examine.setText("申请延期");
+//            holder.button_examine.setBackgroundResource(R.drawable.button_backgroud_blue);
+//            holder.button_examine.setTextColor(Color.parseColor("#ff006bff"));
+
+                //跳转到查看每日工作页面
+                holder.modify.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //跳转到完成页面
+                        Intent intent = new Intent(context, CarryoutActivity.class);
+                        intent.putExtra("taskNo", taskNo);
+                        intent.putExtra("id", id);
+                        context.startActivity(intent);
+                    }
+                });
+                //跳转到汇报每日工作页面
+                holder.termination.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, ReportActivity.class);
+                        intent.putExtra("id", id);
+                        intent.putExtra("taskNo", taskNo);
+                        context.startActivity(intent);
+                    }
+                });
+                //跳转到我接收的------延期修改中页面
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, My_AcceptingmodificationActivity.class);
+                        intent.putExtra("taskId", id);
+                        intent.putExtra("canDelay", canDelay);
+                        context.startActivity(intent);
+                    }
+                });
+//            holder.button_examine.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(context, ApplyforanextensionActivity.class);
+//                    //任务编号
+//                    intent.putExtra("taskNo", taskNo);
+//                    //原定时间
+//                    intent.putExtra("wantFinishTiem", wantFinishTiem);
+//
+//                    intent.putExtra("id", id);
+//                    context.startActivity(intent);
+//                }
+//            });
+            } else if (taskStatus == 19) {
+                holder.taskStatus.setImageResource(R.drawable.imageview19);
+                holder.modify.setVisibility(View.GONE);
+                holder.termination.setVisibility(View.GONE);
+                holder.button_examine.setVisibility(View.GONE);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, My_NotreceivedActivity.class);
+                        intent.putExtra("taskId", id);
+                        context.startActivity(intent);
+                    }
+                });
+
             }
         }
     }
@@ -871,6 +1037,12 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
     }
+
+//    //适配器刷新方法
+//    public void fresh(List<SearchforBean.DataBean.ListBean> datax) {
+//        list = datax;
+//        notifyDataSetChanged();
+//    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView taskNo;//任务标题

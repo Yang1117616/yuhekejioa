@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yuhekejioa.Bean.Mainbean;
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
+import com.example.yuhekejioa.My_Initiated.AcceptingmodificationActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationinprogressActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationpendingActivity;
 import com.example.yuhekejioa.My_Initiated.MyprocessingActivity;
@@ -26,6 +28,7 @@ import com.example.yuhekejioa.My_recrive.CompletedActivity;
 import com.example.yuhekejioa.My_recrive.DeterminedActivity;
 import com.example.yuhekejioa.My_recrive.ExtensioninprogressActivity;
 import com.example.yuhekejioa.My_recrive.FailedtopostponeActivity;
+import com.example.yuhekejioa.My_recrive.My_AcceptingmodificationActivity;
 import com.example.yuhekejioa.My_recrive.XiugaipendingActivity;
 import com.example.yuhekejioa.R;
 
@@ -93,7 +96,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, DeterminedActivity.class);
                     intent.putExtra("idx", id);
                     intent.putExtra("id", taskId);
-                    intent.putExtra("confirmType",1);
+                    intent.putExtra("confirmType", 1);
                     context.startActivity(intent);
                 }
             });
@@ -116,7 +119,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 @Override
                 //跳转到和 我发起的 我接收的 详情页面一致
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, WaitActivity.class);
+                    Intent intent = new Intent(context, AcceptancefailedActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
                     context.startActivity(intent);
@@ -179,7 +182,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, XiugaipendingActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("id", taskId);
-                    intent.putExtra("confirmType",2);
+                    intent.putExtra("confirmType", 2);
                     context.startActivity(intent);
                 }
             });
@@ -190,6 +193,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, TerminatedActivity.class);
+                    intent.putExtra("taskId", taskId);
+                    intent.putExtra("id", id);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (taskStatus == 20) {
+            //跳转到接收的--------验收修改中
+            holder.image_logo.setImageResource(R.drawable.image21);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, My_AcceptingmodificationActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
                     context.startActivity(intent);

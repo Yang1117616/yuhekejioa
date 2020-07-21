@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
@@ -33,6 +34,7 @@
                 android:textColor="@color/theme_black"
                 android:textSize="18sp" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="42.66dp">
@@ -175,6 +177,7 @@
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -295,6 +298,11 @@
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EDEAEA"></View>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="42dp">
@@ -304,20 +312,22 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:text="附件上传"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:text="暂无附件"
+                android:text="附件"
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/accomplish_List"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:listSelector="@color/white"
+            android:overScrollMode="never"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@color/theme_gray"
+            android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
 
         <View
             android:layout_width="match_parent"
@@ -376,6 +386,7 @@
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp"
@@ -440,10 +451,10 @@
                 android:id="@+id/yuheedittext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top|left"
                 android:layout_marginTop="16.33dp"
                 android:background="@null"
                 android:editable="true"
+                android:gravity="top|left"
                 android:hint="请输入补充说明"
                 android:inputType="none"
                 android:maxLength="500"
@@ -458,17 +469,17 @@
             android:background="#EDEAEA"></View>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:id="@+id/store_details_ll_close"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <Button
-                android:layout_marginLeft="30dp"
                 android:id="@+id/button_view"
                 android:layout_width="151dp"
                 android:layout_height="43dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_backgroud"
                 android:text="查看每日工作"
@@ -476,10 +487,10 @@
                 android:textSize="16sp"></Button>
 
             <Button
-                android:layout_marginLeft="13dp"
                 android:id="@+id/button_submit"
                 android:layout_width="151dp"
                 android:layout_height="43dp"
+                android:layout_marginLeft="13dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_backgroud"
                 android:text="提交"

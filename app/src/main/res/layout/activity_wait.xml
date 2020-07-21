@@ -33,6 +33,18 @@
                 android:text="等待验收"
                 android:textColor="@color/theme_black"
                 android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/button_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="13dp"
+                android:text="查看"
+                android:textColor="#ff006bff"
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -206,6 +218,7 @@
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -235,6 +248,7 @@
                 android:textColor="#000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -250,10 +264,10 @@
             android:textSize="15sp"></TextView>
 
         <RelativeLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15.66dp">
+            android:layout_marginLeft="15.66dp"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/editText"
@@ -280,10 +294,10 @@
             android:textSize="15sp"></TextView>
 
         <RelativeLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15.66dp">
+            android:layout_marginLeft="15.66dp"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/editText1"
@@ -318,84 +332,45 @@
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="8dp"
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@color/theme_gray"
-            android:scrollbars="vertical"
-            ></androidx.recyclerview.widget.RecyclerView>
+            android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:background="#ffe5e5e5"></View>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="42dp">
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:text="验收结果"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-            <ImageView
-                android:id="@+id/imageview_right2"
-                android:layout_width="6dp"
-                android:layout_height="11dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/right"></ImageView>
-
-            <TextView
-                android:id="@+id/opinionselection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:layout_toLeftOf="@id/imageview_right2"
-                android:text="请选择"
-                android:textColor="#ffbbbbbb"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEAEA"></View>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11.66dp"
-            android:layout_marginTop="5dp"
-            android:text="补充说明"
-            android:textColor="#ff000000"
-            android:textSize="15sp"></TextView>
-
 
         <RelativeLayout
+            android:id="@+id/relatvie_supplementaryexplanation"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginLeft="15.66dp">
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:id="@+id/buchong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="补充说明"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
 
             <EditText
                 android:id="@+id/yuheedittext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top|left"
+                android:layout_below="@+id/buchong"
                 android:layout_marginTop="16.33dp"
                 android:background="@null"
                 android:editable="true"
+                android:gravity="top|left"
                 android:hint="请输入补充说明"
                 android:inputType="none"
                 android:maxLength="500"
@@ -410,31 +385,32 @@
             android:background="#EDEAEA"></View>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:id="@+id/store_details_ll_close"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
+
             <Button
-                android:layout_marginLeft="30dp"
-                android:id="@+id/button_view"
+                android:id="@+id/button_fail"
                 android:layout_width="151dp"
                 android:layout_height="43dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_backgroud"
-                android:text="查看每日工作"
+                android:text="重新修改"
                 android:textColor="#ffffffff"
                 android:textSize="16sp"></Button>
 
             <Button
-                android:layout_marginLeft="13dp"
                 android:id="@+id/button_submit"
                 android:layout_width="151dp"
                 android:layout_height="43dp"
+                android:layout_marginLeft="14dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_backgroud"
-                android:text="提交"
+                android:text="通过"
                 android:textColor="#ffffffff"
                 android:textSize="16sp"></Button>
         </LinearLayout>

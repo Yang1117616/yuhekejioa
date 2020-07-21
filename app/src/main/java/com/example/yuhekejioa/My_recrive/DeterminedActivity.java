@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import com.example.yuhekejioa.My_Initiated.TobeconfirmedActivity;
 import com.example.yuhekejioa.My_Initiated.WaitActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 
@@ -113,6 +115,8 @@ public class DeterminedActivity extends AppCompatActivity {
     };
     private int idx;
     private TextView edit_title;
+    private Dialog loadingDialog;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,12 +224,29 @@ public class DeterminedActivity extends AppCompatActivity {
 
     //文件下载
     private void initwangluo(DeterminBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+
+
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(DeterminedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
+
+
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         //下载文件
         NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
             @Override
             public void onSuccess(String res) {
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
                 Intent intent = new Intent();
                 //设置intent的Action属性
                 intent.setAction(Intent.ACTION_VIEW);
@@ -249,9 +270,35 @@ public class DeterminedActivity extends AppCompatActivity {
                     //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(DeterminedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(DeterminedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(DeterminedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
+
+            }
+
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
         });
     }

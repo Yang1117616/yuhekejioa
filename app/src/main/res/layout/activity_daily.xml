@@ -52,7 +52,7 @@
             android:layout_below="@id/no_image"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
-            android:text="暂无搜索数据"
+            android:text="暂无数据"
             android:textColor="#ff000000"
             android:textSize="15sp"></TextView>
     </RelativeLayout>

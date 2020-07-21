@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yuhekejioa.Bean.MeInitiateBean;
 import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
+import com.example.yuhekejioa.My_Initiated.AcceptingmodificationActivity;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationinprogressActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationpendingActivity;
@@ -23,6 +24,7 @@ import com.example.yuhekejioa.My_Initiated.ModifyActivity;
 import com.example.yuhekejioa.My_Initiated.MyExtensioninprogressActivity;
 import com.example.yuhekejioa.My_Initiated.MycompletedActivity;
 import com.example.yuhekejioa.My_Initiated.MyprocessingActivity;
+import com.example.yuhekejioa.My_Initiated.NotreceivedActivity;
 import com.example.yuhekejioa.My_Initiated.PostponementActivity;
 import com.example.yuhekejioa.My_Initiated.TerminatedActivity;
 import com.example.yuhekejioa.My_Initiated.TerminationActivity;
@@ -61,7 +63,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
         int taskStatus = list.get(position).getTaskStatus();//状态码
         final int id = list.get(position).getId();//任务单id
         final String taskNo = list.get(position).getTaskNo();//任务单编号
-//        final int inspected = list.get(position).getTaskStatus();//任务状态
+
 
         String statusStr = list.get(position).getStatusStr();
 
@@ -445,6 +447,61 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ModificationpendingActivity.class);
+                    intent.putExtra("taskId", id);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (taskStatus == 20) {
+            //跳转到 我发起的 ------验收修改中
+            holder.taskStatus.setImageResource(R.drawable.imageview20);
+            holder.modify.setText("终止");
+
+
+            holder.termination.setText("查看每日工作");
+            holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
+            holder.termination.setTextColor(Color.parseColor("#ff006bff"));
+
+            holder.button_examine.setVisibility(View.GONE);
+            //跳转到我发起的-------终止页面
+            holder.modify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, TerminationActivity.class);
+                    intent.putExtra("taskId", id);
+                    intent.putExtra("taskNo", taskNo);
+                    intent.putExtra("inspected", 0);
+                    intent.putExtra("statusStr", statusStr);
+                    context.startActivity(intent);
+                }
+            });
+            //跳转到我发起的--------查看每日工作
+            holder.termination.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, DailyActivity.class);
+                    intent.putExtra("taskNo", taskNo);
+                    context.startActivity(intent);
+                }
+            });
+            //跳转到我发起的--------修改待确认页面
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, AcceptingmodificationActivity.class);
+                    intent.putExtra("taskId", id);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (taskStatus == 19) {
+            //跳转到我发起的 未接收界面
+            holder.taskStatus.setImageResource(R.drawable.imageview19);
+            holder.modify.setVisibility(View.GONE);
+            holder.termination.setVisibility(View.GONE);
+            holder.button_examine.setVisibility(View.GONE);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, NotreceivedActivity.class);
                     intent.putExtra("taskId", id);
                     context.startActivity(intent);
                 }

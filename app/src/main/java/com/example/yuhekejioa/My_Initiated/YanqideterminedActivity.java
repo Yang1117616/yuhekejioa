@@ -1,8 +1,11 @@
 package com.example.yuhekejioa.My_Initiated;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,16 +17,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.yuhekejioa.Adapter.FileAdapter;
+import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
+import com.example.yuhekejioa.Bean.WantBean;
+import com.example.yuhekejioa.My_recrive.ExtensioninprogressActivity;
+import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
+import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 import com.example.yuhekejioa.WheelDialog.WheelDialogFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 //我发起的——----延期待确定
@@ -59,8 +77,38 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
     private int progress;
     private String newTime;
     private int msgid;
-   private  TextView edit_title;
-    @Override
+    private TextView edit_title;
+    private RecyclerView recyclerView;
+    private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
+
+    private String url;
+
+
+
+    private final String[] MIME_MapTable = {
+            //{后缀名，MIME类型}
+            ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
+            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
+            ".c", "text/plain", ".class", "application/octet-stream", ".conf", "text/plain",
+            ".cpp", "text/plain", ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".xls", "application/vnd.ms-excel",
+            ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".exe", "application/octet-stream",
+            ".gif", "image/gif", ".gtar", "application/x-gtar",
+            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
+            ".jar", "application/java-archive", ".java", "text/plain", ".jpeg", "image/jpeg", ".jpg", "image/jpeg",
+            ".js", "application/x-javascript", ".log", "text/plain",
+            ".mov", "video/quicktime", ".mpc", "application/vnd.mpohun.certificate",
+            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
+            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
+            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
+            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            ".prop", "text/plain", ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio", ".rtf", "application/rtf",
+            ".sh", "text/plain", ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain",
+            ".wav", "audio/x-wav", ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress", ".zip", "application/x-zip-compressed",
+            "", "*/*"};
+    private String text;
+    private Dialog loadingDialog;
+
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -74,8 +122,6 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
         initwangluo();
 
     }
-
-
     private void initview() {
         numbering = findViewById(R.id.taskNo);
         current_time1 = findViewById(R.id.current_time);
@@ -92,8 +138,8 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
         button_view = findViewById(R.id.button_view);//查看每日工作
         degreeofcompletion = findViewById(R.id.degreeofcompletion);//当前完成时间
         extensiontime = findViewById(R.id.extensiontime);//申请延期时间
-         edit_title=findViewById(R.id.edit_title);
-
+        edit_title = findViewById(R.id.edit_title);
+        recyclerView = findViewById(R.id.accomplish_List);//附件
 
         back.setOnClickListener(this);//返回按钮
         opinionselection.setOnClickListener(this);//选择验收结果
@@ -125,17 +171,18 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
 
     //提交
     private void initsubmit() {
-        String text = yuheedittext.getText().toString();
-        if (TextUtils.isEmpty(text)) {
-            Toast.makeText(this, "请输入补充说明", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         String opinionselection_text = opinionselection.getText().toString();
 
         if (opinionselection_text.equals("通过")) {
             num = 0;
         } else if (opinionselection_text.equals("未通过")) {
             num = 1;
+            text = yuheedittext.getText().toString();
+            if (TextUtils.isEmpty(text)) {
+                Toast.makeText(this, "请输入补充说明", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
         HashMap<String, String> hashMap1 = new HashMap<>();
@@ -230,7 +277,7 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(taskId));
         hashMap.put("msgId", String.valueOf(msgid));
-        NetworkUtils.sendPost(Constant.ip +"/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
+        NetworkUtils.sendPost(Constant.ip + "/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
 
             @Override
             public void onSuccess(JSONObject res) {
@@ -258,7 +305,7 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
                         //延期原因
                         delayReason = data.getString("delayReason");
 
-                       final String title = data.getString("title");
+                        final String title = data.getString("title");
 
 
                         JSONObject taskDelay = data.getJSONObject("taskDelay");//延期类
@@ -267,6 +314,19 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
                         //延期时间
                         newTime = taskDelay.getString("newTime");
                         id = taskDelay.getInt("id");//延期类id
+                        JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
+                        //如果集合等于0的时候
+                        for (int i = 0; i < sysFilesSponsor.length(); i++) {
+                            JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
+                            String name = jsonObject.getString("name");//文件名字
+                            String fileSize = jsonObject.getString("fileSize");
+                            url = Constant.ip + jsonObject.getString("url");//文件url
+                            WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
+                            sysFilesSponsorBean.setName(name);
+                            sysFilesSponsorBean.setFileSize(fileSize);
+                            sysFilesSponsorBean.setUrl(url);//添加文件url
+                            list.add(sysFilesSponsorBean);
+                        }
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -282,6 +342,21 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
                                 degreeofcompletion.setText(progress + "%" + "");
                                 extensiontime.setText(newTime);
                                 edit_title.setText(title);
+
+                                //设置布局管理器
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(YanqideterminedActivity.this);
+                                recyclerView.setLayoutManager(linearLayoutManager);
+                                int space = 8;
+                                recyclerView.addItemDecoration(new SpacesItemDecoration(space));
+                                Waitadapterx adapter = new Waitadapterx(YanqideterminedActivity.this, list);
+                                recyclerView.setAdapter(adapter);
+                                adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(int position) {
+                                        initwangluo1(list.get(position));
+                                    }
+                                });
+
                             }
                         });
                     } else {
@@ -308,6 +383,81 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
                                 .setPositiveButton("确定", null)
                                 .show();
                         Toast.makeText(YanqideterminedActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    //文件下载
+    private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(YanqideterminedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
+
+        final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
+        //下载文件
+        NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
+            @Override
+            public void onSuccess(String res) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
+                Intent intent = new Intent();
+                //设置intent的Action属性
+                intent.setAction(Intent.ACTION_VIEW);
+//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                try {
+                    File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
+                    Uri fileURI;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        fileURI = FileProvider.getUriForFile(YanqideterminedActivity.this,
+                                "com.example.yuhekejioa.provider",
+                                out);
+                    } else {
+                        fileURI = Uri.fromFile(out);
+                    }
+                    //设置intent的data和Type属性
+                    for (int i = 0; i < MIME_MapTable.length; i++) {
+                        intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                    }
+                    //跳转
+                    startActivity(intent);
+                } catch (Exception e) { //当系统没有携带文件打开软件，提示
+                //    Toast.makeText(YanqideterminedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(YanqideterminedActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     }
                 });
             }

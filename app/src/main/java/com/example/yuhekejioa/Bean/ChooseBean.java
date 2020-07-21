@@ -254,6 +254,15 @@ public class ChooseBean {
             private String delFlag;
             private Object parentName;
             private List<ChildrenBean> children;
+            private boolean isChcked;
+
+            public boolean isChcked() {
+                return isChcked;
+            }
+
+            public void setChcked(boolean chcked) {
+                isChcked = chcked;
+            }
 
             public String getCreateBy() {
                 return createBy;

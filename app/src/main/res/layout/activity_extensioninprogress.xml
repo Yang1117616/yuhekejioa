@@ -194,6 +194,7 @@
                 android:textColor="#000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -215,6 +216,33 @@
 
             <TextView
                 android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#000000"
+                android:textSize="15sp"></TextView>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffe5e5e5"></View>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11.66dp"
+            android:layout_marginTop="5dp"
+            android:text="延期结果"
+            android:textColor="#ff000000"
+            android:textSize="15sp"></TextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp">
+
+            <TextView
+                android:id="@+id/postponementresult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -246,7 +274,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/accomplish_List"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:divider="@null"
             android:listSelector="@color/white"
             android:overScrollMode="never"
@@ -258,6 +286,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ffe5e5e5"></View>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="42.66dp">

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,7 +47,13 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
                 }
             }
         });
-
+        holder.image_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.remove(position);
+                WaitAdapter.this.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -57,11 +64,12 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView filename;
         private TextView filearm;
-
+       private ImageView image_delete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             filename = itemView.findViewById(R.id.filename);
             filearm = itemView.findViewById(R.id.filearm);
+           image_delete=itemView.findViewById(R.id.image_delete);
         }
     }
     //setter方法

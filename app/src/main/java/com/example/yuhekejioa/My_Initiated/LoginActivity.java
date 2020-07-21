@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button login;
     private SharedPreferences.Editor edit;
     private SharedPreferences sharedPreferences;
-    private boolean isFirst;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -53,10 +53,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         sharedPreferences = getSharedPreferences("tokens", MODE_PRIVATE);
         edit = sharedPreferences.edit();
-        isFirst = sharedPreferences.getBoolean("isFirst", true);
+
         //判断是否第一次登录 如果不是直接进入首页
         String username = sharedPreferences.getString("username", "");
         Log.e("TAG", "onCreate: " + username);
+        //用户名不为空 不为null 就跳转到首页
+
         if (username != null && !username.equals("")) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -89,11 +91,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 login_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 //点击显示密码后光标自动在密码的最后一位
                 login_password.setSelection(login_password.getText().length());
+
                 break;
             case R.id.image_yincang:
                 //点击按钮edittext密码隐藏
                 login_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 login_password.setSelection(login_password.getText().length());
+
                 break;
         }
     }
