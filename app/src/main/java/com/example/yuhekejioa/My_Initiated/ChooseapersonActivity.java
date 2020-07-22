@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.Choosepersonadapter;
 import com.example.yuhekejioa.Bean.ChoosepersonBean;
@@ -62,6 +63,7 @@ public class ChooseapersonActivity extends AppCompatActivity {
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     if (code == 200) {
                         JSONArray data = res.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
@@ -73,41 +75,49 @@ public class ChooseapersonActivity extends AppCompatActivity {
                             son.setUserNo(userNo);
                             list.add(son);
                         }
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            choosepersonadapter = new Choosepersonadapter(ChooseapersonActivity.this, list);
-                            listView.setAdapter(choosepersonadapter);
-                            choosepersonadapter.setCallBack(new Choosepersonadapter.MyCallBack() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                choosepersonadapter = new Choosepersonadapter(ChooseapersonActivity.this, list);
+                                listView.setAdapter(choosepersonadapter);
+                                choosepersonadapter.setCallBack(new Choosepersonadapter.MyCallBack() {
 
-                                @Override
-                                public void getSelete(ChoosepersonBean.DataBean sonBean) {
-                                    Log.e("TAG", "getSelete: " + sonBean.getNickName());
-                                    String nickName = sonBean.getNickName();
-                                    String userNo = sonBean.getUserNo();
-                                    SonBean sonBean1 = new SonBean();
-                                    sonBean1.setName(nickName);
-                                    sonBean1.setUserNo(userNo);
-                                    list_son.add(sonBean1);
-                                    choosepersonadapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                //移除
-                                public void removeSelete(ChoosepersonBean.DataBean sonBean) {
-                                    //for循环 集合中添加的数据跟实体类中的一致就移除
-                                    for (int i = 0; i < list_son.size(); i++) {
-                                        if (list_son.get(i).getName().equals(sonBean.getNickName())) {
-                                            list_son.remove(i);
-                                            break;
-                                        }
+                                    @Override
+                                    public void getSelete(ChoosepersonBean.DataBean sonBean) {
+                                        Log.e("TAG", "getSelete:" + sonBean.getNickName());
+                                        String nickName = sonBean.getNickName();
+                                        String userNo = sonBean.getUserNo();
+                                        SonBean sonBean1 = new SonBean();
+                                        sonBean1.setName(nickName);
+                                        sonBean1.setUserNo(userNo);
+                                        list_son.add(sonBean1);
+                                        choosepersonadapter.notifyDataSetChanged();
                                     }
-                                    choosepersonadapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
-                    });
+
+                                    @Override
+                                    //移除
+                                    public void removeSelete(ChoosepersonBean.DataBean sonBean) {
+                                        //for循环 集合中添加的数据跟实体类中的一致就移除
+                                        for (int i = 0; i < list_son.size(); i++) {
+                                            if (list_son.get(i).getName().equals(sonBean.getNickName())) {
+                                                list_son.remove(i);
+                                                break;
+                                            }
+                                        }
+                                        choosepersonadapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        });
+                    }else if(code==500){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ChooseapersonActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
 import com.example.yuhekejioa.Bean.WantBean;
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.My_Initiated.AcceptingmodificationActivity;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
 import com.example.yuhekejioa.R;
@@ -55,27 +56,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
     private ImageView back;
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
-    private final String[] MIME_MapTable = {
-            //{后缀名，MIME类型}
-            ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
-            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
-            ".c", "text/plain", ".class", "application/octet-stream", ".conf", "text/plain",
-            ".cpp", "text/plain", ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".xls", "application/vnd.ms-excel",
-            ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".exe", "application/octet-stream",
-            ".gif", "image/gif", ".gtar", "application/x-gtar",
-            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
-            ".jar", "application/java-archive", ".java", "text/plain", ".jpeg", "image/jpeg", ".jpg", "image/jpeg",
-            ".js", "application/x-javascript", ".log", "text/plain",
-            ".mov", "video/quicktime", ".mpc", "application/vnd.mpohun.certificate",
-            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
-            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
-            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
-            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            ".prop", "text/plain", ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio", ".rtf", "application/rtf",
-            ".sh", "text/plain", ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain",
-            ".wav", "audio/x-wav", ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress", ".zip", "application/x-zip-compressed",
-            "", "*/*"};
+    private HashMap<String, String> map;
     private String url;
 
     private TextView edit_title;
@@ -90,8 +71,36 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
     private TextView reedit_time;
     private Button button_submit;
     private Dialog loadingDialog;
+    private TextView text_nofile;
+    private ImageView image_hurried;
+    private final String[] MIME_MapTable = {
+            //{后缀名，MIME类型}
+            ".3gp", "video/3gpp",
+            ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
+            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
+            ".c", "text/plain", ".class", "application/octet-stream",
+            ".conf", "text/plain", ".cpp", "text/plain",
+            ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".xls", "application/vnd.ms-excel", ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ".exe", "application/octet-stream", ".gif", "image/gif", ".gtar", "application/x-gtar",
+            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
+            ".jar", "application/java-archive", ".java", "text/plain",
+            ".jpeg", "image/jpeg", ".jpg", "image/jpeg", ".js", "application/x-javascript", ".log", "text/plain", ".mpc", "application/vnd.mpohun.certificate",
+            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
+            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
+            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
+            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", ".prop", "text/plain",
+            ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio",
+            ".rtf", "application/rtf", ".sh", "text/plain",
+            ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain", ".wav", "audio/x-wav",
+            ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress",
+            ".zip", "application/x-zip-compressed",
+            "", "*/*"
+    };
+    private int isUrgent;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -102,8 +111,34 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         taskId = intent.getIntExtra("taskId", 0);
         canDelay = intent.getIntExtra("canDelay", 0);
         id = intent.getIntExtra("id", 0);
+        isUrgent = intent.getIntExtra("isUrgent", 0);
         initview();
         initdata();
+        map = new HashMap<>();
+        map.put(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".txt", "text/plain");
+        map.put(".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".3gp", "video/3gpp");
+        map.put(".apk", "application/vnd.android.package-archive");
+        map.put(".asf", "video/x-ms-asf");
+        map.put(".avi", "video/x-msvideo");
+        map.put(".bin", "application/octet-stream");
+        map.put(".bmp", "image/bmp");
+        map.put(".xls", "application/vnd.ms-excel");
+        map.put(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        map.put(".exe", "application/octet-stream");
+        map.put(".gif", "image/gif");
+        map.put(".gz", "application/x-gzip");
+        map.put(".jpeg", "image/jpeg");
+        map.put(".jpg", "image/jpeg");
+        map.put(".pdf", "application/pdf");
+        map.put(".ppt", "application/vnd.ms-powerpoint");
+        map.put(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+        map.put(".xml", "text/plain");
+        map.put(".zip", "application/x-zip-compressed");
+        map.put(".mpe", "video/mpeg");
+        map.put(".mpeg", "video/mpeg");
+        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
     }
 
     private void initdata() {
@@ -120,6 +155,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     if (code == 200) {
                         JSONObject data = res.getJSONObject("data");
                         //任务编号
@@ -133,10 +169,11 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         final String result = data.getString("result");//任务成果
                         final String title = data.getString("title");//任务标题
-
+                        int isUrgent = data.getInt("isUrgent");
                         final String inspectedState = data.getString("inspectedState");
                         String inspectedUpdateTime = data.getString("inspectedUpdateTime");
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
+
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
@@ -166,6 +203,14 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                                 edit_title.setText(title);//添加任务标题
                                 yuheedittext.setText(inspectedState);
                                 reedit_time.setText(inspectedUpdateTime);//重新修改时间
+
+                                if (sysFilesSponsor.length() > 0) {
+                                    text_nofile.setVisibility(View.GONE);
+                                } else {
+                                    text_nofile.setVisibility(View.VISIBLE);
+                                }
+
+
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(My_AcceptingmodificationActivity.this);
                                 recyclerview.setLayoutManager(linearLayoutManager);
@@ -182,6 +227,13 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                             }
                         });
 
+                    } else if (code == 500) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(My_AcceptingmodificationActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -217,10 +269,10 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         editText1 = findViewById(R.id.editText1);//任务 成果
         back = findViewById(R.id.back);
         recyclerview = findViewById(R.id.recyclerview);
-
+        text_nofile = findViewById(R.id.text_nofile);
         yuheedittext = findViewById(R.id.yuheedittext);//补充说明
         button_view = findViewById(R.id.button_view);//查看每日工作
-
+        image_hurried = findViewById(R.id.image_hurried);
         edit_title = findViewById(R.id.edit_title);
         reedit_time = findViewById(R.id.reedit_time);
         report = findViewById(R.id.report);//汇报按钮
@@ -232,7 +284,11 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         } else if (canDelay == 1) {
             applyforanextensionLayout.setVisibility(View.VISIBLE);
         }
-
+        if (isUrgent == 0) {
+            image_hurried.setVisibility(View.GONE);
+        } else if (isUrgent == 1) {
+            image_hurried.setVisibility(View.VISIBLE);
+        }
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);//查看每日工作
         button_submit.setOnClickListener(this);
@@ -301,25 +357,24 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                         }
                     }
                 });
-                Intent intent = new Intent();
-                //设置intent的Action属性
-                intent.setAction(Intent.ACTION_VIEW);
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 try {
                     File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
                     Uri fileURI;
+                    String substring = sysFilesSponsorBean.getName().substring(sysFilesSponsorBean.getName().lastIndexOf("."));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         fileURI = FileProvider.getUriForFile(My_AcceptingmodificationActivity.this,
                                 "com.example.yuhekejioa.provider",
                                 out);
+                        intent.setDataAndType(fileURI, map.get(substring));
                     } else {
                         fileURI = Uri.fromFile(out);
-                    }
-                    //设置intent的data和Type属性
-                    for (int i = 0; i < MIME_MapTable.length; i++) {
-                        intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        //设置intent的data和Type属性
+                        for (int i = 0; i < MIME_MapTable.length; i++) {
+                            intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
                     }
                     //跳转
                     startActivity(intent);

@@ -116,7 +116,7 @@ public class ReportActivity extends AppCompatActivity {
                               ReportActivity.this.finish();
                           }
                       });
-                    }else{
+                    }else if (code==500){
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

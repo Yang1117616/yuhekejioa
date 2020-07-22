@@ -19,7 +19,6 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:paddingTop="47.5dp"
-            android:text="提示文字"
             android:textColor="@color/theme_black"
             android:textSize="15sp" />
 

@@ -158,25 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initEvent();
         methodRequiresTwoPermission();
-        //版本强制更新办法
-        //  readRequiresTwoPermission();
     }
-
-//    private void readRequiresTwoPermission() {
-//        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-//        if (EasyPermissions.hasPermissions(MainActivity.this, perms)) {//获取到权限
-//            download();
-//        } else {
-//            EasyPermissions.requestPermissions(
-//                    new PermissionRequest.Builder(this, 1, perms)
-//                            .setRationale("啊啊啊啊啊啊")//remark
-//                            .setPositiveButtonText(R.string.confirm)
-//                            .setNegativeButtonText(R.string.cancel)
-//                            .setTheme(R.style.Dialog)
-//                            .build());
-//        }
-//    }
-
     //强制更新版本网络请求
     private void download() {
         String versionName = null;
@@ -261,7 +243,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return dialog;
     }
 
-    //强制更新
+    /*
+    强制更新
+    MainActivity mainActivity：上下文
+    String download：下载apk地址
+    String absolutePath：apk下载链接
+    String remark：更新版本提示语
+     */
     public Dialog dialog_update(MainActivity mainActivity, String download, String absolutePath, String remark) {
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -396,6 +384,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         initData();
+        //个人信息界面玩咯请求
         NetworkUtils.sendPost(Constant.ip + "/app/user/getUserInfo", null, MainActivity.this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -405,6 +394,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     if (code == 200) {
                         JSONObject data = res.getJSONObject("data");
                         String phonenumber = data.getString("phonenumber");//手机号
@@ -428,6 +418,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             }
                         });
+                    }else if(code==500){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -448,6 +445,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    //获取读写权限
     @AfterPermissionGranted(1)
     private void methodRequiresTwoPermission() {
         String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -492,7 +490,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //极光推送广播
     public class MessageReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
@@ -510,8 +507,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // 首页条目网络请求
     private void initData() {
-
         NetworkUtils.sendPost(Constant.ip + "/app/index/getMsgList", null, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -540,6 +537,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             dataBean.setId(jsonObject.getInt("id"));//添加id
                             dataBean.setTaskNo(jsonObject.getString("taskNo"));//添加taskno
                             dataBean.setTaskId(jsonObject.getInt("taskId"));
+                            dataBean.setTaskTitle(jsonObject.getString("taskTitle"));//标题
+                            dataBean.setIsUrgent(jsonObject.getInt("isUrgent"));
                             list.add(dataBean);
                         }
                         runOnUiThread(new Runnable() {
@@ -562,7 +561,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 dialog_one(MainActivity.this, msg).show();
                             }
                         });
-                    } else {
+                    } else if(code==500){
                         String msg = res.getString("msg");
                         runOnUiThread(new Runnable() {
                             @Override
@@ -639,8 +638,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         dialog.setCanceledOnTouchOutside(false);
-//        TextView customText = (TextView) dialog.findViewById(R.id.customText);
-//        customText.setText(text);
+        TextView customText = (TextView) dialog.findViewById(R.id.customText);//提示文字
+        customText.setText(text);
         return dialog;
     }
 

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.MeInitiateXAdapter;
 import com.example.yuhekejioa.Adapter.SearchforAdapter;
@@ -50,6 +51,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
     private List<SearchforBean.DataBean.ListBean> list = new ArrayList<>();
     private SearchforAdapter adapter;
     private RelativeLayout relative_no;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -93,7 +95,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
 //            }
 //        });
         home_RefreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
-   //     home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));
+        //     home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));
         relative_no.setVisibility(View.GONE);
         recyclerview.setVisibility(View.GONE);
         edit_searchfor.addTextChangedListener(new TextWatcher() {
@@ -125,7 +127,6 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-
     //网络请求
     private void initData() {
         HashMap<String, String> hashMap = new HashMap<>();
@@ -140,6 +141,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     JSONObject data = res.getJSONObject("data");//最外面的
                     JSONArray sysFilesSponsor = data.getJSONArray("list");
 
@@ -167,7 +169,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                             String statusStr = jsonObject.getString("statusStr");//任务单状态
                             int id = jsonObject.getInt("id");
                             int canDelay = jsonObject.getInt("canDelay");
-
+                            int isUrgent = jsonObject.getInt("isUrgent");
                             //添加要获取的数据
                             SearchforBean.DataBean.ListBean dataBean = new SearchforBean.DataBean.ListBean();
                             dataBean.setTitle(title);
@@ -180,6 +182,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                             dataBean.setStatusStr(statusStr);
                             dataBean.setId(id);
                             dataBean.setCanDelay(canDelay);
+                            dataBean.setIsUrgent(isUrgent);
                             list.add(dataBean);
                         }
                         runOnUiThread(new Runnable() {
@@ -192,6 +195,13 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                                         }
                                         home_RefreshLayout.closeHeaderOrFooter();
                                     }
+                                } else if (code == 500) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(SearchforActivity.this,msg , Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -246,6 +256,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

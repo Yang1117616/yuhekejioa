@@ -8,7 +8,7 @@ public class Mainbean {
     /**
      * msg : 操作成功
      * code : 200
-     * data : [{"searchValue":null,"createBy":"YHYF024","createTime":"2020-07-03 14:53:29","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":519,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070109380022","taskId":300,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-03 14:44:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":518,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070309320029","taskId":369,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-03 13:54:55","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":515,"type":"验收完成","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070309320030","taskId":370,"taskStatus":0},{"searchValue":null,"createBy":"YHYF011","createTime":"2020-07-03 11:54:28","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":499,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070309320018","taskId":358,"taskStatus":2},{"searchValue":null,"createBy":"YHYF011","createTime":"2020-07-03 11:51:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":487,"type":"task","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":null,"taskId":null,"taskStatus":0},{"searchValue":null,"createBy":"YHYF024","createTime":"2020-07-03 11:25:20","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":476,"type":"确认收到","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070309320007","taskId":347,"taskStatus":1},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 14:54:27","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":464,"type":"验收完成","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070208260017","taskId":339,"taskStatus":0},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 14:51:56","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":462,"type":"验收完成","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070208260016","taskId":338,"taskStatus":0},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 13:59:16","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":460,"type":"验收完成","receive":"YHYF008","content":"您的任务单验收通过啦！任务已完成","isRead":0,"taskNo":"2020070208260010","taskId":332,"taskStatus":0},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 10:43:05","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":452,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070208260007","taskId":329,"taskStatus":7},{"searchValue":null,"createBy":"YHYF008","createTime":"2020-07-02 10:41:58","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":451,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070109380015","taskId":291,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 10:35:55","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":450,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单待验收！请及时查看","isRead":0,"taskNo":"2020070208260009","taskId":331,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 08:38:44","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":439,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070208260005","taskId":327,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 08:35:07","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":438,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070208260004","taskId":326,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-02 08:34:54","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":437,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070208260003","taskId":325,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 17:52:53","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":426,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380035","taskId":313,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 17:44:01","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":425,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380034","taskId":312,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 17:38:57","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":424,"type":"确认收到","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380033","taskId":311,"taskStatus":1},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 17:36:49","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":423,"type":"等待验收","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380032","taskId":310,"taskStatus":7},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 17:31:39","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":422,"type":"确认收到","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380031","taskId":309,"taskStatus":1},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 17:31:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":421,"type":"确认收到","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380030","taskId":308,"taskStatus":1},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 17:29:11","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":420,"type":"确认收到","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380029","taskId":307,"taskStatus":1},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 16:54:15","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":414,"type":"确认收到","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"2020070109380023","taskId":301,"taskStatus":1},{"searchValue":null,"createBy":"YHYF025","createTime":"2020-07-01 14:06:11","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":411,"type":"task","receive":"YHYF008","content":"您有新的任务单！请及时查看","isRead":0,"taskNo":"","taskId":null,"taskStatus":0}]
+     * data : [{"createBy":"YHYF025","createTime":"2020-07-21 11:56","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1169,"type":"加急任务单","receive":"YHYF008","content":"您有一条加急任务单需要紧急处理，请确认","isRead":0,"taskNo":"2020072110280014","taskId":742,"taskStatus":2,"taskTitle":"加急aji","isUrgent":1},{"createBy":"YHYF025","createTime":"2020-07-21 11:33","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1162,"type":"加急任务单","receive":"YHYF008","content":"您有一条加急任务单需要紧急处理，请确认","isRead":0,"taskNo":"2020072110280007","taskId":735,"taskStatus":2,"taskTitle":"加急标题","isUrgent":1},{"createBy":"YHYF024","createTime":"2020-07-20 18:18","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1151,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查看","isRead":0,"taskNo":"2020072009280013","taskId":725,"taskStatus":2,"taskTitle":"测试标题","isUrgent":0},{"createBy":"YHYF024","createTime":"2020-07-20 09:44","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1135,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查看","isRead":0,"taskNo":"2020072009280002","taskId":714,"taskStatus":2,"taskTitle":"测试","isUrgent":0},{"createBy":"YHYF005","createTime":"2020-07-18 17:46","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1111,"type":"验收不通过","receive":"YHYF008","content":"您的任务单验收不通过，请及时查看","isRead":0,"taskNo":"2020071809210043","taskId":708,"taskStatus":13,"taskTitle":"sdasdas","isUrgent":0},{"createBy":"YHYF025","createTime":"2020-07-18 15:05","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1065,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查看","isRead":1,"taskNo":"2020071809210030","taskId":695,"taskStatus":2,"taskTitle":"14","isUrgent":0},{"createBy":"YHYF025","createTime":"2020-07-18 15:04","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1064,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查看","isRead":0,"taskNo":"2020071809210029","taskId":694,"taskStatus":2,"taskTitle":"1","isUrgent":0},{"createBy":"YHYF025","createTime":"2020-07-18 15:04","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1063,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查看","isRead":0,"taskNo":"2020071809210028","taskId":693,"taskStatus":2,"taskTitle":"1","isUrgent":0},{"createBy":"YHYF025","createTime":"2020-07-18 15:01","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1062,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查看","isRead":0,"taskNo":"2020071809210027","taskId":692,"taskStatus":2,"taskTitle":"1","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 16:32","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":926,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":1,"taskNo":"2020071709070120","taskId":591,"taskStatus":2,"taskTitle":"44","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 16:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":908,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":1,"taskNo":"2020071709070102","taskId":573,"taskStatus":2,"taskTitle":"。","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 16:22","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":896,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":1,"taskNo":"2020071709070089","taskId":561,"taskStatus":2,"taskTitle":"，","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 16:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":884,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":1,"taskNo":"2020071709070081","taskId":553,"taskStatus":2,"taskTitle":"，","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 15:56","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":860,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070082","taskId":554,"taskStatus":2,"taskTitle":"，","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 14:40","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":797,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070079","taskId":468,"taskStatus":2,"taskTitle":"测试z","isUrgent":0},{"createBy":"YHYF024","createTime":"2020-07-17 11:33","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":772,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070074","taskId":463,"taskStatus":2,"taskTitle":"测试K文件","isUrgent":0},{"createBy":"YH00001","createTime":"2020-07-17 10:58","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":753,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":1,"taskNo":"2020071709070064","taskId":453,"taskStatus":2,"taskTitle":"Q","isUrgent":0},{"createBy":"YH00001","createTime":"2020-07-17 10:58","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":752,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070063","taskId":452,"taskStatus":2,"taskTitle":"Q","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 10:44","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":742,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070053","taskId":442,"taskStatus":2,"taskTitle":"Wings\n","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 10:38","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":731,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":1,"taskNo":"2020071709070042","taskId":431,"taskStatus":2,"taskTitle":"1887","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 09:16","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":720,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070033","taskId":419,"taskStatus":2,"taskTitle":"Ffc ","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 09:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":708,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070021","taskId":407,"taskStatus":2,"taskTitle":"I\u2019m ","isUrgent":0},{"createBy":"YHYF001","createTime":"2020-07-17 09:07","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":696,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071709070009","taskId":395,"taskStatus":2,"taskTitle":"The ","isUrgent":0},{"createBy":"YH00001","createTime":"2020-07-16 19:35","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":678,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071619260071","taskId":377,"taskStatus":2,"taskTitle":"老板单发","isUrgent":0},{"createBy":"YH00001","createTime":"2020-07-16 19:30","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":652,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071619260045","taskId":351,"taskStatus":2,"taskTitle":"老板多选部门","isUrgent":0},{"createBy":"YH00001","createTime":"2020-07-16 19:28","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":626,"type":"新任务单","receive":"YHYF008","content":"您有新的任务单，请及时查收","isRead":0,"taskNo":"2020071619260019","taskId":325,"taskStatus":2,"taskTitle":"老板_群发","isUrgent":0},{"createBy":"YHYF004","createTime":"2020-07-14 18:36","updateBy":null,"updateTime":null,"remark":null,"params":{},"id":604,"type":"确认收到任务单","receive":"YHYF008","content":"您发起的任务单已确认接收","isRead":1,"taskNo":"2020071411160009","taskId":303,"taskStatus":21,"taskTitle":"宇赫123","isUrgent":0}]
      */
 
     private String msg;
@@ -41,24 +41,24 @@ public class Mainbean {
 
     public static class DataBean {
         /**
-         * searchValue : null
-         * createBy : YHYF024
-         * createTime : 2020-07-03 14:53:29
+         * createBy : YHYF025
+         * createTime : 2020-07-21 11:56
          * updateBy : null
          * updateTime : null
          * remark : null
          * params : {}
-         * id : 519
-         * type : 等待验收
+         * id : 1169
+         * type : 加急任务单
          * receive : YHYF008
-         * content : 您有新的任务单待验收！请及时查看
+         * content : 您有一条加急任务单需要紧急处理，请确认
          * isRead : 0
-         * taskNo : 2020070109380022
-         * taskId : 300
-         * taskStatus : 7
+         * taskNo : 2020072110280014
+         * taskId : 742
+         * taskStatus : 2
+         * taskTitle : 加急aji
+         * isUrgent : 1
          */
 
-        private Object searchValue;
         private String createBy;
         private String createTime;
         private Object updateBy;
@@ -73,14 +73,8 @@ public class Mainbean {
         private String taskNo;
         private int taskId;
         private int taskStatus;
-
-        public Object getSearchValue() {
-            return searchValue;
-        }
-
-        public void setSearchValue(Object searchValue) {
-            this.searchValue = searchValue;
-        }
+        private String taskTitle;
+        private int isUrgent;
 
         public String getCreateBy() {
             return createBy;
@@ -192,6 +186,22 @@ public class Mainbean {
 
         public void setTaskStatus(int taskStatus) {
             this.taskStatus = taskStatus;
+        }
+
+        public String getTaskTitle() {
+            return taskTitle;
+        }
+
+        public void setTaskTitle(String taskTitle) {
+            this.taskTitle = taskTitle;
+        }
+
+        public int getIsUrgent() {
+            return isUrgent;
+        }
+
+        public void setIsUrgent(int isUrgent) {
+            this.isUrgent = isUrgent;
         }
 
         public static class ParamsBean {

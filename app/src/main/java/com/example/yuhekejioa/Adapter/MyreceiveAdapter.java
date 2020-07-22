@@ -72,8 +72,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
         final int id = list.get(position).getId();
         final String taskNo = list.get(position).getTaskNo();//编号
         final String wantFinishTiem = list.get(position).getWantFinishTiem();//结束时间
-
-        //int inspected = list.get(position).getInspected();//任务状态
+        int isUrgent = list.get(position).getIsUrgent();//是否是加急任务单状态
         int canDelay = list.get(position).getCanDelay();
 
         if (taskStatus == 1) {
@@ -93,6 +92,13 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                 holder.termination.setVisibility(View.GONE);
             } else if (canDelay == 1) {
                 holder.termination.setVisibility(View.VISIBLE);
+            }
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+                holder.termination.setVisibility(View.GONE);
             }
 
             //跳转到汇报每日工作页面
@@ -123,6 +129,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, ProcessingActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("canDelay", canDelay);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -148,6 +155,13 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
 
             holder.termination.setVisibility(View.GONE);
             holder.button_examine.setVisibility(View.GONE);
+
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -165,6 +179,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, DeterminedActivity.class);
                     intent.putExtra("confirmType", 1);
                     intent.putExtra("id", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -177,6 +192,13 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
 
             holder.termination.setVisibility(View.GONE);
             holder.button_examine.setVisibility(View.GONE);
+
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -192,6 +214,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     //跳转到等待验收
                     Intent intent = new Intent(context, WaitingforacceptanceActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -203,6 +226,13 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
             holder.modify.setTextColor(Color.parseColor("#ff006bff"));
             holder.termination.setVisibility(View.GONE);
             holder.button_examine.setVisibility(View.GONE);
+
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -218,6 +248,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     //跳转到我接收的--已完成界面
                     Intent intent = new Intent(context, CompletedActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -329,6 +360,14 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
             } else if (canDelay == 1) {
                 holder.termination.setVisibility(View.VISIBLE);
             }
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+                //如果是加急状态下修改和终止按钮隐藏
+                holder.termination.setVisibility(View.GONE);
+            }
             //跳转到我接收的------完成填写页面
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -370,6 +409,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, XiugaiprocessingActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("canDelay", canDelay);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -380,6 +420,12 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
             holder.modify.setTextColor(Color.parseColor("#ff006bff"));
             holder.termination.setVisibility(View.GONE);
             holder.button_examine.setVisibility(View.GONE);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -388,35 +434,6 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     intent.putExtra("id", id);
                     intent.putExtra("confirmType", 2);
                     context.startActivity(intent);
-
-//                    HashMap<String, String> hashMap1 = new HashMap<>();
-//                    hashMap1.put("taskId", String.valueOf(id));
-//                    hashMap1.put("taskNo", taskNo);
-//                    hashMap1.put("confirmType", String.valueOf(2));
-//                    NetworkUtils.sendPost(Constant.ip + "/app/taskReceive/confirm", hashMap1, context, new NetworkUtils.HttpCallback() {
-//                        @Override
-//                        public void onSuccess(JSONObject res) {
-//                            if (res == null || this == null) {
-//                                return;
-//                            }
-//                            try {
-//                                int code = res.getInt("code");
-//                                if (code == 200) {
-//                                    final String msg = res.getString("msg");
-//                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onError(final String msg) {
-//                            super.onError(msg);
-//                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -426,6 +443,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, XiugaipendingActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("confirmType", 2);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -503,12 +521,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
             holder.termination.setText("汇报每日工作");
             holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
             holder.termination.setTextColor(Color.parseColor("#ff006bff"));
-
             holder.button_examine.setVisibility(View.GONE);
-//            holder.button_examine.setText("申请延期");
-//            holder.button_examine.setBackgroundResource(R.drawable.button_backgroud_blue);
-//            holder.button_examine.setTextColor(Color.parseColor("#ff006bff"));
-
             //跳转到查看每日工作页面
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -537,32 +550,27 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, My_AcceptingmodificationActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("canDelay", canDelay);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
-//            holder.button_examine.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(context, ApplyforanextensionActivity.class);
-//                    //任务编号
-//                    intent.putExtra("taskNo", taskNo);
-//                    //原定时间
-//                    intent.putExtra("wantFinishTiem", wantFinishTiem);
-//
-//                    intent.putExtra("id", id);
-//                    context.startActivity(intent);
-//                }
-//            });
         } else if (taskStatus == 19) {
             holder.taskStatus.setImageResource(R.drawable.imageview19);
             holder.modify.setVisibility(View.GONE);
             holder.termination.setVisibility(View.GONE);
             holder.button_examine.setVisibility(View.GONE);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, My_NotreceivedActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -590,6 +598,8 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
         private Button termination;//申请延期
         private Button modify;//确认收到
 
+        private ImageView image_expedited;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -600,6 +610,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
             button_examine = itemView.findViewById(R.id.button_examine);
             termination = itemView.findViewById(R.id.termination);
             modify = itemView.findViewById(R.id.modify);
+            image_expedited = itemView.findViewById(R.id.image_expedited);
         }
     }
 

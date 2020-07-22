@@ -25,10 +25,13 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
     List<filebean> list_file;
     //私有属性
     private OnItemClickListener onItemClickListener = null;
+    List<String> strings;
 
-    public FileAdapter(Context context, List<filebean> list_file) {
+
+    public FileAdapter(Context context, List<filebean> list_file, List<String> strings) {
         this.context = context;
         this.list_file = list_file;
+        this.strings = strings;
     }
 
 
@@ -47,6 +50,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 list_file.remove(position);
+                strings.remove(position);
                 FileAdapter.this.notifyDataSetChanged();
             }
         });

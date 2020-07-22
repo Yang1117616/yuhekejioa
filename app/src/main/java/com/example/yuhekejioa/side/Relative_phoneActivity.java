@@ -89,7 +89,7 @@ public class Relative_phoneActivity extends AppCompatActivity implements View.On
                                 Relative_phoneActivity.this.finish();
                             }
                         });
-                    } else {
+                    } else if (code==500){
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

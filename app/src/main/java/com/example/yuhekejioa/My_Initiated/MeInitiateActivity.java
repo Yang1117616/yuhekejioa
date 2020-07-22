@@ -113,6 +113,7 @@ public class MeInitiateActivity extends AppCompatActivity {
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     //获取的接口中的集合
                     JSONArray data = res.getJSONArray("data");
                     if (data.length() > 0) {
@@ -145,7 +146,7 @@ public class MeInitiateActivity extends AppCompatActivity {
 
                             String taskDescribe = jsonObject.getString("taskDescribe");//任务描述
                             String receiveDept = jsonObject.getString("receiveDept");//研发部门
-
+                            int isUrgent = jsonObject.getInt("isUrgent");//是否加急
                             MeInitiateBean.DataBean mereceiveBean = new MeInitiateBean.DataBean();
                             mereceiveBean.setReceiveDept(receiveDept);
                             mereceiveBean.setAddNickName(addNickName);
@@ -157,7 +158,7 @@ public class MeInitiateActivity extends AppCompatActivity {
                             mereceiveBean.setStatusStr(statusStr);
                             mereceiveBean.setTitle(title);
                             mereceiveBean.setId(id);
-                            //  mereceiveBean.setInspected(inspected);
+                            mereceiveBean.setIsUrgent(isUrgent);
                             list.add(mereceiveBean);
                         }
                         runOnUiThread(new Runnable() {
@@ -174,6 +175,18 @@ public class MeInitiateActivity extends AppCompatActivity {
                                         }
                                         home_RefreshLayout.closeHeaderOrFooter();
                                     }
+                                } else if (code == 500) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(MeInitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             }
                         });

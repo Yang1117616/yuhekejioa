@@ -87,27 +87,8 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
     private int num;
     private int id;
     private int idd = -1;
-    private final String[] MIME_MapTable = {
-            //{后缀名，MIME类型}
-            ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
-            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
-            ".c", "text/plain", ".class", "application/octet-stream", ".conf", "text/plain",
-            ".cpp", "text/plain", ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".xls", "application/vnd.ms-excel",
-            ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".exe", "application/octet-stream",
-            ".gif", "image/gif", ".gtar", "application/x-gtar",
-            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
-            ".jar", "application/java-archive", ".java", "text/plain", ".jpeg", "image/jpeg", ".jpg", "image/jpeg",
-            ".js", "application/x-javascript", ".log", "text/plain",
-            ".mov", "video/quicktime", ".mpc", "application/vnd.mpohun.certificate",
-            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
-            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
-            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
-            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            ".prop", "text/plain", ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio", ".rtf", "application/rtf",
-            ".sh", "text/plain", ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain",
-            ".wav", "audio/x-wav", ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress", ".zip", "application/x-zip-compressed",
-            "", "*/*"};
+    private HashMap<String, String> map;
+
     private String url;
     private TextView edit_title;
     private Button button_fail;//重新修改
@@ -117,7 +98,33 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
     private String trim;
     private int inspected;
     private Dialog loadingDialog;
-
+    private TextView text_nofile;
+    private ImageView image_hurried;
+    private int isUrgent;
+    private final String[] MIME_MapTable = {
+            //{后缀名，MIME类型}
+            ".3gp", "video/3gpp",
+            ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
+            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
+            ".c", "text/plain", ".class", "application/octet-stream",
+            ".conf", "text/plain", ".cpp", "text/plain",
+            ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".xls", "application/vnd.ms-excel", ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ".exe", "application/octet-stream", ".gif", "image/gif", ".gtar", "application/x-gtar",
+            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
+            ".jar", "application/java-archive", ".java", "text/plain",
+            ".jpeg", "image/jpeg", ".jpg", "image/jpeg", ".js", "application/x-javascript", ".log", "text/plain", ".mpc", "application/vnd.mpohun.certificate",
+            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
+            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
+            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
+            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", ".prop", "text/plain",
+            ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio",
+            ".rtf", "application/rtf", ".sh", "text/plain",
+            ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain", ".wav", "audio/x-wav",
+            ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress",
+            ".zip", "application/x-zip-compressed",
+            "", "*/*"
+    };
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -128,8 +135,35 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
         id = intent.getIntExtra("id", 0);
+        isUrgent = intent.getIntExtra("isUrgent", 0);
         initview();
         initdata();
+        map = new HashMap<>();
+        map.put(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".txt", "text/plain");
+        map.put(".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".3gp", "video/3gpp");
+        map.put(".apk", "application/vnd.android.package-archive");
+        map.put(".asf", "video/x-ms-asf");
+        map.put(".avi", "video/x-msvideo");
+        map.put(".bin", "application/octet-stream");
+        map.put(".bmp", "image/bmp");
+        map.put(".xls", "application/vnd.ms-excel");
+        map.put(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        map.put(".exe", "application/octet-stream");
+        map.put(".gif", "image/gif");
+        map.put(".gz", "application/x-gzip");
+        map.put(".jpeg", "image/jpeg");
+        map.put(".jpg", "image/jpeg");
+        map.put(".pdf", "application/pdf");
+        map.put(".ppt", "application/vnd.ms-powerpoint");
+        map.put(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+        map.put(".xml", "text/plain");
+        map.put(".zip", "application/x-zip-compressed");
+        map.put(".mpe", "video/mpeg");
+        map.put(".mpeg", "video/mpeg");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text","text/plain");
     }
 
     //控件id
@@ -147,9 +181,19 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
         back = findViewById(R.id.back);
         recyclerview = findViewById(R.id.recyclerview);
         edit_title = findViewById(R.id.edit_title);
-
+        text_nofile = findViewById(R.id.text_nofile);
         button_view = findViewById(R.id.button_view);//查看每日工作
         button_fail = findViewById(R.id.button_fail);
+        image_hurried = findViewById(R.id.image_hurried);
+
+
+        if(isUrgent==0){
+            image_hurried.setVisibility(View.GONE);
+        }else if(isUrgent==1){
+            image_hurried.setVisibility(View.VISIBLE);
+        }
+
+
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);//查看每日工作
         button_submit.setOnClickListener(this);
@@ -219,55 +263,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                 initsubmit();
                 break;
         }
-    }
-
-//    private void showdialog() {
-//        final Bundle bundle = new Bundle();
-//        bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
-//        bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
-//        bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
-//        bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
-//        bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
-//        bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
-//        String[]  strings = new String[2];
-//        strings[0] = "通过";
-//        // strings[1] = "未通过";
-//        strings[1] = "重新修改";
-//        bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, strings);
-//        WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
-//        dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
-//            @Override
-//            public void onClickLeft(WheelDialogFragment dialog, String value) {
-//                dialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onClickRight(WheelDialogFragment dialog, int value) {
-//                String s = strings[value];
-//                opinionselection.setText(s);
-//                opinionselection.setTextColor(Color.parseColor("#ff000000"));
-//
-//                String s1 = opinionselection.getText().toString();
-//
-//                /*
-//                opinionselection获取出来的字段 如果是通过 选择时间布局隐藏 如果是不通过重新修改时间隐藏 如果是重修修改 选择时间布局显示
-//                 */
-//                if (s1.equals("通过")) {
-//                    linear_selectionperiod.setVisibility(View.GONE);
-//                } else if (s1.equals("重新修改")) {
-//                    linear_selectionperiod.setVisibility(View.VISIBLE);
-//                }
-//                dialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onValueChanged(WheelDialogFragment dialog, String value) {
-//            }
-//        });
-//        dialogFragment.show(getSupportFragmentManager(), "");
-//    }
-
-    //提交
+    }//提交
     private void initsubmit() {
 
         HashMap<String, String> hashMap1 = new HashMap<>();
@@ -292,7 +288,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                                 WaitActivity.this.finish();
                             }
                         });
-                    } else {
+                    } else if (code == 500) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -349,10 +345,12 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         final String result = data.getString("result");//任务成果
                         final String title = data.getString("title");
+                        final int isUrgent = data.getInt("isUrgent");
                         //等待验收按钮显示与隐藏
                         inspected = data.getInt("inspected");
 
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
+
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
@@ -384,7 +382,11 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                                 recyclerview.addItemDecoration(new SpacesItemDecoration(space));
                                 Waitadapterx adapter = new Waitadapterx(WaitActivity.this, list);
                                 recyclerview.setAdapter(adapter);
-
+                                if (sysFilesSponsor.length() > 0) {
+                                    text_nofile.setVisibility(View.GONE);
+                                } else {
+                                    text_nofile.setVisibility(View.VISIBLE);
+                                }
 
                                 //重新修改按钮判断
                                 if (inspected == -1) {
@@ -455,7 +457,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
 
-                    } else {
+                    } else if (code == 500) {
                         String msg = res.getString("msg");
                         runOnUiThread(new Runnable() {
                             @Override
@@ -506,25 +508,25 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-                Intent intent = new Intent();
-                //设置intent的Action属性
-                intent.setAction(Intent.ACTION_VIEW);
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
 
                 try {
                     File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
                     Uri fileURI;
+                    String substring = sysFilesSponsorBean.getName().substring(sysFilesSponsorBean.getName().lastIndexOf("."));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         fileURI = FileProvider.getUriForFile(WaitActivity.this,
                                 "com.example.yuhekejioa.provider",
                                 out);
+                        intent.setDataAndType(fileURI, map.get(substring));
                     } else {
                         fileURI = Uri.fromFile(out);
-                    }
-                    //设置intent的data和Type属性
-                    for (int i = 0; i < MIME_MapTable.length; i++) {
-                        intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        //设置intent的data和Type属性
+                        for (int i = 0; i < MIME_MapTable.length; i++) {
+                            intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
                     }
                     //跳转
                     startActivity(intent);
@@ -543,6 +545,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                     });
                 }
             }
+
             @Override
             public void onError(String msg) {
                 super.onError(msg);

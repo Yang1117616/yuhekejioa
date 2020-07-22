@@ -64,15 +64,23 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
         final int id = list.get(position).getId();//任务单id
         final String taskNo = list.get(position).getTaskNo();//任务单编号
 
-
+        int isUrgent = list.get(position).getIsUrgent();//是否是加急任务单
         String statusStr = list.get(position).getStatusStr();
 
-        Log.e("TAG", "onBindViewHolder: " + taskStatus);
         if (taskStatus == 2) {
             holder.taskStatus.setImageResource(R.drawable.imageview2);
             holder.modify.setText("修改");
             holder.termination.setText("终止");
             holder.button_examine.setVisibility(View.GONE);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+                //如果是加急状态下修改和终止按钮隐藏
+                holder.modify.setVisibility(View.GONE);
+                holder.termination.setVisibility(View.GONE);
+            }
             //跳转到我发起的 修改页面
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,6 +108,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 public void onClick(View view) {
                     Intent intent = new Intent(context, TobeconfirmedActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -108,7 +117,14 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             holder.modify.setText("修改");
             holder.termination.setText("终止");
             holder.button_examine.setText("查看每日工作");
-
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+                holder.modify.setVisibility(View.GONE);
+                holder.termination.setVisibility(View.GONE);
+            }
             //跳转到查看每日工作界面
             holder.button_examine.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,6 +162,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                     Intent intent = new Intent(context, MyprocessingActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("statusStr", statusStr);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -160,6 +177,13 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             holder.termination.setTextColor(Color.parseColor("#ff006bff"));
 
             holder.button_examine.setVisibility(View.GONE);
+
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             //跳转到查看每日工作页面
             holder.termination.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -183,6 +207,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 public void onClick(View view) {
                     Intent intent = new Intent(context, WaitActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -194,7 +219,12 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             holder.modify.setText("查看每日工作");
             holder.modify.setBackgroundResource(R.drawable.button_backgroud_blue);
             holder.modify.setTextColor(Color.parseColor("#ff006bff"));
-
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             //跳转到查看每日工作界面
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -210,6 +240,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 public void onClick(View view) {
                     Intent intent = new Intent(context, MycompletedActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -320,8 +351,15 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             holder.termination.setText("查看每日工作");
             holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
             holder.termination.setTextColor(Color.parseColor("#ff006bff"));
-
             holder.button_examine.setVisibility(View.GONE);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+                //如果是加急状态下修改和终止按钮隐藏
+                holder.modify.setVisibility(View.GONE);
+            }
             //跳转到我发起的--------终止页面
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -349,6 +387,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ModificationinprogressActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -413,14 +452,18 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             //我发起的------修改待确认
             holder.taskStatus.setImageResource(R.drawable.imageview18);
             holder.modify.setText("终止");
-
-
             holder.termination.setText("查看每日工作");
             holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
             holder.termination.setTextColor(Color.parseColor("#ff006bff"));
-
-
             holder.button_examine.setVisibility(View.GONE);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+                //如果是加急状态下修改和终止按钮隐藏
+                holder.modify.setVisibility(View.GONE);
+            }
             //跳转到我发起的-------终止页面
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -448,6 +491,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ModificationpendingActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -455,13 +499,19 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             //跳转到 我发起的 ------验收修改中
             holder.taskStatus.setImageResource(R.drawable.imageview20);
             holder.modify.setText("终止");
-
-
+            holder.termination.setText("查看每日工作");
             holder.termination.setText("查看每日工作");
             holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
             holder.termination.setTextColor(Color.parseColor("#ff006bff"));
-
             holder.button_examine.setVisibility(View.GONE);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+                //如果是加急状态下修改和终止按钮隐藏
+                holder.modify.setVisibility(View.GONE);
+            }
             //跳转到我发起的-------终止页面
             holder.modify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -489,6 +539,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 public void onClick(View view) {
                     Intent intent = new Intent(context, AcceptingmodificationActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -498,11 +549,18 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             holder.modify.setVisibility(View.GONE);
             holder.termination.setVisibility(View.GONE);
             holder.button_examine.setVisibility(View.GONE);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_expedited.setVisibility(View.GONE);
+            } else if (isUrgent == 1) {
+                holder.image_expedited.setVisibility(View.VISIBLE);
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, NotreceivedActivity.class);
                     intent.putExtra("taskId", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -529,6 +587,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
         private Button button_examine;//汇报每日工作
         private Button termination;//申请延期
         private Button modify;//确认收到
+        private ImageView image_expedited;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -540,6 +599,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             button_examine = itemView.findViewById(R.id.button_examine);
             termination = itemView.findViewById(R.id.termination);
             modify = itemView.findViewById(R.id.modify);
+            image_expedited = itemView.findViewById(R.id.image_expedited);
         }
     }
 

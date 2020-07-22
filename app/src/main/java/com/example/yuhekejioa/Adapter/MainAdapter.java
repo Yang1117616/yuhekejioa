@@ -54,7 +54,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.status.setText(list.get(position).getType());
-        holder.status_news.setText(list.get(position).getContent());
+        holder.status_news.setText(list.get(position).getTaskTitle());
         holder.time.setText(list.get(position).getCreateTime());
 
         int taskStatus = list.get(position).getTaskStatus();
@@ -63,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         int id = list.get(position).getId();//id
         String taskNo = list.get(position).getTaskNo();
         int taskId = list.get(position).getTaskId();
-
+        int isUrgent = list.get(position).getIsUrgent();//是否是加急任务单
         if (taskStatus == 0) {
             holder.image_logo.setImageResource(R.drawable.image0);
             //跳转到我接收的--------已完成页面
@@ -88,7 +88,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 }
             });
         } else if (taskStatus == 2) {
-            holder.image_logo.setImageResource(R.drawable.image2);
+            //判断是否是加急任务单
+            if (isUrgent == 0) {
+                holder.image_logo.setImageResource(R.drawable.image2);
+            } else if (isUrgent == 1) {
+                holder.image_logo.setImageResource(R.drawable.image_isurgent);
+            }
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,6 +103,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     intent.putExtra("idx", id);
                     intent.putExtra("id", taskId);
                     intent.putExtra("confirmType", 1);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });

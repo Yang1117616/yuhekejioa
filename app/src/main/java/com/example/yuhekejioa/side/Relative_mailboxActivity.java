@@ -89,7 +89,7 @@ public class Relative_mailboxActivity extends AppCompatActivity implements View.
                                 Relative_mailboxActivity.this.finish();
                             }
                         });
-                    } else {
+                    } else if (code==500){
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

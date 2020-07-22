@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 finish();
                             }
                         });
-                    } else {
+                    } else if(code==500) {
                         final String msg = (String) res.get("msg");
                         runOnUiThread(new Runnable() {
                             @Override

@@ -104,7 +104,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                                 TerminationActivity.this.finish();
                             }
                         });
-                    } else {
+                    } else if (code==500){
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

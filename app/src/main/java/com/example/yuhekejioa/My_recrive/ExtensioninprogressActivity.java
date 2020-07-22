@@ -21,6 +21,7 @@ import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
 import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
 import com.example.yuhekejioa.My_Initiated.MyExtensioninprogressActivity;
 import com.example.yuhekejioa.My_Initiated.WaitActivity;
@@ -59,31 +60,36 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
     private String taskNo;
     private int id;
     private TextView postponementresult;
-    private final String[] MIME_MapTable = {
-            //{后缀名，MIME类型}
-            ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
-            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
-            ".c", "text/plain", ".class", "application/octet-stream", ".conf", "text/plain",
-            ".cpp", "text/plain", ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".xls", "application/vnd.ms-excel",
-            ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".exe", "application/octet-stream",
-            ".gif", "image/gif", ".gtar", "application/x-gtar",
-            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
-            ".jar", "application/java-archive", ".java", "text/plain", ".jpeg", "image/jpeg", ".jpg", "image/jpeg",
-            ".js", "application/x-javascript", ".log", "text/plain",
-            ".mov", "video/quicktime", ".mpc", "application/vnd.mpohun.certificate",
-            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
-            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
-            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
-            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            ".prop", "text/plain", ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio", ".rtf", "application/rtf",
-            ".sh", "text/plain", ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain",
-            ".wav", "audio/x-wav", ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress", ".zip", "application/x-zip-compressed",
-            "", "*/*"};
+
     private String url;
     private TextView edit_title;
     private Dialog loadingDialog;
-
+    private TextView text_nofile;
+    private HashMap<String, String> map;
+    private final String[] MIME_MapTable = {
+            //{后缀名，MIME类型}
+            ".3gp", "video/3gpp",
+            ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
+            ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
+            ".c", "text/plain", ".class", "application/octet-stream",
+            ".conf", "text/plain", ".cpp", "text/plain",
+            ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".xls", "application/vnd.ms-excel", ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ".exe", "application/octet-stream", ".gif", "image/gif", ".gtar", "application/x-gtar",
+            ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
+            ".jar", "application/java-archive", ".java", "text/plain",
+            ".jpeg", "image/jpeg", ".jpg", "image/jpeg", ".js", "application/x-javascript", ".log", "text/plain", ".mpc", "application/vnd.mpohun.certificate",
+            ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
+            ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
+            ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
+            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", ".prop", "text/plain",
+            ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio",
+            ".rtf", "application/rtf", ".sh", "text/plain",
+            ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain", ".wav", "audio/x-wav",
+            ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress",
+            ".zip", "application/x-zip-compressed",
+            "", "*/*"
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -96,6 +102,31 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
         id = intent.getIntExtra("id", 0);
         initview();
         initwangluo();
+        map = new HashMap<>();
+        map.put(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".txt", "text/plain");
+        map.put(".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".3gp", "video/3gpp");
+        map.put(".apk", "application/vnd.android.package-archive");
+        map.put(".asf", "video/x-ms-asf");
+        map.put(".avi", "video/x-msvideo");
+        map.put(".bin", "application/octet-stream");
+        map.put(".bmp", "image/bmp");
+        map.put(".xls", "application/vnd.ms-excel");
+        map.put(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        map.put(".exe", "application/octet-stream");
+        map.put(".gif", "image/gif");
+        map.put(".gz", "application/x-gzip");
+        map.put(".jpeg", "image/jpeg");
+        map.put(".jpg", "image/jpeg");
+        map.put(".pdf", "application/pdf");
+        map.put(".ppt", "application/vnd.ms-powerpoint");
+        map.put(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+        map.put(".xml", "text/plain");
+        map.put(".zip", "application/x-zip-compressed");
+        map.put(".mpe", "video/mpeg");
+        map.put(".mpeg", "video/mpeg");
+        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
     }
 
     //网络请求
@@ -113,6 +144,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                 }
                 try {
                     int code = res.getInt("code");
+
                     if (code == 200) {
                         JSONObject data = res.getJSONObject("data");
                         //任务编号
@@ -132,6 +164,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                         String newTime = taskDelay.getString("newTime");//申请延期时间
 
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
+
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
@@ -156,6 +189,11 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                                 extensiontime.setText(newTime);//延期时间
                                 edit_title.setText(title);//任务标题
                                 postponementresult.setText(delayReason);//延期原因
+                                if (sysFilesSponsor.length() > 0) {
+                                    text_nofile.setVisibility(View.GONE);
+                                } else {
+                                    text_nofile.setVisibility(View.VISIBLE);
+                                }
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ExtensioninprogressActivity.this);
                                 recyclerView.setLayoutManager(linearLayoutManager);
@@ -172,7 +210,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                             }
                         });
 
-                    } else {
+                    } else if (code==500){
                         String msg = res.getString("msg");
                         runOnUiThread(new Runnable() {
                             @Override
@@ -224,25 +262,24 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                         }
                     }
                 });
-                Intent intent = new Intent();
-                //设置intent的Action属性
-                intent.setAction(Intent.ACTION_VIEW);
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 try {
                     File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
                     Uri fileURI;
+                    String substring = sysFilesSponsorBean.getName().substring(sysFilesSponsorBean.getName().lastIndexOf("."));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         fileURI = FileProvider.getUriForFile(ExtensioninprogressActivity.this,
                                 "com.example.yuhekejioa.provider",
                                 out);
+                        intent.setDataAndType(fileURI, map.get(substring));
                     } else {
                         fileURI = Uri.fromFile(out);
-                    }
-                    //设置intent的data和Type属性
-                    for (int i = 0; i < MIME_MapTable.length; i++) {
-                        intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        //设置intent的data和Type属性
+                        for (int i = 0; i < MIME_MapTable.length; i++) {
+                            intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
                     }
                     //跳转
                     startActivity(intent);
@@ -262,6 +299,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                     });
                 }
             }
+
             @Override
             public void onError(String msg) {
                 super.onError(msg);
@@ -293,7 +331,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
         extensiontime = findViewById(R.id.extensiontime);//申请延期时间
         edit_title = findViewById(R.id.edit_title);
         postponementresult = findViewById(R.id.postponementresult);//延期结果
-
+        text_nofile = findViewById(R.id.text_nofile);
         back.setOnClickListener(this);
         report.setOnClickListener(this);
         button_view.setOnClickListener(this);

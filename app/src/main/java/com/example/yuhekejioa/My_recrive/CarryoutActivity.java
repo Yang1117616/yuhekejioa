@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import com.example.yuhekejioa.MainActivity;
 import com.example.yuhekejioa.My_Initiated.InitiateActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.huantansheng.easyphotos.utils.file.FileUtils.getPath;
+
 // 我接收的------完成填写
 public class CarryoutActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,6 +73,7 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
     //添加获取的文件路径集合
     private List<String> strings = new ArrayList<>();
     private int id;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +125,43 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
 
     //提交任务
     private void initsubmit() {
+
+           /*
+        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
+         */
+        //获取上传文件的后缀名
+        for (int i = 0; i < list_file.size(); i++) {
+            String filename = list_file.get(i).getFilename();
+            //获取上传文件的后缀名
+            String substring = filename.substring(filename.lastIndexOf(".") + 1);
+            if (substring.equals("doc")) {
+            } else if (substring.equals("docx")) {
+            } else if (substring.equals("xls")) {
+            } else if (substring.equals("xlsx")) {
+            } else if (substring.equals("ppt")) {
+            } else if (substring.equals("pptx")) {
+            } else if (substring.equals("txt")) {
+            } else if (substring.equals("xmind")) {
+            } else if (substring.equals("rar")) {
+            } else if (substring.equals("zip")) {
+            } else if (substring.equals("gz")) {
+            } else if (substring.equals("bz2")) {
+            } else if (substring.equals("pdf")) {
+            } else {
+                Toast.makeText(this, "只能上传规定类型文件", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         String bianhao = taskNos.getText().toString();
         String trim = editText.getText().toString().trim();
         if (TextUtils.isEmpty(trim)) {
             Toast.makeText(this, "请输入任务结果", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(CarryoutActivity.this, "正在加载中...");
+            loadingDialog.show();
         }
         //提交任务单接口
         HashMap<String, String> hashMap = new HashMap<>();
@@ -144,14 +180,37 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(CarryoutActivity.this, msg, Toast.LENGTH_SHORT).show();
-
                                 CarryoutActivity.this.finish();
+                            }
+                        });
+                    } else if (code == 500) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
+                                Toast.makeText(CarryoutActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -161,6 +220,10 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(CarryoutActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -241,7 +304,7 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CarryoutActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         //创建适配器
-        FileAdapter fileAdapter = new FileAdapter(this, list_file);
+        FileAdapter fileAdapter = new FileAdapter(this, list_file,strings);
         recyclerView.setAdapter(fileAdapter);
     }
 

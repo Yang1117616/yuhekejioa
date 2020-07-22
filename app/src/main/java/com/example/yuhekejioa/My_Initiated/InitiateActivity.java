@@ -48,6 +48,7 @@ import com.example.yuhekejioa.Bean.filebean;
 
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
 import com.example.yuhekejioa.WheelDialog.WheelDialogFragment;
@@ -96,6 +97,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
     //public static final int IMPORT_REQUEST_CODE = 10005;
     private List<filebean> list_file = new ArrayList<>();
     private String fileSizeString = "0.00";//文件大小
+
     private String upLoadFileName;//文件名字
     private File file;
     private String path;
@@ -103,6 +105,30 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
 //    private List<Integer> list_int = new ArrayList<>();
     //添加获取的文件路径集合
     private List<String> strings = new ArrayList<>();
+    private String file_path;
+    private String nickName;
+    private String msg;
+    private EditText edittitle;
+    private TextView typeofdelivery;//发送类型
+
+    private String[] string_typesof;//确认结果状态
+    private String username;
+    private Dialog loadingDialog;
+    private RelativeLayout relative_receiving_department;//部门布局；
+    private RelativeLayout relative_receiver;//人员布局
+    private RelativeLayout relative_typeofdelivery;//发送类型
+    public static final int IMPORT_REQUEST_CODE = 10005;
+    private int Number;
+    private int types;//确认选择类型
+    private int expedited;//确认加急类型
+    private StringBuilder sb;
+    private StringBuilder string_deptid;
+    private int deptId1;
+    private int role;
+    private String s;
+    private String receives;
+    private TextView text_expedited;
+    private String[] string_expedited;//确认加急状态
     private final String[] MIME_MapTable = {
             //{后缀名，MIME类型}
             ".3gp", "video/3gpp",
@@ -127,28 +153,6 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
-
-    private String file_path;
-    private String nickName;
-    private String msg;
-    private EditText edittitle;
-    private TextView typeofdelivery;//发送类型
-
-    private String[] string_typesof;//确认结果状态
-    private String username;
-
-    private RelativeLayout relative_receiving_department;//部门布局；
-    private RelativeLayout relative_receiver;//人员布局
-    private RelativeLayout relative_typeofdelivery;//发送类型
-    public static final int IMPORT_REQUEST_CODE = 10005;
-    private int Number;
-    private int types;
-    private StringBuilder sb;
-    private StringBuilder string_deptid;
-    private int deptId1;
-    private int role;
-    private String s;
-    private String receives;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -189,14 +193,10 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                                 /*
                                 获取用户角色：1、董事长；2、部门经理；3、员工；
                                  */
-
                                 if (role == 1) {
-//                                    relative_receiving_department.setVisibility(View.GONE);
-//                                    relative_receiver.setVisibility(View.GONE);
                                     typeofdelivery.setText("个人");
                                 } else if (role == 2) {
-//                                    relative_receiving_department.setVisibility(View.VISIBLE);
-//                                    relative_receiver.setVisibility(View.VISIBLE);
+
                                     typeofdelivery.setText("个人");
                                 } else if (role == 3) {
                                     relative_typeofdelivery.setVisibility(View.GONE);
@@ -232,15 +232,6 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("*/*");//可以传任意类型文件
-                    /*
-                    选择指定上次传的文件类型：text word全部类型  ppt  excel */
-//                    intent.setType("text/plain");
-//                    intent.setType("application/msword");
-//                    intent.setType("application/pdf");// pdf
-//                    //intent.setType("application/msword");//doc
-//                    intent.setType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");//docx
-//                    intent.setType("application/vnd.ms-powerpoint");//ppt
-//                    intent.setType("video/mp4");//.mp4
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     //设置类型，我这里是任意类型，可以过滤文件类型
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -296,12 +287,21 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         relative_receiver = findViewById(R.id.relative_receiver);
         relative_typeofdelivery = findViewById(R.id.relative_typeofdelivery);//发送类型布局id
 
+        text_expedited = findViewById(R.id.text_expedited);//是否加急
+
+        String s = text_expedited.getText().toString();
+        if (s.equals("否")) {
+            expedited = 0;
+            Log.e("TAG", "initView:" + expedited);
+        }
+
         back.setOnClickListener(this);//返回按钮
         choosedepartment_text.setOnClickListener(this);//接收部门
         receiver_text.setOnClickListener(this);//接收人
         enddate_text.setOnClickListener(this);//结束时间
         button_submit.setOnClickListener(this);//提交
         typeofdelivery.setOnClickListener(this);
+        text_expedited.setOnClickListener(this);
 
     }
 
@@ -344,8 +344,52 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             case R.id.typeofdelivery://选择类型
                 inittypesof();
                 break;
+            case R.id.text_expedited:
+                initexpedited();
+                break;
 
         }
+    }
+
+    //是否加急方法
+    private void initexpedited() {
+        final Bundle bundle = new Bundle();
+        bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
+        bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
+        bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
+        bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
+        bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
+        bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
+        string_expedited = new String[2];
+        string_expedited[0] = "否";
+        string_expedited[1] = "是";
+        bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, string_expedited);
+        WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
+        dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
+            @Override
+            public void onClickLeft(WheelDialogFragment dialog, String value) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onClickRight(WheelDialogFragment dialog, int value) {
+                String s = string_expedited[value];
+                text_expedited.setText(s);
+                //判断发送类型是个人还是群发 群发的话  部门和人员隐藏
+                String type = text_expedited.getText().toString();
+                if (type.equals("否")) {
+                    expedited = 0;
+                } else if (type.equals("是")) {
+                    expedited = 1;
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onValueChanged(WheelDialogFragment dialog, String value) {
+            }
+        });
+        dialogFragment.show(getSupportFragmentManager(), "");
     }
 
     //选择类型
@@ -397,12 +441,14 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
 
     //发起任务单
     private void initsubmit() {
+        button_submit.setClickable(false);
         /*
         doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
          */
         //获取上传文件的后缀名
         for (int i = 0; i < list_file.size(); i++) {
             String filename = list_file.get(i).getFilename();
+            //获取上传文件的后缀名
             String substring = filename.substring(filename.lastIndexOf(".") + 1);
             if (substring.equals("doc")) {
             } else if (substring.equals("docx")) {
@@ -416,18 +462,12 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             } else if (substring.equals("zip")) {
             } else if (substring.equals("gz")) {
             } else if (substring.equals("bz2")) {
-            } else if (substring.equals("pdf")){ }else{
-                Toast.makeText(this, "只能上传这几种类型文件", Toast.LENGTH_SHORT).show();
+            } else if (substring.equals("pdf")) {
+            } else {
+                Toast.makeText(this, "只能上传规定类型文件", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
-
-//        //获取文件的内存大小
-//        for (int i = 0; i < list_file.size(); i++) {
-//            String fileram = list_file.get(i).getFileram();//获取文件的大小
-//
-//        }
-
         //请选择时间
         String enddate = enddate_text.getText().toString();
         if (enddate.equals("请选择")) {
@@ -445,6 +485,10 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "请输入任务标题", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(InitiateActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         //提交任务单接口
         HashMap<String, String> hashMap = new HashMap<>();
         //添加文件
@@ -454,6 +498,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         hashMap.put("isMass", String.valueOf(types));//是否群发
         hashMap.put("receives", receives);//选择人员
         hashMap.put("deptIds", deptIds);//选择部门
+        hashMap.put("isUrgent", String.valueOf(expedited));//是否加急
         NetworkUtils.uploadImage(Constant.ip + "/app/task/save", strings, hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -468,13 +513,40 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
+                                button_submit.setClickable(true);
                                 Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 InitiateActivity.this.finish();
+                            }
+                        });
+                    } else if (code == 500) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
+                                button_submit.setClickable(true);
+                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                            button_submit.setClickable(true);
+                        }
+                    });
                 }
             }
 
@@ -484,6 +556,11 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                        button_submit.setClickable(true);
                         Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -612,7 +689,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         //recyclerview设置每个item之间的间距
         int space = 6;
         nestedListView.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.px2dp(space)));
-        FileAdapter fileAdapter = new FileAdapter(InitiateActivity.this, list_file);
+        FileAdapter fileAdapter = new FileAdapter(InitiateActivity.this, list_file,strings);
         nestedListView.setAdapter(fileAdapter);
         //条目的点击事件 可以查看上传的本地文件
         fileAdapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
@@ -623,12 +700,8 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                     //获取的文件路径
                     file_path = strings.get(i);
                 }
-                Intent intent = new Intent();
-                //设置intent的Action属性
-                intent.setAction(Intent.ACTION_VIEW);
-
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 try {
                     File out = new File(file_path);
                     Uri fileURI;
@@ -643,7 +716,6 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                     for (int i = 0; i < MIME_MapTable.length; i++) {
                         intent.setDataAndType(fileURI, MIME_MapTable[i]);
                     }
-                    //跳转
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
 

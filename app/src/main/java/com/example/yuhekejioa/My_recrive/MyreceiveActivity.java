@@ -144,10 +144,9 @@ public class MyreceiveActivity extends AppCompatActivity {
                             String wantFinishTiem = jsonObject.getString("wantFinishTiem");//结束时间
                             final int taskStatus = jsonObject.getInt("taskStatus");//状态码
                             int id = jsonObject.getInt("id");
-//                            int inspected = jsonObject.getInt("inspected");
                             int canDelay = jsonObject.getInt("canDelay");
-
                             String title = jsonObject.getString("title");
+                            int isUrgent = jsonObject.getInt("isUrgent");
 
                             MyreceiveBean.DataBean myreceiveBean = new MyreceiveBean.DataBean();
                             myreceiveBean.setAddNickName(addNickName);
@@ -157,7 +156,7 @@ public class MyreceiveActivity extends AppCompatActivity {
                             myreceiveBean.setId(id);
                             myreceiveBean.setCanDelay(canDelay);
                             myreceiveBean.setTitle(title);
-                            //    myreceiveBean.setInspected(inspected);//添加任务状态
+                            myreceiveBean.setIsUrgent(isUrgent);
                             list.add(myreceiveBean);
                         }
                         runOnUiThread(new Runnable() {
@@ -174,6 +173,13 @@ public class MyreceiveActivity extends AppCompatActivity {
                                         }
                                         home_RefreshLayout.closeHeaderOrFooter();
                                     }
+                                }else if(code==500){
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(MyreceiveActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             }
                         });

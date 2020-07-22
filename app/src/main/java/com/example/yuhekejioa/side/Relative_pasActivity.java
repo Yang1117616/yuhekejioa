@@ -148,8 +148,14 @@ public class Relative_pasActivity extends AppCompatActivity implements View.OnCl
                                 Relative_pasActivity.this.finish();
                             }
                         });
-                    } else {
-                        Toast.makeText(Relative_pasActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    } else if (code==500){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Relative_pasActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
 
                 } catch (JSONException e) {

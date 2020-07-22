@@ -62,32 +62,36 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
     private ImageView back;
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
+    private String url;
+    private TextView edit_title;
+    private int id;
+    private Dialog loadingDialog;
+    private TextView text_nofile;
+    private HashMap<String, String> map;
     private final String[] MIME_MapTable = {
             //{后缀名，MIME类型}
-            ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
+            ".3gp", "video/3gpp",
+            ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
             ".avi", "video/x-msvideo", ".bin", "application/octet-stream", ".bmp", "image/bmp",
-            ".c", "text/plain", ".class", "application/octet-stream", ".conf", "text/plain",
-            ".cpp", "text/plain", ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".xls", "application/vnd.ms-excel",
-            ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".exe", "application/octet-stream",
-            ".gif", "image/gif", ".gtar", "application/x-gtar",
+            ".c", "text/plain", ".class", "application/octet-stream",
+            ".conf", "text/plain", ".cpp", "text/plain",
+            ".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".xls", "application/vnd.ms-excel", ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ".exe", "application/octet-stream", ".gif", "image/gif", ".gtar", "application/x-gtar",
             ".gz", "application/x-gzip", ".h", "text/plain", ".htm", "text/html", ".html", "text/html",
-            ".jar", "application/java-archive", ".java", "text/plain", ".jpeg", "image/jpeg", ".jpg", "image/jpeg",
-            ".js", "application/x-javascript", ".log", "text/plain",
-            ".mov", "video/quicktime", ".mpc", "application/vnd.mpohun.certificate",
+            ".jar", "application/java-archive", ".java", "text/plain",
+            ".jpeg", "image/jpeg", ".jpg", "image/jpeg", ".js", "application/x-javascript", ".log", "text/plain", ".mpc", "application/vnd.mpohun.certificate",
             ".mpe", "video/mpeg", ".mpeg", "video/mpeg",
             ".mpg", "video/mpeg", ".mpg4", "video/mp4", ".mpga", "audio/mpeg", ".msg", "application/vnd.ms-outlook", ".ogg", "audio/ogg", ".pdf", "application/pdf",
             ".png", "image/png", ".pps", "application/vnd.ms-powerpoint",
-            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            ".prop", "text/plain", ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio", ".rtf", "application/rtf",
-            ".sh", "text/plain", ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain",
-            ".wav", "audio/x-wav", ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress", ".zip", "application/x-zip-compressed",
-            "", "*/*"};
-    private String url;
-
-   private TextView edit_title;
-    private int id;
-    private Dialog loadingDialog;
+            ".ppt", "application/vnd.ms-powerpoint", ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", ".prop", "text/plain",
+            ".rc", "text/plain", ".rmvb", "audio/x-pn-realaudio",
+            ".rtf", "application/rtf", ".sh", "text/plain",
+            ".tar", "application/x-tar", ".tgz", "application/x-compressed", ".txt", "text/plain", ".wav", "audio/x-wav",
+            ".wma", "audio/x-ms-wma", ".wmv", "audio/x-ms-wmv", ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress",
+            ".zip", "application/x-zip-compressed",
+            "", "*/*"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +105,34 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
         id = intent.getIntExtra("id", 0);
         initview();
         initdata();
+        map = new HashMap<>();
+        map.put(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".txt", "text/plain");
+        map.put(".doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        map.put(".3gp", "video/3gpp");
+        map.put(".apk", "application/vnd.android.package-archive");
+        map.put(".asf", "video/x-ms-asf");
+        map.put(".avi", "video/x-msvideo");
+        map.put(".bin", "application/octet-stream");
+        map.put(".bmp", "image/bmp");
+        map.put(".xls", "application/vnd.ms-excel");
+        map.put(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        map.put(".exe", "application/octet-stream");
+        map.put(".gif", "image/gif");
+        map.put(".gz", "application/x-gzip");
+        map.put(".jpeg", "image/jpeg");
+        map.put(".jpg", "image/jpeg");
+        map.put(".pdf", "application/pdf");
+        map.put(".ppt", "application/vnd.ms-powerpoint");
+        map.put(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+        map.put(".xml", "text/plain");
+        map.put(".zip", "application/x-zip-compressed");
+        map.put(".mpe", "video/mpeg");
+        map.put(".mpeg", "video/mpeg");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text", "text/plain");
     }
+
     private void initview() {
         numbering = findViewById(R.id.taskNo);
         current_time1 = findViewById(R.id.current_time);
@@ -114,11 +145,11 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
         yuheedittext = findViewById(R.id.yuheedittext);
         back = findViewById(R.id.back);
         recyclerview = findViewById(R.id.recyclerview);
-
+        text_nofile = findViewById(R.id.text_nofile);
         opinionselection = findViewById(R.id.opinionselection);//请选择验收结果
         button_view = findViewById(R.id.button_view);//查看每日工作
 
-        edit_title=findViewById(R.id.edit_title);
+        edit_title = findViewById(R.id.edit_title);
 
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);
@@ -138,6 +169,7 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     if (code == 200) {
                         JSONObject data = res.getJSONObject("data");
                         //任务编号
@@ -150,11 +182,13 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         final String result = data.getString("result");//任务成果
                         final int inspected = data.getInt("inspected");//验收通过或者未通过状态
-                        final  String title = data.getString("title");//任务标题
+                        final String title = data.getString("title");//任务标题
 
                         final String inspectedState = data.getString("inspectedState");
 
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
+
+
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
@@ -190,6 +224,12 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                                 } else if (inspected == 2) {
                                     opinionselection.setText("未验收");
                                 }
+
+                                if (sysFilesSponsor.length() > 0) {
+                                    text_nofile.setVisibility(View.GONE);
+                                } else {
+                                    text_nofile.setVisibility(View.VISIBLE);
+                                }
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AcceptancefailedActivity.this);
                                 recyclerview.setLayoutManager(linearLayoutManager);
@@ -206,6 +246,13 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                             }
                         });
 
+                    } else if (code == 500) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(AcceptancefailedActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -249,25 +296,24 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                         }
                     }
                 });
-                Intent intent = new Intent();
-                //设置intent的Action属性
-                intent.setAction(Intent.ACTION_VIEW);
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 try {
-                    File out = new File(absolutePath+"/"+sysFilesSponsorBean.getName());
+                    File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
                     Uri fileURI;
+                    String substring = sysFilesSponsorBean.getName().substring(sysFilesSponsorBean.getName().lastIndexOf("."));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         fileURI = FileProvider.getUriForFile(AcceptancefailedActivity.this,
                                 "com.example.yuhekejioa.provider",
                                 out);
+                        intent.setDataAndType(fileURI, map.get(substring));
                     } else {
                         fileURI = Uri.fromFile(out);
-                    }
-                    //设置intent的data和Type属性
-                    for (int i = 0; i < MIME_MapTable.length; i++) {
-                        intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        //设置intent的data和Type属性
+                        for (int i = 0; i < MIME_MapTable.length; i++) {
+                            intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
                     }
                     //跳转
                     startActivity(intent);

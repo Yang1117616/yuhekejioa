@@ -25,4 +25,5 @@ public class ExampleApplication extends Application {
     public static Context getContext() {
         return context;
     }
+
 }
