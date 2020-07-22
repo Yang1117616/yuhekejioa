@@ -298,7 +298,7 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                 });
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
+                //加油
                 try {
                     File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
                     Uri fileURI;
