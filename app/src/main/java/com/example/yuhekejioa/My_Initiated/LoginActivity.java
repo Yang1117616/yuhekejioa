@@ -73,6 +73,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         image_yincang = findViewById(R.id.image_yincang);
         image_xianshi = findViewById(R.id.image_xianshi);
 
+        login_phone.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+        login_password.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+
         login = findViewById(R.id.login);
         login.setOnClickListener(this);
         image_xianshi.setOnClickListener(this);

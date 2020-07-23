@@ -219,7 +219,6 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
                     });
                 }
             }
-
             @Override
             public void onError(String msg) {
                 super.onError(msg);

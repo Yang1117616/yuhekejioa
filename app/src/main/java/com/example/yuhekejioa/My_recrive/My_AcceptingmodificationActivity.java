@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
 import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.My_Initiated.AcceptingmodificationActivity;
@@ -62,7 +63,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
     private TextView edit_title;
 
 
-    private LinearLayout applyforanextensionLayout;
+   // private LinearLayout applyforanextensionLayout;
     private TextView report;//汇报
     private int canDelay;
     private TextView yuheedittext;
@@ -216,7 +217,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                                 recyclerview.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerview.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(My_AcceptingmodificationActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(My_AcceptingmodificationActivity.this, list);
                                 recyclerview.setAdapter(adapter);
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
@@ -276,14 +277,14 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         edit_title = findViewById(R.id.edit_title);
         reedit_time = findViewById(R.id.reedit_time);
         report = findViewById(R.id.report);//汇报按钮
-        applyforanextensionLayout = findViewById(R.id.applyforanextensionLayout);//延期布局
+      //  applyforanextensionLayout = findViewById(R.id.applyforanextensionLayout);//延期布局
         button_submit = findViewById(R.id.button_submit);
 
-        if (canDelay == 0) {
-            applyforanextensionLayout.setVisibility(View.GONE);
-        } else if (canDelay == 1) {
-            applyforanextensionLayout.setVisibility(View.VISIBLE);
-        }
+//        if (canDelay == 0) {
+//            applyforanextensionLayout.setVisibility(View.GONE);
+//        } else if (canDelay == 1) {
+//            applyforanextensionLayout.setVisibility(View.VISIBLE);
+//        }
         if (isUrgent == 0) {
             image_hurried.setVisibility(View.GONE);
         } else if (isUrgent == 1) {
@@ -293,7 +294,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         button_view.setOnClickListener(this);//查看每日工作
         button_submit.setOnClickListener(this);
         report.setOnClickListener(this);//汇报
-        applyforanextensionLayout.setOnClickListener(this);//申请延期布局
+       // applyforanextensionLayout.setOnClickListener(this);//申请延期布局
     }
 
     @Override
@@ -322,15 +323,15 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                 startActivity(intent2);
                 My_AcceptingmodificationActivity.this.finish();
                 break;
-            case R.id.applyforanextensionLayout://申请延期页面
-                //跳转到申请延期界面
-                Intent intent3 = new Intent(My_AcceptingmodificationActivity.this, ApplyforanextensionActivity.class);
-                intent3.putExtra("taskNo", taskNo);
-                intent3.putExtra("id", taskId);
-                intent3.putExtra("wantFinishTiem", updateTime);
-                startActivity(intent3);
-                My_AcceptingmodificationActivity.this.finish();
-                break;
+//            case R.id.applyforanextensionLayout://申请延期页面
+//                //跳转到申请延期界面
+//                Intent intent3 = new Intent(My_AcceptingmodificationActivity.this, ApplyforanextensionActivity.class);
+//                intent3.putExtra("taskNo", taskNo);
+//                intent3.putExtra("id", taskId);
+//                intent3.putExtra("wantFinishTiem", updateTime);
+//                startActivity(intent3);
+//                My_AcceptingmodificationActivity.this.finish();
+//                break;
         }
 
     }

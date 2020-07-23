@@ -20,9 +20,12 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.PendingAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.DeterminBean;
+import com.example.yuhekejioa.Bean.WantBean;
 import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
+import com.example.yuhekejioa.My_Initiated.ModificationinprogressActivity;
 import com.example.yuhekejioa.My_Initiated.ModifyActivity;
 import com.example.yuhekejioa.My_Initiated.MyExtensioninprogressActivity;
 import com.example.yuhekejioa.R;
@@ -52,7 +55,7 @@ public class ProcessingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;//附件展示
     private Button button_submit;//提交按钮
     private int id;
-    private List<DeterminBean.DataBean.SysFilesSponsorBean> list = new ArrayList<>();
+    private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList<>();
     private String taskNo;
     private Button button_view;
     private TextView report;
@@ -167,7 +170,7 @@ public class ProcessingActivity extends AppCompatActivity {
                             String name = jsonObject.getString("name");//文件名称
                             String fileSize = jsonObject.getString("fileSize");//文件大小
                             url = Constant.ip + jsonObject.getString("url");//文件url
-                            DeterminBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new DeterminBean.DataBean.SysFilesSponsorBean();
+                            WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setName(name);
                             sysFilesSponsorBean.setFileSize(fileSize);
                             sysFilesSponsorBean.setUrl(url);//添加文件url
@@ -189,7 +192,7 @@ public class ProcessingActivity extends AppCompatActivity {
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerView.addItemDecoration(new SpacesItemDecoration(space));
-                                PendingAdapter adapter = new PendingAdapter(ProcessingActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(ProcessingActivity.this, list);
                                 recyclerView.setAdapter(adapter);
 
                                 if (sysFilesSponsor.length() > 0) {
@@ -203,6 +206,7 @@ public class ProcessingActivity extends AppCompatActivity {
                                         initwangluo1(list.get(position));
                                     }
                                 });
+
                             }
                         });
                     } else if (code == 500) {
@@ -230,7 +234,7 @@ public class ProcessingActivity extends AppCompatActivity {
         });
     }
 
-    private void initwangluo1(DeterminBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+    private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
 
         if (loadingDialog == null) {
             loadingDialog = LoadingDialog.createLoadingDialog(ProcessingActivity.this, "正在加载中...");

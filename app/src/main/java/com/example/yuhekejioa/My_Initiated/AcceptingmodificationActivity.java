@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.WaitAdapter;
+import com.example.yuhekejioa.Adapter.Waitadapterx;
 import com.example.yuhekejioa.Bean.WantBean;
 import com.example.yuhekejioa.My_recrive.WaitingforacceptanceActivity;
 import com.example.yuhekejioa.R;
@@ -243,7 +244,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                                 recyclerview.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 recyclerview.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(AcceptingmodificationActivity.this, list);
+                                Waitadapterx adapter = new Waitadapterx(AcceptingmodificationActivity.this, list);
                                 recyclerview.setAdapter(adapter);
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override

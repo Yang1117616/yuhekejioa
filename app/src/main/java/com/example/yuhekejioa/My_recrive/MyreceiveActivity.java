@@ -136,7 +136,6 @@ public class MyreceiveActivity extends AppCompatActivity {
                         if (String.valueOf(pageNum).equals("1")) {
                             list.clear();
                         }
-
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject jsonObject = data.getJSONObject(i);
                             final String taskNo = jsonObject.getString("taskNo");//任务编号

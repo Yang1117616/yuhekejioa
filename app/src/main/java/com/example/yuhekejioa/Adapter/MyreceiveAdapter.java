@@ -181,25 +181,41 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
 //                            }
 //                            try {
 //                                int code = res.getInt("code");
-//                                final String msg = res.getString("msg");
 //                                if (code == 200) {
-//                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-//                                    MyreceiveAdapter.this.notifyDataSetChanged();
+//                                    new Thread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            MyreceiveAdapter.this.notifyDataSetChanged();
+//                                        }
+//                                    }).start();
+//
 //                                } else if (code == 500) {
-//                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                                    new Thread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//
+//                                        }
+//                                    }).start();
 //                                }
 //                            } catch (JSONException e) {
 //                                e.printStackTrace();
 //                            }
 //                        }
+//
 //                        @Override
 //                        public void onError(final String msg) {
 //                            super.onError(msg);
-//                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//
+//                                }
+//                            }).start();
+//
 //                        }
 //                    });
-                }
-            });
+             }
+          });
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

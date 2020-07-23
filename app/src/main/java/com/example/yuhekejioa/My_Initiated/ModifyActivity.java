@@ -85,22 +85,14 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView add_image; //上传文件文件按钮
     private Button button_submit;//提交按钮
     private RecyclerView nestedListView;//条目列表
-
     private List<Integer> list_int = new ArrayList<>();//选择部门传的部门id
     private int deptId;//部门id
-
-
     private String deptName;//选择的部门
-
-
     private List<String> list_string = new ArrayList<>();//选择接收人id
     private String nickName;//接收人名字
     private String userNo;//员工编号
-
     private TimePickerView pvTime;//时间类
-
     public static final int IMPORT_REQUEST_CODE = 10005;
-    private List<filebean> list_file = new ArrayList<>();
     private String fileSizeString = "0.00";//文件大小
     private String upLoadFileName;//文件名字
     private File file;
@@ -129,21 +121,21 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             ".wps", "application/vnd.ms-works", ".xml", "text/plain", ".z", "application/x-compress",
             ".zip", "application/x-zip-compressed", "", "*/*"
     };
-
-    private String file_path;
     private int taskId;
-
     private String url;
     private String receive;
     private int msgid;
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
-
+    private List<WantBean.DataBean.SysFilesSponsorBean> list1;
     private EditText edittitle;
     private String[] list_arr;
     private TextView start_time;
     private Dialog loadingDialog;
     private String extendType;
     private TextView prompt;
+    private WaitAdapter adapter;
+    private WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean;
+    private WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean1;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -160,12 +152,31 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         extendType = tokens.getString("extendType", "");
         initview();
         methodRequiresTwoPermission();
+        initwangluo();
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initwangluo();
+    //获取控件id
+    private void initview() {
+        back = findViewById(R.id.back);
+        sponsor_name = findViewById(R.id.sponsor_name);
+        choosedepartment_text = findViewById(R.id.choosedepartment_text);
+        receiver_text = findViewById(R.id.receiver_text);
+        enddate_text = findViewById(R.id.enddate_text);
+        editText = findViewById(R.id.editText);
+        add_image = findViewById(R.id.add_image);
+        button_submit = findViewById(R.id.button_submit);
+        nestedListView = findViewById(R.id.nestedlistView);
+        start_time = findViewById(R.id.start_time);
+        edittitle = findViewById(R.id.edit_title);
+        prompt = findViewById(R.id.prompt);
+        prompt.setText(extendType);
+
+        back.setOnClickListener(this);
+        button_submit.setOnClickListener(this);
+        choosedepartment_text.setOnClickListener(this);//接收部门
+        receiver_text.setOnClickListener(this);
+        enddate_text.setOnClickListener(this);//结束时间
     }
 
     private void initwangluo() {
@@ -198,7 +209,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                             String name = jsonObject.getString("name");//文件名字
                             String fileSize = jsonObject.getString("fileSize");
                             url = Constant.ip + jsonObject.getString("url");//文件url
-                            WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
+                            sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setName(name);
                             sysFilesSponsorBean.setFileSize(fileSize);
                             sysFilesSponsorBean.setUrl(ModifyActivity.this.url);//添加文件url
@@ -214,16 +225,17 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 choosedepartment_text.setText(receiveDept);
                                 edittitle.setText(tasktitle);//添加任务标题
                                 start_time.setText(createTime);//发起时间
+                                for (int i = 0; i < list.size(); i++) {
+                                    initwangluo2(list.get(i));
+                                }
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ModifyActivity.this);
                                 nestedListView.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 nestedListView.addItemDecoration(new SpacesItemDecoration(space));
-                                WaitAdapter adapter = new WaitAdapter(ModifyActivity.this, list);
+                                adapter = new WaitAdapter(ModifyActivity.this, list, strings);
                                 nestedListView.setAdapter(adapter);
-                                for (int i = 0; i < list.size(); i++) {
-                                    initwangluo2(list.get(i));
-                                }
+                                adapter.notifyDataSetChanged();
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {
@@ -258,6 +270,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    //一进来就先下载下文件来
     private void initwangluo2(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
         final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
         Log.e("TAG", "initwangluo1: " + absolutePath);
@@ -271,6 +284,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void run() {
                         strings.add(out.getPath());
+                        adapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -321,71 +335,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-
-    //获取控件id
-    private void initview() {
-        back = findViewById(R.id.back);
-        sponsor_name = findViewById(R.id.sponsor_name);
-        choosedepartment_text = findViewById(R.id.choosedepartment_text);
-        receiver_text = findViewById(R.id.receiver_text);
-        enddate_text = findViewById(R.id.enddate_text);
-        editText = findViewById(R.id.editText);
-        add_image = findViewById(R.id.add_image);
-        button_submit = findViewById(R.id.button_submit);
-        nestedListView = findViewById(R.id.nestedlistView);
-        start_time = findViewById(R.id.start_time);
-        edittitle = findViewById(R.id.edit_title);
-        prompt = findViewById(R.id.prompt);
-        prompt.setText(extendType);
-
-        back.setOnClickListener(this);
-        button_submit.setOnClickListener(this);
-        choosedepartment_text.setOnClickListener(this);//接收部门
-        receiver_text.setOnClickListener(this);
-        enddate_text.setOnClickListener(this);//结束时间
-    }
-
-    //进入系统管理器 选择文件上传
-    @AfterPermissionGranted(1)
-    private void methodRequiresTwoPermission() {
-        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(this, perms)) {//获取到权限
-            add_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("*/*");//可以传任意类型文件
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    startActivityForResult(intent, IMPORT_REQUEST_CODE);
-                }
-            });
-        } else {
-            EasyPermissions.requestPermissions(
-                    new PermissionRequest.Builder(this, 1, perms)
-                            .setRationale("若不允许获取权限，你将会上传不了文件")
-                            .setPositiveButtonText("确定")
-                            .setNegativeButtonText("取消")
-                            .setTheme(R.style.Dialog)
-                            .build());
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-        Log.e("TAG", "onRequestPermissionsResult: ");
-    }
-
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        Log.e("TAG", "onPermissionsGranted: ");
-    }
-
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {//拒绝
-        Log.e("TAG", "onPermissionsDenied: ");
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -521,6 +470,71 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+    }
+
+    //选择文件选择 然后进行上传
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMPORT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    path = getPath(this, uri);
+                    if (path != null) {
+                        //获取到的file文件
+                        file = new File(path);
+                        if (file.exists()) {
+                            //文件路径
+                            strings.add(file.getPath());
+                            //文件名字
+                            upLoadFileName = file.getName();
+                        }
+                        //把文件内存大小转换格式
+                        long fileS = 0;
+                        if (file.exists()) {
+                            FileInputStream fis = null;
+                            try {
+                                fis = new FileInputStream(file);
+                                fileS = fis.available();
+                                fis.close();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                file.createNewFile();
+                                Toast.makeText(this, "文件不存在", Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        DecimalFormat df = new DecimalFormat("#0.00");
+                        if (fileS < 1024) {
+                            fileSizeString = df.format((double) fileS) + "B";
+                        } else if (fileS < 1048576) {
+                            fileSizeString = df.format((double) fileS / 1024) + "K";
+                        } else if (fileS < 1073741824) {
+                            fileSizeString = df.format((double) fileS / 1048576) + "M";
+                        } else {
+                            fileSizeString = df.format((double) fileS / 1073741824) + "G";
+                        }
+                    }
+                }
+                sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
+                sysFilesSponsorBean.setName(upLoadFileName);
+                sysFilesSponsorBean.setFileSize(fileSizeString);
+                sysFilesSponsorBean.setUrl(Constant.ip + file.getPath());
+                list1 = new ArrayList<>();
+                list1.add(sysFilesSponsorBean);
+                list.addAll(list1);
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     //选择人
@@ -704,7 +718,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-
     //时间选择器
     private void initTimePicker() {
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
@@ -749,119 +762,46 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         return format.format(date);
     }
 
-    //选择文件选择 然后进行上传
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMPORT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    path = getPath(this, uri);
-                    if (path != null) {
-                        //获取到的file文件
-                        file = new File(path);
-                        if (file.exists()) {
-                            //文件路径
-                            strings.add(file.getPath());
-                            //文件名字
-                            upLoadFileName = file.getName();
-                        }
-                        //把文件内存大小转换格式
-                        long fileS = 0;
-                        if (file.exists()) {
-                            FileInputStream fis = null;
-                            try {
-                                fis = new FileInputStream(file);
-                                fileS = fis.available();
-                                fis.close();
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                file.createNewFile();
-                                Toast.makeText(this, "文件不存在", Toast.LENGTH_SHORT).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        DecimalFormat df = new DecimalFormat("#0.00");
-
-                        if (fileS < 1024) {
-                            fileSizeString = df.format((double) fileS) + "B";
-                        } else if (fileS < 1048576) {
-                            fileSizeString = df.format((double) fileS / 1024) + "K";
-                        } else if (fileS < 1073741824) {
-                            fileSizeString = df.format((double) fileS / 1048576) + "M";
-                        } else {
-                            fileSizeString = df.format((double) fileS / 1073741824) + "G";
-                        }
-                        initfile();
-                    }
+    //进入系统管理器 选择文件上传
+    @AfterPermissionGranted(1)
+    private void methodRequiresTwoPermission() {
+        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this, perms)) {//获取到权限
+            add_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    adapter.notifyDataSetChanged();
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("*/*");//可以传任意类型文件
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, IMPORT_REQUEST_CODE);
                 }
-            }
-            Log.e("导入失败", "");
+            });
+        } else {
+            EasyPermissions.requestPermissions(
+                    new PermissionRequest.Builder(this, 1, perms)
+                            .setRationale("若不允许获取权限，你将会上传不了文件")
+                            .setPositiveButtonText("确定")
+                            .setNegativeButtonText("取消")
+                            .setTheme(R.style.Dialog)
+                            .build());
         }
     }
 
-    //文件管理器
-    private void initfile() {
-        filebean filebean = new filebean();
-        filebean.setFilename(upLoadFileName);
-        filebean.setFileram(fileSizeString);
-        list_file.add(filebean);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        Log.e("TAG", "onRequestPermissionsResult: ");
+    }
 
-        //设置布局管理器
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ModifyActivity.this);
-        nestedListView.setLayoutManager(linearLayoutManager);
-        //recyclerview设置每个item之间的间距
-        int space = 6;
-        nestedListView.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.px2dp(space)));
-        FileAdapter fileAdapter = new FileAdapter(ModifyActivity.this, list_file, strings);
-        nestedListView.setAdapter(fileAdapter);
-        fileAdapter.notifyDataSetChanged();
-        //条目的点击事件 可以查看上传的本地文件
-        fileAdapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                //调用本地 办公软件来打开你选择的文件
-                for (int i = 0; i < strings.size(); i++) {
-                    //获取的文件路径
-                    file_path = strings.get(i);
-                }
-                Intent intent = new Intent();
-                //设置intent的Action属性
-                intent.setAction(Intent.ACTION_VIEW);
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Log.e("TAG", "onPermissionsGranted: ");
+    }
 
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                try {
-                    File out = new File(file_path);
-                    Uri fileURI;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        fileURI = FileProvider.getUriForFile(ModifyActivity.this,
-                                "com.example.yuhekejioa.provider",
-                                out);
-                    } else {
-                        fileURI = Uri.fromFile(out);
-                    }
-                    //设置intent的data和Type属性
-                    for (int i = 0; i < MIME_MapTable.length; i++) {
-                        intent.setDataAndType(fileURI, MIME_MapTable[i]);
-                    }
-                    //跳转
-                    startActivity(intent);
-                } catch (Exception e) { //当系统没有携带文件打开软件，提示
-                    Toast.makeText(ModifyActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        });
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {//拒绝
+        Log.e("TAG", "onPermissionsDenied: ");
     }
 
     //打开文件
@@ -942,7 +882,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         }
         return null;
     }
-
 
     public boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());

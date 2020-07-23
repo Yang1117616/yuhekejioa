@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yuhekejioa.Bean.WantBean;
+import com.example.yuhekejioa.My_Initiated.ModifyActivity;
 import com.example.yuhekejioa.My_Initiated.WaitActivity;
 import com.example.yuhekejioa.R;
 
@@ -19,11 +20,14 @@ import java.util.List;
 public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
     Context context;
     List<WantBean.DataBean.SysFilesSponsorBean> list;
+    List<String> strings;
     //私有属性
     private FileAdapter.OnItemClickListener onItemClickListener = null;
-    public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list) {
+
+    public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list, List<String> strings) {
         this.context = context;
         this.list = list;
+        this.strings=strings;
     }
 
     @NonNull
@@ -51,6 +55,7 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 list.remove(position);
+                strings.remove(position);
                 WaitAdapter.this.notifyDataSetChanged();
             }
         });

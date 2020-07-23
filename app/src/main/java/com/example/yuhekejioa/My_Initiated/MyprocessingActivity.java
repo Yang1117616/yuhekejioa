@@ -153,7 +153,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
         } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
             report.setVisibility(View.GONE);
-            button_submit.setVisibility(View.GONE);
+            button_view.setVisibility(View.GONE);
         }
         back.setOnClickListener(this);//返回按钮
         button_submit.setOnClickListener(this);
