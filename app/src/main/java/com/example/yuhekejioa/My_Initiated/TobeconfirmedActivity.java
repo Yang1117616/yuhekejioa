@@ -196,10 +196,12 @@ public class TobeconfirmedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TobeconfirmedActivity.this, TerminationActivity.class);
-                intent.putExtra("taskId", id);
+                intent.putExtra("taskId", taskId);
                 intent.putExtra("taskNo", taskNo);
                 intent.putExtra("statusStr", statusStr);
                 TobeconfirmedActivity.this.startActivity(intent);
+                TobeconfirmedActivity.this.finish();
+
             }
         });
     }
@@ -348,11 +350,19 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                                 "com.example.yuhekejioa.provider",
                                 out);
                         intent.setDataAndType(fileURI, map.get(substring));
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     } else {
                         fileURI = Uri.fromFile(out);
                         //设置intent的data和Type属性
                         for (int i = 0; i < MIME_MapTable.length; i++) {
                             intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
                         }
                     }
                     //跳转

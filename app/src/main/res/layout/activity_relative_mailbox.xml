@@ -90,15 +90,10 @@
             android:layout_marginRight="20dp"
             android:background="@null"
             android:cursorVisible="true"
-            android:digits="1234567890"
             android:hint="请输入新的邮箱"
-            android:inputType="phone"
-            android:maxLength="11"
             android:maxLines="1"
-            android:phoneNumber="true"
             android:textColor="#ff000000"
             android:textColorHint="#BBBBBB"
-            android:textCursorDrawable="@color/topbar_3"
             android:textSize="15sp"></EditText>
 
         <View

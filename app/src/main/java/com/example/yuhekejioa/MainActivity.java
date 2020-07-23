@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initEvent();
         methodRequiresTwoPermission();
     }
+
     //强制更新版本网络请求
     private void download() {
         String versionName = null;
@@ -397,18 +398,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String msg = res.getString("msg");
                     if (code == 200) {
                         JSONObject data = res.getJSONObject("data");
+                        //判断字符串是否为空
+                       // boolean updateBy = data.isNull("updateBy");
                         String phonenumber = data.getString("phonenumber");//手机号
                         String email = data.getString("email");//邮箱号
                         //员工姓名
                         nickName = data.getString("nickName");
                         //图片url
                         avatar = data.getString("avatar");
+                        String extendType = data.getString("extendType");
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 mailbox.setText(email);
                                 phone.setText(phonenumber);
                                 name.setText(nickName);
+                                edit.putString("extendType", extendType);
+                                edit.commit();
                                 RequestOptions options = new RequestOptions()
                                         .placeholder(R.drawable.avatarlogo)
                                         .fallback(R.drawable.avatarlogo)
@@ -418,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             }
                         });
-                    }else if(code==500){
+                    } else if (code == 500) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -561,7 +568,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 dialog_one(MainActivity.this, msg).show();
                             }
                         });
-                    } else if(code==500){
+                    } else if (code == 500) {
                         String msg = res.getString("msg");
                         runOnUiThread(new Runnable() {
                             @Override

@@ -89,6 +89,8 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+    private String statusStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -159,6 +161,7 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                         final String receiveNickName = data.getString("receiveNickName");//接收人
                         final String title = data.getString("title");
                         int isUrgent = data.getInt("isUrgent");
+                        statusStr = data.getString("statusStr");
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
@@ -262,11 +265,19 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                                 "com.example.yuhekejioa.provider",
                                 out);
                         intent.setDataAndType(fileURI, map.get(substring));
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     } else {
                         fileURI = Uri.fromFile(out);
                         //设置intent的data和Type属性
                         for (int i = 0; i < MIME_MapTable.length; i++) {
                             intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
                         }
                     }
                     //跳转
@@ -348,6 +359,7 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                 intent1.putExtra("taskNo", taskNo);
                 intent1.putExtra("taskId", taskId);
                 intent1.putExtra("inspected", inspected);
+                intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
                 ModificationpendingActivity.this.finish();
                 break;

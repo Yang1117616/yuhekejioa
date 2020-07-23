@@ -29,7 +29,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
     private EditText yuheedittext;
     private Button button_submit;
     private int taskId;
-    private int inspected;
+//    private int inspected;
     private String taskNo;
     private String statusStr;
 
@@ -42,7 +42,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_termination);
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);//任务id
-        inspected = intent.getIntExtra("inspected", 0);//任务状态
+//        inspected = intent.getIntExtra("inspected", 0);//任务状态
         taskNo = intent.getStringExtra("taskNo");//任务编号
         statusStr = intent.getStringExtra("statusStr");
         initview();
@@ -87,6 +87,9 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
         hashMap.put("stopReason", thereason);
 
         NetworkUtils.sendPost(Constant.ip + "/app/task/terminate", hashMap, this, new NetworkUtils.HttpCallback() {
+
+            private String msg;
+
             @Override
             public void onSuccess(JSONObject res) {
                 //如果res为空的话就不进行下面的操作
@@ -95,7 +98,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                 }
                 try {
                     int code = res.getInt("code");
-                    String msg = res.getString("msg");
+                    msg = res.getString("msg");
                     if (code == 200) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -114,6 +117,12 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(TerminationActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 

@@ -269,10 +269,11 @@
                 android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
 
             <LinearLayout
+                android:layout_marginBottom="15dp"
                 android:id="@+id/store_details_ll_close"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="50dp">
+                android:layout_marginTop="40dp">
 
                 <Button
                     android:id="@+id/button_chakan"

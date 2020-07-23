@@ -123,13 +123,13 @@
 
 
             <TextView
-                android:text="否"
                 android:id="@+id/text_expedited"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@id/imageview_right6"
+                android:text="否"
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
         </RelativeLayout>
@@ -392,6 +392,26 @@
                 android:textColor="#ff000000"
                 android:textSize="15sp"></TextView>
 
+            <TextView
+                android:id="@+id/text_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/updatingfiles"
+                android:layout_marginLeft="11.66dp"
+                android:text="上传类型只能是"
+                android:textColor="@color/pickerview_wheelview_textcolor_out"
+                android:textSize="14sp"></TextView>
+
+            <TextView
+                android:id="@+id/prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/updatingfiles"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/text_prompt"
+                android:textColor="@color/store_item_residue"
+                android:textSize="14sp"></TextView>
+
             <ImageView
                 android:id="@+id/add_image"
                 android:layout_width="16dp"
@@ -410,9 +430,9 @@
 
                 android:id="@+id/nestedlistView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/updatingfiles"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:scrollbarSize="5dp"
                 android:scrollbarThumbVertical="@color/theme_gray"
                 android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
@@ -425,11 +445,13 @@
             android:layout_marginTop="5dp"
             android:background="#EDEAEA"></View>
 
+
         <RelativeLayout
             android:id="@+id/store_details_ll_close"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp">
 
             <Button
                 android:id="@+id/button_submit"

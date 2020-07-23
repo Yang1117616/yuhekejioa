@@ -152,9 +152,7 @@ public class WaitingforacceptanceActivity extends AppCompatActivity implements V
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         final String result = data.getString("result");//任务成果
                         String title = data.getString("title");//任务标题
-                        int isUrgent = data.getInt("isUrgent");
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
-
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
@@ -265,11 +263,19 @@ public class WaitingforacceptanceActivity extends AppCompatActivity implements V
                                 "com.example.yuhekejioa.provider",
                                 out);
                         intent.setDataAndType(fileURI, map.get(substring));
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     } else {
                         fileURI = Uri.fromFile(out);
                         //设置intent的data和Type属性
                         for (int i = 0; i < MIME_MapTable.length; i++) {
                             intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
                         }
                     }
                     //跳转

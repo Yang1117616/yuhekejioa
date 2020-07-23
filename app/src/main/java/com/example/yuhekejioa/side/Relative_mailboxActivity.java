@@ -66,10 +66,10 @@ public class Relative_mailboxActivity extends AppCompatActivity implements View.
             return;
         }
         //判断邮箱格式
-        if (!isMatcherFinded("/^[0-9A-Za-z][\\.-_0-9A-Za-z]*@[0-9A-Za-z]+(\\.[0-9A-Za-z]+)+$/",s)) {
-            Toast.makeText(this, "请输入正确格式的邮箱", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!isMatcherFinded("^([a-z0-9A-Z]+[-|_|\\\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\\\.)+[a-zA-Z]{2,}$",s)) {
+//            Toast.makeText(this, "请输入正确格式的邮箱", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("newEmail", s);
         NetworkUtils.sendPost(Constant.ip + "/app/user/updateEmail", hashMap, Relative_mailboxActivity.this, new NetworkUtils.HttpCallback() {

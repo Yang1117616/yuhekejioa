@@ -129,7 +129,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, ProcessingActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("canDelay", canDelay);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -155,7 +155,6 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
 
             holder.termination.setVisibility(View.GONE);
             holder.button_examine.setVisibility(View.GONE);
-
             //判断是否是加急任务单
             if (isUrgent == 0) {
                 holder.image_expedited.setVisibility(View.GONE);
@@ -170,6 +169,35 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     intent.putExtra("confirmType", 1);
                     intent.putExtra("id", id);
                     context.startActivity(intent);
+//                    HashMap<String, String> hashMap1 = new HashMap<>();
+//                    hashMap1.put("taskId", String.valueOf(id));
+//                    hashMap1.put("taskNo", taskNo);
+//                    hashMap1.put("confirmType", String.valueOf(1));
+//                    NetworkUtils.sendPost(Constant.ip + "/app/taskReceive/confirm", hashMap1, context, new NetworkUtils.HttpCallback() {
+//                        @Override
+//                        public void onSuccess(JSONObject res) {
+//                            if (res == null || this == null) {
+//                                return;
+//                            }
+//                            try {
+//                                int code = res.getInt("code");
+//                                final String msg = res.getString("msg");
+//                                if (code == 200) {
+//                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                                    MyreceiveAdapter.this.notifyDataSetChanged();
+//                                } else if (code == 500) {
+//                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        @Override
+//                        public void onError(final String msg) {
+//                            super.onError(msg);
+//                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +207,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, DeterminedActivity.class);
                     intent.putExtra("confirmType", 1);
                     intent.putExtra("id", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -214,7 +242,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     //跳转到等待验收
                     Intent intent = new Intent(context, WaitingforacceptanceActivity.class);
                     intent.putExtra("taskId", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -248,7 +276,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     //跳转到我接收的--已完成界面
                     Intent intent = new Intent(context, CompletedActivity.class);
                     intent.putExtra("taskId", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -409,7 +437,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, XiugaiprocessingActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("canDelay", canDelay);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -443,7 +471,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, XiugaipendingActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("confirmType", 2);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -550,7 +578,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                     Intent intent = new Intent(context, My_AcceptingmodificationActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("canDelay", canDelay);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -570,7 +598,7 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                 public void onClick(View view) {
                     Intent intent = new Intent(context, My_NotreceivedActivity.class);
                     intent.putExtra("taskId", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });

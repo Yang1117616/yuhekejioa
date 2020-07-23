@@ -71,7 +71,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="1dp"
                 android:background="#EDEAEA"></View>
 
             <RelativeLayout
@@ -159,7 +159,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
-                    android:clickable="true"
                     android:textColor="#ff000000"
                     android:textSize="15sp"></TextView>
             </RelativeLayout>
@@ -183,23 +182,14 @@
                     android:textColor="#ff000000"
                     android:textSize="15sp"></TextView>
 
-                <ImageView
-                    android:id="@+id/imageview_right2"
-                    android:layout_width="6dp"
-                    android:layout_height="11dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:src="@drawable/right"></ImageView>
 
                 <TextView
                     android:id="@+id/enddate_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@id/imageview_right2"
-
+                    android:layout_marginRight="20dp"
                     android:textColor="#ff000000"
                     android:textSize="15sp"></TextView>
             </RelativeLayout>
@@ -299,6 +289,26 @@
                     android:textColor="#ff000000"
                     android:textSize="15sp"></TextView>
 
+                <TextView
+                    android:id="@+id/text_prompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/updatingfiles"
+                    android:layout_marginLeft="11.66dp"
+                    android:text="上传类型只能是"
+                    android:textColor="@color/pickerview_wheelview_textcolor_out"
+                    android:textSize="14sp"></TextView>
+
+                <TextView
+                    android:id="@+id/prompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/updatingfiles"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/text_prompt"
+                    android:textColor="@color/store_item_residue"
+                    android:textSize="14sp"></TextView>
+
                 <ImageView
                     android:id="@+id/add_image"
                     android:layout_width="16dp"
@@ -311,9 +321,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/nestedlistView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/updatingfiles"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:scrollbarSize="5dp"
                     android:scrollbarThumbVertical="@color/theme_gray"
 
@@ -331,7 +341,8 @@
                 android:id="@+id/store_details_ll_close"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp">
 
                 <Button
                     android:id="@+id/button_submit"

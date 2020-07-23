@@ -533,7 +533,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                     context.startActivity(intent);
                 }
             });
-            //跳转到我发起的--------修改待确认页面
+            //跳转到我发起的--------验收修改中
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -266,11 +266,19 @@ public class DeterminedActivity extends AppCompatActivity {
                                 "com.example.yuhekejioa.provider",
                                 out);
                         intent.setDataAndType(fileURI, map.get(substring));
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     } else {
                         fileURI = Uri.fromFile(out);
                         //设置intent的data和Type属性
                         for (int i = 0; i < MIME_MapTable.length; i++) {
                             intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
                         }
                     }
                     //跳转

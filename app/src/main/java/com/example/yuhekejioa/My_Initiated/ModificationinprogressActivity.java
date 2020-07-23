@@ -276,11 +276,19 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                                 "com.example.yuhekejioa.provider",
                                 out);
                         intent.setDataAndType(fileURI, map.get(substring));
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     } else {
                         fileURI = Uri.fromFile(out);
                         //设置intent的data和Type属性
                         for (int i = 0; i < MIME_MapTable.length; i++) {
                             intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
                         }
                     }
                     //跳转
@@ -365,7 +373,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
 //                ModificationinprogressActivity.this.finish();
 //                break;
             case R.id.button_submit://跳转到终止页面
-                Intent intent3 = new Intent(ModificationinprogressActivity.this, CarryoutActivity.class);
+                Intent intent3 = new Intent(ModificationinprogressActivity.this, TerminationActivity.class);
                 intent3.putExtra("taskNo", taskNo);
                 intent3.putExtra("taskId", taskId);
                 intent3.putExtra("inspected", inspected);

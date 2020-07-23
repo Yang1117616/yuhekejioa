@@ -73,6 +73,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, CompletedActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -84,6 +85,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, MyprocessingActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -117,6 +119,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, WaitActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -165,6 +168,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, ModificationinprogressActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -190,6 +194,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     intent.putExtra("taskId", id);
                     intent.putExtra("id", taskId);
                     intent.putExtra("confirmType", 2);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -214,6 +219,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, My_AcceptingmodificationActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
+                    intent.putExtra("isUrgent",isUrgent);
                     context.startActivity(intent);
                 }
             });

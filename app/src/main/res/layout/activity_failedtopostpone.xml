@@ -334,6 +334,7 @@
 
 
         <LinearLayout
+            android:layout_marginBottom="15dp"
             android:id="@+id/store_details_ll_close"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -355,7 +356,7 @@
                 android:id="@+id/button_submit"
                 android:layout_width="151dp"
                 android:layout_height="43dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_backgroud"
                 android:text="完成"

@@ -59,7 +59,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
     private int id;
-    private TextView postponementresult;
+
 
     private String url;
     private TextView edit_title;
@@ -188,7 +188,6 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                                 editText.setText(taskDescribe);
                                 extensiontime.setText(newTime);//延期时间
                                 edit_title.setText(title);//任务标题
-                                postponementresult.setText(delayReason);//延期原因
                                 if (sysFilesSponsor.length() > 0) {
                                     text_nofile.setVisibility(View.GONE);
                                 } else {
@@ -274,11 +273,19 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                                 "com.example.yuhekejioa.provider",
                                 out);
                         intent.setDataAndType(fileURI, map.get(substring));
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     } else {
                         fileURI = Uri.fromFile(out);
                         //设置intent的data和Type属性
                         for (int i = 0; i < MIME_MapTable.length; i++) {
                             intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
                         }
                     }
                     //跳转
@@ -330,7 +337,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
         report = findViewById(R.id.report);//汇报
         extensiontime = findViewById(R.id.extensiontime);//申请延期时间
         edit_title = findViewById(R.id.edit_title);
-        postponementresult = findViewById(R.id.postponementresult);//延期结果
+
         text_nofile = findViewById(R.id.text_nofile);
         back.setOnClickListener(this);
         report.setOnClickListener(this);

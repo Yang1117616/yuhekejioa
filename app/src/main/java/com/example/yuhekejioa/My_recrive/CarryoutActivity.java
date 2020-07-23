@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -74,6 +75,8 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
     private List<String> strings = new ArrayList<>();
     private int id;
     private Dialog loadingDialog;
+    private TextView prompt;
+    private String extendType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,8 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         taskNo = intent.getStringExtra("taskNo");
         id = intent.getIntExtra("id", 0);
+        SharedPreferences tokens = getSharedPreferences("tokens", MODE_PRIVATE);
+        extendType = tokens.getString("extendType", "");
         intiview();
     }
 
@@ -99,7 +104,8 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
         back = findViewById(R.id.back);
         //添加任务单编号
         taskNos.setText(taskNo);
-
+        prompt = findViewById(R.id.prompt);
+        prompt.setText(extendType);
         back.setOnClickListener(this);
         add_image.setOnClickListener(this);
         button_submit.setOnClickListener(this);
@@ -126,32 +132,32 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
     //提交任务
     private void initsubmit() {
 
-           /*
-        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
-         */
-        //获取上传文件的后缀名
-        for (int i = 0; i < list_file.size(); i++) {
-            String filename = list_file.get(i).getFilename();
-            //获取上传文件的后缀名
-            String substring = filename.substring(filename.lastIndexOf(".") + 1);
-            if (substring.equals("doc")) {
-            } else if (substring.equals("docx")) {
-            } else if (substring.equals("xls")) {
-            } else if (substring.equals("xlsx")) {
-            } else if (substring.equals("ppt")) {
-            } else if (substring.equals("pptx")) {
-            } else if (substring.equals("txt")) {
-            } else if (substring.equals("xmind")) {
-            } else if (substring.equals("rar")) {
-            } else if (substring.equals("zip")) {
-            } else if (substring.equals("gz")) {
-            } else if (substring.equals("bz2")) {
-            } else if (substring.equals("pdf")) {
-            } else {
-                Toast.makeText(this, "只能上传规定类型文件", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
+//           /*
+//        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
+//         */
+//        //获取上传文件的后缀名
+//        for (int i = 0; i < list_file.size(); i++) {
+//            String filename = list_file.get(i).getFilename();
+//            //获取上传文件的后缀名
+//            String substring = filename.substring(filename.lastIndexOf(".") + 1);
+//            if (substring.equals("doc")) {
+//            } else if (substring.equals("docx")) {
+//            } else if (substring.equals("xls")) {
+//            } else if (substring.equals("xlsx")) {
+//            } else if (substring.equals("ppt")) {
+//            } else if (substring.equals("pptx")) {
+//            } else if (substring.equals("txt")) {
+//            } else if (substring.equals("xmind")) {
+//            } else if (substring.equals("rar")) {
+//            } else if (substring.equals("zip")) {
+//            } else if (substring.equals("gz")) {
+//            } else if (substring.equals("bz2")) {
+//            } else if (substring.equals("pdf")) {
+//            } else {
+//                Toast.makeText(this, "只能上传规定类型文件", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//        }
         String bianhao = taskNos.getText().toString();
         String trim = editText.getText().toString().trim();
         if (TextUtils.isEmpty(trim)) {
@@ -304,7 +310,7 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CarryoutActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         //创建适配器
-        FileAdapter fileAdapter = new FileAdapter(this, list_file,strings);
+        FileAdapter fileAdapter = new FileAdapter(this, list_file, strings);
         recyclerView.setAdapter(fileAdapter);
     }
 
@@ -327,13 +333,13 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
             // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
-                final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-                return getDataColumn(context, contentUri, null, null);
-            }
+//            else if (isDownloadsDocument(uri)) {
+//                final String id = DocumentsContract.getDocumentId(uri);
+//                final Uri contentUri = ContentUris.withAppendedId(
+//                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+//
+//                return getDataColumn(context, contentUri, null, null);
+//            }
             // MediaProvider
             else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);

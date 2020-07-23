@@ -13,6 +13,7 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -153,6 +154,8 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+    private TextView prompt;
+    private String extendType;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -163,6 +166,9 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_initiate);
         Intent intent = getIntent();
         username = intent.getStringExtra("nickName");//员工名称
+        SharedPreferences tokens = getSharedPreferences("tokens", MODE_PRIVATE);
+        extendType = tokens.getString("extendType", "");
+
         initView();
         methodRequiresTwoPermission();
     }
@@ -196,7 +202,6 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                                 if (role == 1) {
                                     typeofdelivery.setText("个人");
                                 } else if (role == 2) {
-
                                     typeofdelivery.setText("个人");
                                 } else if (role == 3) {
                                     relative_typeofdelivery.setVisibility(View.GONE);
@@ -232,6 +237,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("*/*");//可以传任意类型文件
+                    // intent.setType("application/x-zip-compressed");//可以传任意类型文件
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     //设置类型，我这里是任意类型，可以过滤文件类型
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -277,6 +283,8 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         nestedListView = findViewById(R.id.nestedlistView);
         edittitle = findViewById(R.id.edit_title);
         sponsor_name.setText(username);//获取用户名
+        prompt=findViewById(R.id.prompt);
+        prompt.setText(extendType);
         //获取系统当前时间
         long currentTime = System.currentTimeMillis();
         String timeNow = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(currentTime);
@@ -442,32 +450,6 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
     //发起任务单
     private void initsubmit() {
         button_submit.setClickable(false);
-        /*
-        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
-         */
-        //获取上传文件的后缀名
-        for (int i = 0; i < list_file.size(); i++) {
-            String filename = list_file.get(i).getFilename();
-            //获取上传文件的后缀名
-            String substring = filename.substring(filename.lastIndexOf(".") + 1);
-            if (substring.equals("doc")) {
-            } else if (substring.equals("docx")) {
-            } else if (substring.equals("xls")) {
-            } else if (substring.equals("xlsx")) {
-            } else if (substring.equals("ppt")) {
-            } else if (substring.equals("pptx")) {
-            } else if (substring.equals("txt")) {
-            } else if (substring.equals("xmind")) {
-            } else if (substring.equals("rar")) {
-            } else if (substring.equals("zip")) {
-            } else if (substring.equals("gz")) {
-            } else if (substring.equals("bz2")) {
-            } else if (substring.equals("pdf")) {
-            } else {
-                Toast.makeText(this, "只能上传规定类型文件", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
         //请选择时间
         String enddate = enddate_text.getText().toString();
         if (enddate.equals("请选择")) {
@@ -564,10 +546,8 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         });
-
     }
 
     //选择文件选择 然后进行上传
@@ -689,7 +669,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         //recyclerview设置每个item之间的间距
         int space = 6;
         nestedListView.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.px2dp(space)));
-        FileAdapter fileAdapter = new FileAdapter(InitiateActivity.this, list_file,strings);
+        FileAdapter fileAdapter = new FileAdapter(InitiateActivity.this, list_file, strings);
         nestedListView.setAdapter(fileAdapter);
         //条目的点击事件 可以查看上传的本地文件
         fileAdapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
@@ -716,6 +696,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                     for (int i = 0; i < MIME_MapTable.length; i++) {
                         intent.setDataAndType(fileURI, MIME_MapTable[i]);
                     }
+
                     startActivity(intent);
                 } catch (Exception e) { //当系统没有携带文件打开软件，提示
 
@@ -750,13 +731,13 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
             // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
-                final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-                return getDataColumn(context, contentUri, null, null);
-            }
+//            else if (isDownloadsDocument(uri)) {
+//                final String id = DocumentsContract.getDocumentId(uri);
+//                Log.e("TAG", "getPath: "+id+"--------"+uri);
+//                final Uri contentUri = ContentUris.withAppendedId(
+//                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id.replace("msf:","").trim()));
+//                return getDataColumn(context, contentUri, null, null);
+//            }
             // MediaProvider
             else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
@@ -873,186 +854,4 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return format.format(date);
     }
-
-    //接收人
-//    private void showdialog() {
-//        //网络请求
-//        HashMap<String, String> map = new HashMap<>();
-//        map.put("deptId", String.valueOf(deptId));
-//        NetworkUtils.sendPost(Constant.ip + "/app/task/getReceiveUser", map, this, new NetworkUtils.HttpCallback() {
-//            @Override
-//            public void onSuccess(JSONObject res) {
-//                if (res == null || this == null) {
-//                    return;
-//                }
-//                try {
-//                    int code = res.getInt("code");
-//                    if (code == 200) {
-//                        JSONArray data = res.getJSONArray("data");
-//                        list_string.clear();
-//                        String[] arr1 = new String[data.length()];
-//                        for (int i = 0; i < data.length(); i++) {
-//                            JSONObject jsonObject = data.getJSONObject(i);
-//                            nickName = jsonObject.getString("nickName");
-//                            list_string.add(jsonObject.getString("userNo"));
-//                            arr1[i] = jsonObject.getString("nickName");
-//                        }
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                final Bundle bundle = new Bundle();
-//                                bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
-//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
-//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
-//                                bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
-//                                bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
-//                                bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
-//                                bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, arr1);
-//                                WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
-//                                dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
-//                                    @Override
-//                                    public void onClickLeft(WheelDialogFragment dialog, String value) {
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onClickRight(WheelDialogFragment dialog, int value) {
-//                                        userNo = list_string.get(value);
-//                                        String s = arr1[value];
-//                                        receiver_text.setText(s);
-//                                        receiver_text.setTextColor(Color.parseColor("#ff000000"));
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onValueChanged(WheelDialogFragment dialog, String value) {
-//                                    }
-//                                });
-//                                dialogFragment.show(getSupportFragmentManager(), "");
-//
-//                            }
-//                        });
-//                    } else {
-//                        String msg = res.getString("msg");
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(final String msg) {
-//                super.onError(msg);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
-//
-//
-//    }
-    //接收部门
-//    private void showdialog1() {
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        NetworkUtils.sendGet(Constant.ip + "/app/task/add", hashMap, InitiateActivity.this, new NetworkUtils.HttpCallback() {
-//            @Override
-//            public void onSuccess(final JSONObject res) {
-//                //如果res为空的话就不进行下面的操作
-//                if (res == null || this == null) {
-//                    return;
-//                }
-//                try {
-//                    int code = res.getInt("code");
-//                    if (code == 200) {
-//                        list_int.clear();
-//                        //接口中获取的实体类
-//                        final JSONObject data = res.getJSONObject("data");
-//                        //实体类中的集合
-//                        deptList = data.getJSONArray("deptList");
-//                        //循环遍历集合
-//                        String[] list_arr = new String[deptList.length()];
-//                        for (int i = 0; i < deptList.length(); i++) {
-//                            //获取集合中的实体类
-//                            JSONObject jsonObject = deptList.getJSONObject(i);
-//                            //获取想要的数据
-//                            //deptId = jsonObject.getInt("deptId");
-//                            list_int.add(jsonObject.getInt("deptId"));
-//                            deptName = jsonObject.getString("deptName");
-//                            list_arr[i] = deptName;
-//
-//                        }
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//
-//                                final Bundle bundle = new Bundle();
-//                                bundle.putBoolean(WheelDialogFragment.DIALOG_BACK, false);
-//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE, false);
-//                                bundle.putBoolean(WheelDialogFragment.DIALOG_CANCELABLE_TOUCH_OUT_SIDE, false);
-//                                bundle.putString(WheelDialogFragment.DIALOG_LEFT, "取消");
-//                                bundle.putString(WheelDialogFragment.DIALOG_RIGHT, "确定");
-//                                bundle.putString(WheelDialogFragment.DIALOG_TITLE, "请选择");
-//                                bundle.putStringArray(WheelDialogFragment.DIALOG_WHEEL, list_arr);
-//                                WheelDialogFragment dialogFragment = WheelDialogFragment.newInstance(WheelDialogFragment.class, bundle);
-//                                dialogFragment.setWheelDialogListener(new WheelDialogFragment.OnWheelDialogListener() {
-//                                    @Override
-//                                    public void onClickLeft(WheelDialogFragment dialog, String value) {
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onClickRight(WheelDialogFragment dialog, int value) {
-//                                        deptId = list_int.get(value);
-//                                        String s = list_arr[value];
-//
-//                                        choosedepartment_text.setText(s);
-//                                        choosedepartment_text.setTextColor(Color.parseColor("#ff000000"));
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onValueChanged(WheelDialogFragment dialog, String value) {
-//                                    }
-//                                });
-//                                dialogFragment.show(getSupportFragmentManager(), "");
-//                            }
-//                        });
-//                    } else {
-//
-//                        final String msg = (String) res.get("msg");
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(final String msg) {
-//                super.onError(msg);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(InitiateActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
-//    }
-
 }

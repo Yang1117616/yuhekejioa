@@ -8,8 +8,8 @@ android {
         applicationId "com.example.yuhekejioa"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 11
-        versionName "1.1"
+        versionCode 121
+        versionName "1.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 JPUSH_APPKEY : "0a32c661990f200e8199b67d",

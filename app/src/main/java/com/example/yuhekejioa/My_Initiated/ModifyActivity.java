@@ -13,6 +13,7 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -66,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -140,7 +142,8 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private String[] list_arr;
     private TextView start_time;
     private Dialog loadingDialog;
-    private String file_path1;
+    private String extendType;
+    private TextView prompt;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -153,8 +156,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
         msgid = intent.getIntExtra("id", 0);
+        SharedPreferences tokens = getSharedPreferences("tokens", MODE_PRIVATE);
+        extendType = tokens.getString("extendType", "");
         initview();
-
         methodRequiresTwoPermission();
     }
 
@@ -162,21 +166,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     protected void onStart() {
         super.onStart();
         initwangluo();
-        for (int i = 0; i < list.size(); i++) {
-            initwangluo2(list.get(i));
-        }
-    }
-
-    private void initwangluo2(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
-        final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
-        //下载文件
-        NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
-            @Override
-            public void onSuccess(String res) {
-                File file_url = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
-                Log.e("TAG", "onSuccess:22222"+file_url.getPath());
-            }
-        });
     }
 
     private void initwangluo() {
@@ -232,6 +221,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 nestedListView.addItemDecoration(new SpacesItemDecoration(space));
                                 WaitAdapter adapter = new WaitAdapter(ModifyActivity.this, list);
                                 nestedListView.setAdapter(adapter);
+                                for (int i = 0; i < list.size(); i++) {
+                                    initwangluo2(list.get(i));
+                                }
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {
@@ -266,6 +258,24 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    private void initwangluo2(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+        final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
+        Log.e("TAG", "initwangluo1: " + absolutePath);
+        //下载文件
+        NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
+            @Override
+            public void onSuccess(String res) {
+
+                File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        strings.add(out.getPath());
+                    }
+                });
+            }
+        });
+    }
 
     //文件下载
     private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
@@ -312,7 +322,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-
     //获取控件id
     private void initview() {
         back = findViewById(R.id.back);
@@ -326,6 +335,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         nestedListView = findViewById(R.id.nestedlistView);
         start_time = findViewById(R.id.start_time);
         edittitle = findViewById(R.id.edit_title);
+        prompt = findViewById(R.id.prompt);
+        prompt.setText(extendType);
+
         back.setOnClickListener(this);
         button_submit.setOnClickListener(this);
         choosedepartment_text.setOnClickListener(this);//接收部门
@@ -406,31 +418,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
 
     //提交方法
     private void initsubmit() {
-        /*
-        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
-         */
-        //获取上传文件的后缀名
-        for (int i = 0; i < list_file.size(); i++) {
-            String filename = list_file.get(i).getFilename();
-            String substring = filename.substring(filename.lastIndexOf(".") + 1);
-            if (substring.equals("doc")) {
-            } else if (substring.equals("docx")) {
-            } else if (substring.equals("xls")) {
-            } else if (substring.equals("xlsx")) {
-            } else if (substring.equals("ppt")) {
-            } else if (substring.equals("pptx")) {
-            } else if (substring.equals("txt")) {
-            } else if (substring.equals("xmind")) {
-            } else if (substring.equals("rar")) {
-            } else if (substring.equals("zip")) {
-            } else if (substring.equals("gz")) {
-            } else if (substring.equals("bz2")) {
-            } else if (substring.equals("pdf")) {
-            } else {
-                Toast.makeText(this, "只能上传规定类型文件", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
         //接收部门
         String choosed = choosedepartment_text.getText().toString();
         if (choosed.equals("请选择")) {
@@ -541,7 +528,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         //网络请求
         HashMap<String, String> map = new HashMap<>();
         map.put("deptId", String.valueOf(deptId));
-
         NetworkUtils.sendPost(Constant.ip + "/app/task/getReceiveUser", map, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -690,7 +676,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                             }
                         });
                     } else {
-
                         final String msg = (String) res.get("msg");
                         runOnUiThread(new Runnable() {
                             @Override
@@ -749,7 +734,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             params.leftMargin = 0;
             params.rightMargin = 0;
             pvTime.getDialogContainerLayout().setLayoutParams(params);
-            mDialog.setTitle("重新修改时间");
             Window dialogWindow = mDialog.getWindow();
             if (dialogWindow != null) {
                 dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式
@@ -781,7 +765,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                         if (file.exists()) {
                             //文件路径
                             strings.add(file.getPath());
-                            Log.e("TAG", "onActivityResult: " + file.getPath());
                             //文件名字
                             upLoadFileName = file.getName();
                         }
@@ -839,8 +822,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         //recyclerview设置每个item之间的间距
         int space = 6;
         nestedListView.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.px2dp(space)));
-        FileAdapter fileAdapter = new FileAdapter(ModifyActivity.this, list_file,strings);
+        FileAdapter fileAdapter = new FileAdapter(ModifyActivity.this, list_file, strings);
         nestedListView.setAdapter(fileAdapter);
+        fileAdapter.notifyDataSetChanged();
         //条目的点击事件 可以查看上传的本地文件
         fileAdapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
             @Override
@@ -876,8 +860,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(ModifyActivity.this, "无法打开该格式文件", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
-
-
             }
         });
     }
@@ -901,13 +883,13 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
             // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
-                final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-                return getDataColumn(context, contentUri, null, null);
-            }
+//            else if (isDownloadsDocument(uri)) {
+//                final String id = DocumentsContract.getDocumentId(uri);
+//                final Uri contentUri = ContentUris.withAppendedId(
+//                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+//
+//                return getDataColumn(context, contentUri, null, null);
+//            }
             // MediaProvider
             else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);

@@ -230,7 +230,8 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                                 editText1.setText(result);
                                 edit_title.setText(title);//添加任务标题
                                 yuheedittext.setText(inspectedState);//添加补充说明
-                                enddate_text.setText(inspectedUpdateTime);//重新修改时间
+                                reedit_time.setText(inspectedUpdateTime);//重新修改时间
+
                                 if (sysFilesSponsor.length() > 0) {
                                     text_nofile.setVisibility(View.GONE);
                                 } else {
@@ -315,11 +316,19 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                                 "com.example.yuhekejioa.provider",
                                 out);
                         intent.setDataAndType(fileURI, map.get(substring));
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                     } else {
                         fileURI = Uri.fromFile(out);
                         //设置intent的data和Type属性
                         for (int i = 0; i < MIME_MapTable.length; i++) {
                             intent.setDataAndType(fileURI, MIME_MapTable[i]);
+                        }
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
                         }
                     }
                     //跳转
