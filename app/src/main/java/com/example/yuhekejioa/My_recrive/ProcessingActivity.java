@@ -94,6 +94,7 @@ public class ProcessingActivity extends AppCompatActivity {
             "", "*/*"
     };
     private int isUrgent;
+    private int isFixed;
 
     @Override
 
@@ -108,6 +109,7 @@ public class ProcessingActivity extends AppCompatActivity {
         id = intent.getIntExtra("id", 0);
         canDelay = intent.getIntExtra("canDelay", 0);
         isUrgent = intent.getIntExtra("isUrgent", 0);
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initdata();
         map = new HashMap<>();
@@ -134,7 +136,8 @@ public class ProcessingActivity extends AppCompatActivity {
         map.put(".zip", "application/x-zip-compressed");
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
-        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text", "text/plain");
 
     }
 
@@ -337,13 +340,18 @@ public class ProcessingActivity extends AppCompatActivity {
             linear_time.setVisibility(View.VISIBLE);
         }
         //加急图片显示隐藏
-        if(isUrgent==0){
+        if (isUrgent == 0) {
             image_hurried.setVisibility(View.GONE);
-        }else if(isUrgent==1){
+        } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
             linear_time.setVisibility(View.GONE);
         }
-
+        //是否是加固任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 1) {
+            image_hurried.setVisibility(View.VISIBLE);
+            linear_time.setVisibility(View.GONE);
+        }
         linear_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

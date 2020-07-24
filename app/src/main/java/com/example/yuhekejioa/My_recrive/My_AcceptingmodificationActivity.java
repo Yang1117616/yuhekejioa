@@ -63,7 +63,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
     private TextView edit_title;
 
 
-   // private LinearLayout applyforanextensionLayout;
+    // private LinearLayout applyforanextensionLayout;
     private TextView report;//汇报
     private int canDelay;
     private TextView yuheedittext;
@@ -98,7 +98,8 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
-    private int isUrgent;
+//    private int isUrgent;
+//    private int isFixed;
 
     @Override
 
@@ -112,7 +113,8 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         taskId = intent.getIntExtra("taskId", 0);
         canDelay = intent.getIntExtra("canDelay", 0);
         id = intent.getIntExtra("id", 0);
-        isUrgent = intent.getIntExtra("isUrgent", 0);
+//        isUrgent = intent.getIntExtra("isUrgent", 0);
+//        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initdata();
         map = new HashMap<>();
@@ -139,7 +141,8 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         map.put(".zip", "application/x-zip-compressed");
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
-        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text", "text/plain");
     }
 
     private void initdata() {
@@ -277,7 +280,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
         edit_title = findViewById(R.id.edit_title);
         reedit_time = findViewById(R.id.reedit_time);
         report = findViewById(R.id.report);//汇报按钮
-      //  applyforanextensionLayout = findViewById(R.id.applyforanextensionLayout);//延期布局
+        //  applyforanextensionLayout = findViewById(R.id.applyforanextensionLayout);//延期布局
         button_submit = findViewById(R.id.button_submit);
 
 //        if (canDelay == 0) {
@@ -285,16 +288,24 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
 //        } else if (canDelay == 1) {
 //            applyforanextensionLayout.setVisibility(View.VISIBLE);
 //        }
-        if (isUrgent == 0) {
-            image_hurried.setVisibility(View.GONE);
-        } else if (isUrgent == 1) {
-            image_hurried.setVisibility(View.VISIBLE);
-        }
+        //判断是否是加急任务单
+//        if (isUrgent == 0) {
+//            image_hurried.setVisibility(View.GONE);
+//        } else if (isUrgent == 1) {
+//            image_hurried.setVisibility(View.VISIBLE);
+//        }
+//        //判断是否是固定任务单
+//        if (isFixed == 0) {
+//        } else if (isFixed == 1) {
+//            button_view.setVisibility(View.VISIBLE);
+//            button_submit.setVisibility(View.VISIBLE);
+//            report.setVisibility(View.VISIBLE);
+//        }
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);//查看每日工作
         button_submit.setOnClickListener(this);
         report.setOnClickListener(this);//汇报
-       // applyforanextensionLayout.setOnClickListener(this);//申请延期布局
+        // applyforanextensionLayout.setOnClickListener(this);//申请延期布局
     }
 
     @Override

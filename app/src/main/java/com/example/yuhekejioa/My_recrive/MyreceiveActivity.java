@@ -95,6 +95,7 @@ public class MyreceiveActivity extends AppCompatActivity {
 
         adapter = new MyreceiveAdapter(MyreceiveActivity.this, list);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -146,6 +147,7 @@ public class MyreceiveActivity extends AppCompatActivity {
                             int canDelay = jsonObject.getInt("canDelay");
                             String title = jsonObject.getString("title");
                             int isUrgent = jsonObject.getInt("isUrgent");
+                            int isFixed = jsonObject.getInt("isFixed");//是否是固定任务单
 
                             MyreceiveBean.DataBean myreceiveBean = new MyreceiveBean.DataBean();
                             myreceiveBean.setAddNickName(addNickName);
@@ -156,6 +158,7 @@ public class MyreceiveActivity extends AppCompatActivity {
                             myreceiveBean.setCanDelay(canDelay);
                             myreceiveBean.setTitle(title);
                             myreceiveBean.setIsUrgent(isUrgent);
+                            myreceiveBean.setIsFixed(isFixed);
                             list.add(myreceiveBean);
                         }
                         runOnUiThread(new Runnable() {
@@ -172,7 +175,7 @@ public class MyreceiveActivity extends AppCompatActivity {
                                         }
                                         home_RefreshLayout.closeHeaderOrFooter();
                                     }
-                                }else if(code==500){
+                                } else if (code == 500) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

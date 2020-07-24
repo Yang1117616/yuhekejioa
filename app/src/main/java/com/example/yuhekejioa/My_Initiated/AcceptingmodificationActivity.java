@@ -68,7 +68,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
     private Dialog loadingDialog;
     private TextView text_nofile;
     private ImageView image_hurried;
-    private int isUrgent;
+    //private int isUrgent;
 
     private HashMap<String, String> map;
     private final String[] MIME_MapTable = {
@@ -105,7 +105,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_acceptingmodification);
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
-        isUrgent = intent.getIntExtra("isUrgent", 0);
+       // isUrgent = intent.getIntExtra("isUrgent", 0);
 
         initview();
         initdata();
@@ -157,12 +157,12 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
         reedit_time = findViewById(R.id.reedit_time);//重新修改时间
         image_hurried = findViewById(R.id.image_hurried);
 
-        if (isUrgent == 0) {
-            image_hurried.setVisibility(View.GONE);
-        } else if (isUrgent == 1) {
-            image_hurried.setVisibility(View.VISIBLE);
-            buttontermination.setVisibility(View.GONE);
-        }
+//        if (isUrgent == 0) {
+//            image_hurried.setVisibility(View.GONE);
+//        } else if (isUrgent == 1) {
+//            image_hurried.setVisibility(View.VISIBLE);
+//            buttontermination.setVisibility(View.GONE);
+//        }
 
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);

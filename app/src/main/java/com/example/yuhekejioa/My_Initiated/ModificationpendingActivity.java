@@ -101,7 +101,7 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
         id = intent.getIntExtra("id", 0);
-        isUrgent = intent.getIntExtra("isUrgent", 0);
+        // isUrgent = intent.getIntExtra("isUrgent", 0);
         initview();
         initwangluo();
         map = new HashMap<>();
@@ -129,7 +129,7 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
         map.put(".mpg", "video/mpeg");
-        map.put(".text","text/plain");
+        map.put(".text", "text/plain");
     }
 
     private void initwangluo() {
@@ -160,7 +160,7 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                         final String receiveDept = data.getString("receiveDept");//接收部门
                         final String receiveNickName = data.getString("receiveNickName");//接收人
                         final String title = data.getString("title");
-                        int isUrgent = data.getInt("isUrgent");
+                        int canUpdateReceive = data.getInt("canUpdateReceive");
                         statusStr = data.getString("statusStr");
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
                         //如果集合等于0的时候
@@ -192,8 +192,12 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                                 } else {
                                     text_nofile.setVisibility(View.VISIBLE);
                                 }
-
-
+                                //查看任务单按钮显示隐藏
+                                if (canUpdateReceive == 0) {
+                                    button_view.setVisibility(View.VISIBLE);
+                                } else if (canUpdateReceive == 1) {
+                                    button_submit.setVisibility(View.GONE);
+                                }
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ModificationpendingActivity.this);
                                 recyclerView.setLayoutManager(linearLayoutManager);
@@ -330,12 +334,12 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
         text_nofile = findViewById(R.id.text_nofile);
         choosedepartment_text = findViewById(R.id.choosedepartment_text);//接收部门
         receiver_text = findViewById(R.id.receiver_text);//接收人
-        if (isUrgent == 0) {
-            image_hurried.setVisibility(View.GONE);
-        } else if (isUrgent == 1) {
-            image_hurried.setVisibility(View.VISIBLE);
-            button_submit.setVisibility(View.GONE);
-        }
+//        if (isUrgent == 0) {
+//            image_hurried.setVisibility(View.GONE);
+//        } else if (isUrgent == 1) {
+//            image_hurried.setVisibility(View.VISIBLE);
+//            button_submit.setVisibility(View.GONE);
+//        }
         back.setOnClickListener(this);
         button_view.setOnClickListener(this);
         button_submit.setOnClickListener(this);

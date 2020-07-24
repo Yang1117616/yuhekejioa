@@ -283,7 +283,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         nestedListView = findViewById(R.id.nestedlistView);
         edittitle = findViewById(R.id.edit_title);
         sponsor_name.setText(username);//获取用户名
-        prompt=findViewById(R.id.prompt);
+        prompt = findViewById(R.id.prompt);
         prompt.setText(extendType);
         //获取系统当前时间
         long currentTime = System.currentTimeMillis();

@@ -170,6 +170,8 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                             int id = jsonObject.getInt("id");
                             int canDelay = jsonObject.getInt("canDelay");
                             int isUrgent = jsonObject.getInt("isUrgent");
+                            int canUpdate = jsonObject.getInt("canUpdate");
+                            int isFixed = jsonObject.getInt("isFixed");
                             //添加要获取的数据
                             SearchforBean.DataBean.ListBean dataBean = new SearchforBean.DataBean.ListBean();
                             dataBean.setTitle(title);
@@ -183,6 +185,8 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                             dataBean.setId(id);
                             dataBean.setCanDelay(canDelay);
                             dataBean.setIsUrgent(isUrgent);
+                            dataBean.setCanUpdate(canUpdate);
+                            dataBean.setIsFixed(isFixed);
                             list.add(dataBean);
                         }
                         runOnUiThread(new Runnable() {
@@ -199,7 +203,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(SearchforActivity.this,msg , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SearchforActivity.this, msg, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }

@@ -135,8 +135,8 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private TextView prompt;
     private WaitAdapter adapter;
     private WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean;
-    private WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean1;
-
+    //private int num;
+    private String deptIds;
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -153,7 +153,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         initview();
         methodRequiresTwoPermission();
         initwangluo();
-
     }
 
     //获取控件id
@@ -209,15 +208,18 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                             String name = jsonObject.getString("name");//文件名字
                             String fileSize = jsonObject.getString("fileSize");
                             url = Constant.ip + jsonObject.getString("url");//文件url
+                            String id = jsonObject.getString("id");
                             sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setName(name);
                             sysFilesSponsorBean.setFileSize(fileSize);
                             sysFilesSponsorBean.setUrl(ModifyActivity.this.url);//添加文件url
+                            sysFilesSponsorBean.setId(id);
                             list.add(sysFilesSponsorBean);
                         }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //num = 0;
                                 sponsor_name.setText(addNickName);
                                 receiver_text.setText(receiveNickName);
                                 enddate_text.setText(updateTime);
@@ -240,6 +242,13 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                     @Override
                                     public void onItemClick(int position) {
                                         initwangluo1(list.get(position));
+                                    }
+                                });
+
+                                adapter.setOnStringClickListener(new WaitAdapter.OnItemListenter() {
+                                    @Override
+                                    public void onItemClick(StringBuilder defile) {
+                                        deptIds = defile.toString();
                                     }
                                 });
                             }
@@ -399,6 +408,8 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             loadingDialog = LoadingDialog.createLoadingDialog(ModifyActivity.this, "正在加载中...");
             loadingDialog.show();
         }
+
+
         //提交任务单接口
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("receive", receive);//员工编号
@@ -406,6 +417,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         hashMap.put("wantFinishTiem", enddate);//时间
         hashMap.put("taskId", String.valueOf(taskId));//taskId
         hashMap.put("title", title);//任务标题
+        hashMap.put("delFiles", deptIds);
         NetworkUtils.uploadImage(Constant.ip + "/app/task/update", strings, hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {

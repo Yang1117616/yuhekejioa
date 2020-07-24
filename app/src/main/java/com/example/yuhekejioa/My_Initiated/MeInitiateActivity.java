@@ -90,7 +90,9 @@ public class MeInitiateActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         adapter = new MeInitiateXAdapter(MeInitiateActivity.this, list);
+        adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -143,10 +145,13 @@ public class MeInitiateActivity extends AppCompatActivity {
                             String title = jsonObject.getString("title");//任务单标题
                             //  String inspected = jsonObject.getString("inspected");//显示结果
                             String statusStr = jsonObject.getString("statusStr");
-
+                            int canUpdate = jsonObject.getInt("canUpdate");
                             String taskDescribe = jsonObject.getString("taskDescribe");//任务描述
                             String receiveDept = jsonObject.getString("receiveDept");//研发部门
-                            int isUrgent = jsonObject.getInt("isUrgent");//是否加急
+                            int isUrgent = jsonObject.getInt("isUrgent");//是否是加急任务单
+                            int isFixed = jsonObject.getInt("isFixed");//是否是固定任务单
+
+
                             MeInitiateBean.DataBean mereceiveBean = new MeInitiateBean.DataBean();
                             mereceiveBean.setReceiveDept(receiveDept);
                             mereceiveBean.setAddNickName(addNickName);
@@ -159,6 +164,8 @@ public class MeInitiateActivity extends AppCompatActivity {
                             mereceiveBean.setTitle(title);
                             mereceiveBean.setId(id);
                             mereceiveBean.setIsUrgent(isUrgent);
+                            mereceiveBean.setCanUpdate(canUpdate);
+                            mereceiveBean.setIsFixed(isFixed);
                             list.add(mereceiveBean);
                         }
                         runOnUiThread(new Runnable() {

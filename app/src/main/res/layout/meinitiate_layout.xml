@@ -17,6 +17,7 @@
             android:layout_width="72.66dp"
             android:layout_height="59.33dp"
             android:layout_alignParentRight="true"
+            android:duplicateParentState="true"
             android:textColor="#ff000000"
             android:textSize="15sp"></ImageView>
 
@@ -25,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="13.33dp"
-            android:layout_marginTop="13.33dp">
+            android:layout_marginTop="13.33dp"
+            android:duplicateParentState="true">
 
             <ImageView
                 android:id="@+id/touxiang"
@@ -56,14 +58,14 @@
                 android:textSize="15sp"></TextView>
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/image_expedited"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="7dp"
                 android:layout_width="51dp"
                 android:layout_height="16dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/addNickName"
-                android:src="@drawable/image_expedited"></ImageView>
+                android:src="@drawable/image_expedited"
+                android:visibility="gone"></ImageView>
 
             <LinearLayout
                 android:id="@+id/linear_numbering"
@@ -131,6 +133,7 @@ android:singleLine="true"（设置单行显示，当文本不能显示全部内�
             android:layout_marginBottom="12dp"
             android:layout_toLeftOf="@+id/termination"
             android:background="@drawable/button_backgroud_blue"
+            android:duplicateParentState="true"
             android:textColor="#ff006bff"
             android:textSize="12sp"
             android:visibility="visible"></Button>
@@ -145,7 +148,7 @@ android:singleLine="true"（设置单行显示，当文本不能显示全部内�
             android:layout_marginBottom="12dp"
             android:layout_toLeftOf="@+id/modify"
             android:background="@drawable/button_backgroud_red"
-
+            android:duplicateParentState="true"
             android:textColor="#ffff4949"
             android:textSize="12sp"
             android:visibility="visible"></Button>
@@ -160,6 +163,7 @@ android:singleLine="true"（设置单行显示，当文本不能显示全部内�
             android:layout_marginBottom="12dp"
             android:background="@drawable/button_backgroud_red"
             android:textColor="#ffff4949"
+            android:duplicateParentState="true"
             android:textSize="12sp"
             android:visibility="visible"></Button>
     </RelativeLayout>

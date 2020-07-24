@@ -88,6 +88,7 @@ public class WaitingforacceptanceActivity extends AppCompatActivity implements V
             "", "*/*"
     };
     private int isUrgent;
+    private int isFixed;
 
     @Override
 
@@ -100,6 +101,7 @@ public class WaitingforacceptanceActivity extends AppCompatActivity implements V
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
         isUrgent = intent.getIntExtra("isUrgent", 0);
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initwangluo();
         map = new HashMap<>();
@@ -126,7 +128,8 @@ public class WaitingforacceptanceActivity extends AppCompatActivity implements V
         map.put(".zip", "application/x-zip-compressed");
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
-        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text", "text/plain");
     }
 
     private void initwangluo() {
@@ -332,6 +335,11 @@ public class WaitingforacceptanceActivity extends AppCompatActivity implements V
             image_hurried.setVisibility(View.GONE);
         } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
+        }
+        //固定任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 10) {
+            button_submit.setVisibility(View.VISIBLE);
         }
 
         back.setOnClickListener(this);

@@ -94,6 +94,7 @@ public class CompletedActivity extends AppCompatActivity {
             "", "*/*"
     };
     private int isUrgent;
+    private int isFixed;
 
     @Override
 
@@ -108,6 +109,7 @@ public class CompletedActivity extends AppCompatActivity {
         taskId = intent.getIntExtra("taskId", 0);
         id = intent.getIntExtra("id", 0);
         isUrgent = intent.getIntExtra("isUrgent", 0);
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initdata();
         map = new HashMap<>();
@@ -134,7 +136,8 @@ public class CompletedActivity extends AppCompatActivity {
         map.put(".zip", "application/x-zip-compressed");
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
-        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text", "text/plain");
     }
 
     private void initdata() {
@@ -351,6 +354,11 @@ public class CompletedActivity extends AppCompatActivity {
             image_hurried.setVisibility(View.GONE);
         } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
+        }
+        //固定任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 1) {
+            button_view.setVisibility(View.VISIBLE);
         }
         back.setOnClickListener(new View.OnClickListener() {
             @Override

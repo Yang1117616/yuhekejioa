@@ -89,6 +89,7 @@ public class XiugaipendingActivity extends AppCompatActivity {
             "", "*/*"
     };
     private int isUrgent;
+    private int isFixed;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -101,7 +102,8 @@ public class XiugaipendingActivity extends AppCompatActivity {
         id = intent.getIntExtra("id", 0);
         confirmType = intent.getIntExtra("confirmType", 0);
         taskId = intent.getIntExtra("taskId", 0);
-        isUrgent = intent.getIntExtra("isUrgent", 0);
+//        isUrgent = intent.getIntExtra("isUrgent", 0);
+//        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initdata();
         map = new HashMap<>();
@@ -128,7 +130,8 @@ public class XiugaipendingActivity extends AppCompatActivity {
         map.put(".zip", "application/x-zip-compressed");
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
-        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text", "text/plain");
     }
 
     private void initview() {
@@ -143,12 +146,19 @@ public class XiugaipendingActivity extends AppCompatActivity {
         button_chakan = findViewById(R.id.button_chakan);
         text_nofile = findViewById(R.id.text_nofile);
         edit_title = findViewById(R.id.edit_title);
-        image_hurried=findViewById(R.id.image_hurried);
-        if(isUrgent==0){
-            image_hurried.setVisibility(View.GONE);
-        }else if(isUrgent==1){
-            image_hurried.setVisibility(View.VISIBLE);
-        }
+        image_hurried = findViewById(R.id.image_hurried);
+        //判断是否是加急任务
+//        if (isUrgent == 0) {
+//            image_hurried.setVisibility(View.GONE);
+//        } else if (isUrgent == 1) {
+//            image_hurried.setVisibility(View.VISIBLE);
+//        }
+//        //判断是否是固定
+//        if (isFixed == 0) {
+//        } else if (isFixed == 1) {
+//            button_submit.setVisibility(View.VISIBLE);
+//            button_chakan.setVisibility(View.VISIBLE);
+//        }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,7 +207,7 @@ public class XiugaipendingActivity extends AppCompatActivity {
                                 XiugaipendingActivity.this.finish();
                             }
                         });
-                    }else if(code==500){
+                    } else if (code == 500) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -257,7 +267,7 @@ public class XiugaipendingActivity extends AppCompatActivity {
                             String name = jsonObject.getString("name");//文件名称
                             String fileSize = jsonObject.getString("fileSize");//文件大小
                             url = Constant.ip + jsonObject.getString("url");//文件url
-                            Log.e("TAG", "onSuccess8"+fileSize+name);
+                            Log.e("TAG", "onSuccess8" + fileSize + name);
                             WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setName(name);
                             sysFilesSponsorBean.setFileSize(fileSize);

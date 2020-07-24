@@ -90,6 +90,8 @@ public class MycompletedActivity extends AppCompatActivity implements View.OnCli
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+    private int isFixed;
+
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -99,6 +101,7 @@ public class MycompletedActivity extends AppCompatActivity implements View.OnCli
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
         isUrgent = intent.getIntExtra("isUrgent", 0);
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initwangluo();
         map = new HashMap<>();
@@ -126,7 +129,7 @@ public class MycompletedActivity extends AppCompatActivity implements View.OnCli
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
         map.put(".mpg", "video/mpeg");
-        map.put(".text","text/plain");
+        map.put(".text", "text/plain");
     }
 
     private void initwangluo() {
@@ -338,16 +341,21 @@ public class MycompletedActivity extends AppCompatActivity implements View.OnCli
 
 
         //加急图片显示隐藏
-        if(isUrgent==0){
+        if (isUrgent == 0) {
             image_hurried.setVisibility(View.GONE);
-        }else if(isUrgent==1){
+        } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
         }
-
+        //判断是否是固定任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 1) {
+            button_view.setVisibility(View.VISIBLE);
+        }
 
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

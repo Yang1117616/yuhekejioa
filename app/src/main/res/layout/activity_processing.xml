@@ -310,7 +310,7 @@
                 android:id="@+id/button_view"
                 android:layout_width="151dp"
                 android:layout_height="43dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_backgroud"
                 android:text="查看每日工作"

@@ -107,6 +107,7 @@ public class TobeconfirmedActivity extends AppCompatActivity {
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+    private int isFixed;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -119,7 +120,7 @@ public class TobeconfirmedActivity extends AppCompatActivity {
         taskId = intent.getIntExtra("taskId", 0);
         id = intent.getIntExtra("id", 0);
         isUrgent = intent.getIntExtra("isUrgent", 0);
-
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initdata();
         map = new HashMap<>();
@@ -175,7 +176,12 @@ public class TobeconfirmedActivity extends AppCompatActivity {
             report.setVisibility(View.GONE);
             button_submit.setVisibility(View.GONE);
         }
-
+        //判断是否是固定任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 1) {
+            report.setVisibility(View.GONE);
+            button_submit.setVisibility(View.GONE);
+        }
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

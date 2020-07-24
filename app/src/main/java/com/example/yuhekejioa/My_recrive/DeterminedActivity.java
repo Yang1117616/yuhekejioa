@@ -85,6 +85,8 @@ public class DeterminedActivity extends AppCompatActivity {
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+    private int isFixed;
+
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -97,6 +99,7 @@ public class DeterminedActivity extends AppCompatActivity {
         confirmType = intent.getIntExtra("confirmType", 0);
         idx = intent.getIntExtra("idx", 0);
         isUrgent = intent.getIntExtra("isUrgent", 0);
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initdata();
         map = new HashMap<>();
@@ -334,7 +337,11 @@ public class DeterminedActivity extends AppCompatActivity {
         } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
         }
-
+        //固定任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 1) {
+            button_submit.setVisibility(View.VISIBLE);
+        }
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

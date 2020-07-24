@@ -90,6 +90,8 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+    private int isFixed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -102,6 +104,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
         id = intent.getIntExtra("id", 0);
         statusStr = intent.getStringExtra("statusStr");
         isUrgent = intent.getIntExtra("isUrgent", 0);
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initwanggluo();
         map = new HashMap<>();
@@ -129,8 +132,9 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
         map.put(".mpg", "video/mpeg");
-        map.put(".text","text/plain");
+        map.put(".text", "text/plain");
     }
+
     private void initview() {
         numbering = findViewById(R.id.taskNo);
         current_time1 = findViewById(R.id.current_time);
@@ -147,13 +151,20 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
         recyclerview = findViewById(R.id.recyclerview);
         text_nofile = findViewById(R.id.text_nofile);
         image_hurried = findViewById(R.id.image_hurried);
-
+        //判断是否是加急任务单
         if (isUrgent == 0) {
             image_hurried.setVisibility(View.GONE);
         } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
             report.setVisibility(View.GONE);
             button_view.setVisibility(View.GONE);
+        }
+        //判断是否是固定任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 1) {
+            report.setVisibility(View.GONE);
+            button_view.setVisibility(View.GONE);
+            button_submit.setVisibility(View.VISIBLE);
         }
         back.setOnClickListener(this);//返回按钮
         button_submit.setOnClickListener(this);

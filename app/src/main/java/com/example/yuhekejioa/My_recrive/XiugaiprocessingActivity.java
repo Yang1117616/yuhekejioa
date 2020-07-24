@@ -94,7 +94,8 @@ public class XiugaiprocessingActivity extends AppCompatActivity implements View.
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
-    private int isUrgent;
+//    private int isUrgent;
+//    private int isFixed;
 
     @Override
 
@@ -107,7 +108,8 @@ public class XiugaiprocessingActivity extends AppCompatActivity implements View.
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
         canDelay = intent.getIntExtra("canDelay", 0);
-        isUrgent = intent.getIntExtra("isUrgent", 0);
+//        isUrgent = intent.getIntExtra("isUrgent", 0);
+//        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initwangluo();
         map = new HashMap<>();
@@ -350,13 +352,21 @@ public class XiugaiprocessingActivity extends AppCompatActivity implements View.
         } else if (canDelay == 1) {
             applyforanextensionLayout.setVisibility(View.VISIBLE);
         }
-
-        if (isUrgent == 0) {
-            image_hurried.setVisibility(View.GONE);
-        } else if (isUrgent == 1) {
-            image_hurried.setVisibility(View.VISIBLE);
-            applyforanextensionLayout.setVisibility(View.GONE);
-        }
+        //判断是加急任务单
+//        if (isUrgent == 0) {
+//            image_hurried.setVisibility(View.GONE);
+//        } else if (isUrgent == 1) {
+//            image_hurried.setVisibility(View.VISIBLE);
+//            applyforanextensionLayout.setVisibility(View.GONE);
+//        }
+//        //判断是否是固定任务单
+//        if (isFixed == 0) {
+//        } else if (isFixed==1) {
+//            applyforanextensionLayout.setVisibility(View.GONE);
+//            report.setVisibility(View.VISIBLE);
+//            button_submit.setVisibility(View.VISIBLE);
+//            button_view.setVisibility(View.VISIBLE);
+//        }
         report.setOnClickListener(this);
         back.setOnClickListener(this);
         button_view.setOnClickListener(this);

@@ -1,6 +1,7 @@
 package com.example.yuhekejioa.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,14 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
     //私有属性
     private FileAdapter.OnItemClickListener onItemClickListener = null;
 
+    private StringBuilder defile = new StringBuilder();
+    private OnItemListenter mItemClickListener = null;
+
     public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list, List<String> strings) {
         this.context = context;
         this.list = list;
-        this.strings=strings;
+        this.strings = strings;
+
     }
 
     @NonNull
@@ -42,6 +47,7 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.filename.setText(list.get(position).getName());
         holder.filearm.setText(list.get(position).getFileSize() + "");
+        String id = list.get(position).getId();
         //实现点击效果
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,9 +60,15 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
         holder.image_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.remove(position);
+                Log.e("TAG", "onClick: "+id);
+                if ("".equals(id)&&id!=null) {
+                    defile.append(id).append(",");
+                    mItemClickListener.onItemClick(defile);
+                }
                 strings.remove(position);
+                list.remove(position);
                 WaitAdapter.this.notifyDataSetChanged();
+
             }
         });
     }
@@ -69,14 +81,16 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView filename;
         private TextView filearm;
-       private ImageView image_delete;
+        private ImageView image_delete;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             filename = itemView.findViewById(R.id.filename);
             filearm = itemView.findViewById(R.id.filearm);
-           image_delete=itemView.findViewById(R.id.image_delete);
+            image_delete = itemView.findViewById(R.id.image_delete);
         }
     }
+
     //setter方法
     public void setOnItemClickListener(FileAdapter.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -86,4 +100,14 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
+
+    //接口回调
+    public interface OnItemListenter {
+        void onItemClick(StringBuilder s);
+    }
+
+    public void setOnStringClickListener(OnItemListenter mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
 }

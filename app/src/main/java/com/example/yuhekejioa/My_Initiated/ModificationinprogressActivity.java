@@ -68,7 +68,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
     private Dialog loadingDialog;
     private TextView text_nofile;
     private ImageView image_hurried;
-    private int isUrgent;
+    //   private int isUrgent;
     private HashMap<String, String> map;
     private final String[] MIME_MapTable = {
             //{后缀名，MIME类型}
@@ -94,6 +94,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -104,7 +105,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
         id = intent.getIntExtra("id", 0);
-        isUrgent = intent.getIntExtra("isUrgent", 0);
+        //   isUrgent = intent.getIntExtra("isUrgent", 0);
         initview();
         initwangluo();
         map = new HashMap<>();
@@ -131,7 +132,8 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
         map.put(".zip", "application/x-zip-compressed");
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
-        map.put(".mpg", "video/mpeg");   map.put(".text","text/plain");
+        map.put(".mpg", "video/mpeg");
+        map.put(".text", "text/plain");
     }
 
     private void initwangluo() {
@@ -345,12 +347,12 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
         button_view.setOnClickListener(this);
         //report.setOnClickListener(this);
         button_submit.setOnClickListener(this);
-        if(isUrgent==0){
-            image_hurried.setVisibility(View.GONE);
-        }else if(isUrgent==1){
-            image_hurried.setVisibility(View.VISIBLE);
-            button_submit.setVisibility(View.GONE);
-        }
+//        if(isUrgent==0){
+//            image_hurried.setVisibility(View.GONE);
+//        }else if(isUrgent==1){
+//            image_hurried.setVisibility(View.VISIBLE);
+//            button_submit.setVisibility(View.GONE);
+//        }
 
     }
 
