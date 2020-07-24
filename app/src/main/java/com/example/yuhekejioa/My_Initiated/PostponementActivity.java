@@ -361,13 +361,13 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
                 Intent intent2 = new Intent(PostponementActivity.this, ModifyActivity.class);
                 intent2.putExtra("taskId", taskId);
                 startActivity(intent2);
-                PostponementActivity.this.finish();
+
                 break;
             case R.id.button_view://跳转到查看每日工作
                 Intent intent = new Intent(PostponementActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                PostponementActivity.this.finish();
+
                 break;
             case R.id.button_submit://跳转到终止页面
                 Intent intent1 = new Intent(PostponementActivity.this, TerminationActivity.class);
@@ -375,7 +375,7 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
                 intent1.putExtra("taskId", taskId);
                 intent1.putExtra("inspected", inspected);
                 startActivity(intent1);
-                PostponementActivity.this.finish();
+
                 break;
         }
     }

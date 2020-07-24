@@ -27,12 +27,13 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
 
     private StringBuilder defile = new StringBuilder();
     private OnItemListenter mItemClickListener = null;
+    private int num;
 
-    public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list, List<String> strings) {
+    public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list, List<String> strings, int num) {
         this.context = context;
         this.list = list;
         this.strings = strings;
-
+        this.num = num;
     }
 
     @NonNull
@@ -60,15 +61,23 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
         holder.image_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("TAG", "onClick: "+id);
-                if ("".equals(id)&&id!=null) {
+                if ("".equals(id) && id != null) {
                     defile.append(id).append(",");
                     mItemClickListener.onItemClick(defile);
                 }
-                strings.remove(position);
-                list.remove(position);
+//                if(num==0){
+//                    list.remove(position);
+//                }else if(num==1){
+//                    strings.remove(position);
+//                    list.remove(position);
+//                }
+                if (strings.size() > 0) {
+                    list.remove(position);
+                    strings.remove(position);
+                }else{
+                    list.remove(position);
+                }
                 WaitAdapter.this.notifyDataSetChanged();
-
             }
         });
     }

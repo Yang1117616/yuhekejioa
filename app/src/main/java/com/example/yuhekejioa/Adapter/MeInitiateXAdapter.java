@@ -180,36 +180,6 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 });
             }
             if (isFixed == 0) {
-                //跳转到修改页面
-                holder.modify.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, ModifyActivity.class);
-                        intent.putExtra("taskId", id);
-                        context.startActivity(intent);
-                    }
-                });
-                //跳转到查看每日工作界面
-                holder.button_examine.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, DailyActivity.class);
-                        intent.putExtra("taskNo", taskNo);
-                        context.startActivity(intent);
-                    }
-                });
-                // 跳转到终止页面
-                holder.termination.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, TerminationActivity.class);
-                        intent.putExtra("taskId", id);
-                        intent.putExtra("taskNo", taskNo);
-                        intent.putExtra("inspected", 0);
-                        intent.putExtra("statusStr", statusStr);
-                        context.startActivity(intent);
-                    }
-                });
             } else if (isFixed == 1) {
                 holder.image_expedited.setVisibility(View.VISIBLE);
                 holder.modify.setVisibility(View.VISIBLE);
@@ -235,7 +205,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                     intent.putExtra("taskId", id);
                     intent.putExtra("statusStr", statusStr);
                     intent.putExtra("isUrgent", isUrgent);
-                    intent.putExtra("isFixed",isFixed);
+                    intent.putExtra("isFixed", isFixed);
                     context.startActivity(intent);
                 }
             });
@@ -247,7 +217,6 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             holder.termination.setText("查看每日工作");
             holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
             holder.termination.setTextColor(Color.parseColor("#ff006bff"));
-
             holder.button_examine.setVisibility(View.GONE);
             holder.modify.setVisibility(View.VISIBLE);
             holder.termination.setVisibility(View.VISIBLE);
@@ -289,6 +258,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                     Intent intent = new Intent(context, WaitActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("isUrgent", isUrgent);
+                    intent.putExtra("isFixed", isFixed);
                     context.startActivity(intent);
                 }
             });
@@ -329,7 +299,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                     Intent intent = new Intent(context, MycompletedActivity.class);
                     intent.putExtra("taskId", id);
                     intent.putExtra("isUrgent", isUrgent);
-                    intent.putExtra("isFixed",isFixed);
+                    intent.putExtra("isFixed", isFixed);
                     context.startActivity(intent);
                 }
             });
@@ -479,7 +449,7 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ModificationinprogressActivity.class);
                     intent.putExtra("taskId", id);
-                 //   intent.putExtra("isUrgent", isUrgent);
+                    //   intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });

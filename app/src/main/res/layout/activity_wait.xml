@@ -422,10 +422,11 @@
 
                 <Button
                     android:id="@+id/button_fail"
-                    android:layout_width="151dp"
+                    android:layout_width="0dp"
                     android:layout_height="43dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_backgroud"
                     android:text="重新修改"
                     android:textColor="#ffffffff"
@@ -433,10 +434,11 @@
 
                 <Button
                     android:id="@+id/button_submit"
-                    android:layout_width="151dp"
+                    android:layout_width="0dp"
                     android:layout_height="43dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_backgroud"
                     android:text="通过"
                     android:textColor="#ffffffff"

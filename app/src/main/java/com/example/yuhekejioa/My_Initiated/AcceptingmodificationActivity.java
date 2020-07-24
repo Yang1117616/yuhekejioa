@@ -375,7 +375,6 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                 Intent intent = new Intent(AcceptingmodificationActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                AcceptingmodificationActivity.this.finish();
                 break;
             case R.id.buttontermination:
                 Intent intent1 = new Intent(AcceptingmodificationActivity.this, TerminationActivity.class);
@@ -384,7 +383,6 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                 intent1.putExtra("inspected", 0);
                 intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
-                AcceptingmodificationActivity.this.finish();
                 break;
 
         }

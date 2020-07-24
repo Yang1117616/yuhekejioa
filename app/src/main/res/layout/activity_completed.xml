@@ -304,7 +304,7 @@
             android:layout_height="1dp"
             android:background="#EDEAEA"></View>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginBottom="15dp"
             android:id="@+id/store_details_ll_close"
             android:layout_width="match_parent"
@@ -316,13 +316,12 @@
                 android:id="@+id/button_view"
                 android:layout_width="315.66dp"
                 android:layout_height="43dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginBottom="12dp"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/button_backgroud"
                 android:text="查看每日工作"
                 android:textColor="#ffffffff"
                 android:textSize="16sp"></Button>
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 </ScrollView>

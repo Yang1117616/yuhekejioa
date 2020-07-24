@@ -13,8 +13,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -372,13 +375,13 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                 Intent intent = new Intent(MyprocessingActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                MyprocessingActivity.this.finish();
+
                 break;
             case R.id.report://跳转到修改页面
                 Intent intent2 = new Intent(MyprocessingActivity.this, ModifyActivity.class);
                 intent2.putExtra("taskId", taskId);
                 startActivity(intent2);
-                MyprocessingActivity.this.finish();
+
                 break;
             case R.id.button_view:
                 Intent intent3 = new Intent(MyprocessingActivity.this, TerminationActivity.class);
@@ -387,7 +390,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                 //     intent3.putExtra("inspected", inspected);
                 intent3.putExtra("statusStr", statusStr);
                 startActivity(intent3);
-                MyprocessingActivity.this.finish();
+
                 break;
         }
     }

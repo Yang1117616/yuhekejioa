@@ -356,7 +356,6 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                 Intent intent = new Intent(ModificationpendingActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                ModificationpendingActivity.this.finish();
                 break;
             case R.id.button_submit://跳转到终止页面
                 Intent intent1 = new Intent(ModificationpendingActivity.this, TerminationActivity.class);
@@ -365,7 +364,6 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                 intent1.putExtra("inspected", inspected);
                 intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
-                ModificationpendingActivity.this.finish();
                 break;
         }
     }

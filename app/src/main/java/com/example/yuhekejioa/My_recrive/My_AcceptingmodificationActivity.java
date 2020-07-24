@@ -319,20 +319,19 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                 intent1.putExtra("taskNo", taskNo);
                 intent1.putExtra("id", taskId);
                 startActivity(intent1);
-                My_AcceptingmodificationActivity.this.finish();
+
                 break;
             case R.id.button_view://查看每日工作
                 Intent intent = new Intent(My_AcceptingmodificationActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                My_AcceptingmodificationActivity.this.finish();
                 break;
             case R.id.button_submit://完成填写
                 Intent intent2 = new Intent(My_AcceptingmodificationActivity.this, CarryoutActivity.class);
                 intent2.putExtra("taskNo", taskNo);
                 intent2.putExtra("id", taskId);
                 startActivity(intent2);
-                My_AcceptingmodificationActivity.this.finish();
+
                 break;
 //            case R.id.applyforanextensionLayout://申请延期页面
 //                //跳转到申请延期界面

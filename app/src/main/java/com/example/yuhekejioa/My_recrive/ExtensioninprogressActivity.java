@@ -356,20 +356,20 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                 intent1.putExtra("id", taskId);
                 intent1.putExtra("taskNo", taskNo);
                 startActivity(intent1);
-                ExtensioninprogressActivity.this.finish();
+
                 break;
             case R.id.button_view:
                 Intent intent = new Intent(ExtensioninprogressActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                ExtensioninprogressActivity.this.finish();
+
                 break;
             case R.id.button_submit://跳转到完成填写页面
                 Intent intent2 = new Intent(ExtensioninprogressActivity.this, CarryoutActivity.class);
                 intent2.putExtra("taskNo", taskNo);
                 intent2.putExtra("id", taskId);
                 startActivity(intent2);
-                ExtensioninprogressActivity.this.finish();
+
                 break;
         }
     }

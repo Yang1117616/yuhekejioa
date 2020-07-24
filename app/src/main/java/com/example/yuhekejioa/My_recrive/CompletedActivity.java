@@ -374,7 +374,7 @@ public class CompletedActivity extends AppCompatActivity {
                 intent.putExtra("taskNo", taskNo);
                 //传TaskNo过去
                 startActivity(intent);
-                finish();
+
             }
         });
     }

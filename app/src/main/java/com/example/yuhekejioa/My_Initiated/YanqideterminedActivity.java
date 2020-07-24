@@ -187,7 +187,6 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
                 Intent intent = new Intent(YanqideterminedActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                YanqideterminedActivity.this.finish();
                 break;
             case R.id.button_submit:
                 initsubmit();

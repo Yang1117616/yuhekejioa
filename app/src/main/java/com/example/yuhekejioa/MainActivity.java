@@ -28,6 +28,7 @@ import android.os.Bundle;
 
 import android.os.Environment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import android.view.Window;
@@ -142,12 +143,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String remark;
     private String nickName;
 
+    // 用来计算返回键的点击间隔时间
+    private long exitTime = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
         super.onCreate(savedInstanceState);
+        //安卓按下Home键至手机桌面后，重新点开应用时无法进入退出时的页面
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_main);
 
         registerMessageReceiver();  // used for receive msg
@@ -399,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (code == 200) {
                         JSONObject data = res.getJSONObject("data");
                         //判断字符串是否为空
-                       // boolean updateBy = data.isNull("updateBy");
+                        // boolean updateBy = data.isNull("updateBy");
                         String phonenumber = data.getString("phonenumber");//手机号
                         String email = data.getString("email");//邮箱号
                         //员工姓名
@@ -726,6 +734,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                //弹出提示，可以有多种方式
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
     // @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);

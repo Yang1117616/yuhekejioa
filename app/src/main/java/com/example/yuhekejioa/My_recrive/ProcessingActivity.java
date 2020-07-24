@@ -349,8 +349,9 @@ public class ProcessingActivity extends AppCompatActivity {
         //是否是加固任务单
         if (isFixed == 0) {
         } else if (isFixed == 1) {
-            image_hurried.setVisibility(View.VISIBLE);
             linear_time.setVisibility(View.GONE);
+            button_submit.setVisibility(View.VISIBLE);
+            button_view.setVisibility(View.VISIBLE);
         }
         linear_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,7 +362,7 @@ public class ProcessingActivity extends AppCompatActivity {
                 intent.putExtra("id", id);
                 intent.putExtra("wantFinishTiem", updateTime);
                 startActivity(intent);
-                ProcessingActivity.this.finish();
+
             }
         });
 
@@ -379,7 +380,8 @@ public class ProcessingActivity extends AppCompatActivity {
                 intent.putExtra("taskNo", taskNo);
                 intent.putExtra("id", id);
                 startActivity(intent);
-                finish();
+                ProcessingActivity.this.finish();
+
             }
         });
         button_view.setOnClickListener(new View.OnClickListener() {
@@ -388,7 +390,7 @@ public class ProcessingActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProcessingActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                finish();
+
             }
         });
         //汇报
@@ -399,7 +401,7 @@ public class ProcessingActivity extends AppCompatActivity {
                 intent.putExtra("id", id);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                ProcessingActivity.this.finish();
+
             }
         });
     }

@@ -366,7 +366,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                 Intent intent = new Intent(ModificationinprogressActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                ModificationinprogressActivity.this.finish();
+
                 break;
 //            case R.id.report://跳转到汇报页面
 //                Intent intent2 = new Intent(ModificationinprogressActivity.this, ModifyActivity.class);
@@ -381,7 +381,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                 intent3.putExtra("inspected", inspected);
                 intent3.putExtra("statusStr", statusStr);
                 startActivity(intent3);
-                ModificationinprogressActivity.this.finish();
+
                 break;
         }
     }

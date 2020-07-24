@@ -357,7 +357,6 @@ public class WaitingforacceptanceActivity extends AppCompatActivity implements V
                 Intent intent = new Intent(WaitingforacceptanceActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                WaitingforacceptanceActivity.this.finish();
                 break;
         }
     }

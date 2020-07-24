@@ -175,6 +175,7 @@
         android:background="#ffe5e5e5"></View>
 
     <RelativeLayout
+        android:layout_marginBottom="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -184,7 +185,6 @@
             android:layout_height="43dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="12dp"
             android:background="@drawable/button_backgroud"
             android:text="提交"
             android:textColor="#ffffffff"

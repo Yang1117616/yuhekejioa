@@ -361,13 +361,13 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                 Intent intent2 = new Intent(MyExtensioninprogressActivity.this, ModifyActivity.class);
                 intent2.putExtra("taskId", taskId);
                 startActivity(intent2);
-                MyExtensioninprogressActivity.this.finish();
+
                 break;
             case R.id.button_view://跳转到查看每日工作
                 Intent intent = new Intent(MyExtensioninprogressActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                MyExtensioninprogressActivity.this.finish();
+
                 break;
             case R.id.button_submit://跳转到终止页面
                 Intent intent1 = new Intent(MyExtensioninprogressActivity.this, TerminationActivity.class);
@@ -375,7 +375,7 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                 intent1.putExtra("taskId", taskId);
                 intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
-                MyExtensioninprogressActivity.this.finish();
+
                 break;
         }
     }

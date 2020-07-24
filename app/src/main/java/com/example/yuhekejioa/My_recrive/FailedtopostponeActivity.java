@@ -349,20 +349,19 @@ public class FailedtopostponeActivity extends AppCompatActivity implements View.
                 intent1.putExtra("id", taskId);
                 intent1.putExtra("taskNo", taskNo);
                 startActivity(intent1);
-                FailedtopostponeActivity.this.finish();
+
                 break;
             case R.id.button_view:
                 Intent intent = new Intent(FailedtopostponeActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                FailedtopostponeActivity.this.finish();
-                break;
+
+               break;
             case R.id.button_submit://跳转到完成填写页面
                 Intent intent2 = new Intent(FailedtopostponeActivity.this, CarryoutActivity.class);
                 intent2.putExtra("taskNo", taskNo);
                 intent2.putExtra("id", taskId);
                 startActivity(intent2);
-                FailedtopostponeActivity.this.finish();
                 break;
         }
     }

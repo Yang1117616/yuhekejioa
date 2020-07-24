@@ -367,7 +367,6 @@ public class MycompletedActivity extends AppCompatActivity implements View.OnCli
                 intent.putExtra("taskNo", taskNo);
                 //传TaskNo过去
                 startActivity(intent);
-                MycompletedActivity.this.finish();
                 break;
         }
     }

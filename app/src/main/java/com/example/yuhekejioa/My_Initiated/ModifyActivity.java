@@ -135,8 +135,9 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private TextView prompt;
     private WaitAdapter adapter;
     private WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean;
-    //private int num;
     private String deptIds;
+    private int num;
+
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -219,7 +220,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //num = 0;
+                                num = 0;
                                 sponsor_name.setText(addNickName);
                                 receiver_text.setText(receiveNickName);
                                 enddate_text.setText(updateTime);
@@ -227,15 +228,15 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 choosedepartment_text.setText(receiveDept);
                                 edittitle.setText(tasktitle);//添加任务标题
                                 start_time.setText(createTime);//发起时间
-                                for (int i = 0; i < list.size(); i++) {
-                                    initwangluo2(list.get(i));
-                                }
+//                                for (int i = 0; i < list.size(); i++) {
+//                                    initwangluo2(list.get(i));
+//                                }
                                 //设置布局管理器
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ModifyActivity.this);
                                 nestedListView.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 nestedListView.addItemDecoration(new SpacesItemDecoration(space));
-                                adapter = new WaitAdapter(ModifyActivity.this, list, strings);
+                                adapter = new WaitAdapter(ModifyActivity.this, list, strings, num);
                                 nestedListView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
@@ -280,25 +281,25 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //一进来就先下载下文件来
-    private void initwangluo2(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
-        final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
-        Log.e("TAG", "initwangluo1: " + absolutePath);
-        //下载文件
-        NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
-            @Override
-            public void onSuccess(String res) {
-
-                File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        strings.add(out.getPath());
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
-    }
+//    private void initwangluo2(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
+//        final String absolutePath = getExternalCacheDir().getAbsolutePath();//文件路径
+//        Log.e("TAG", "initwangluo1: " + absolutePath);
+//        //下载文件
+//        NetworkUtils.download(sysFilesSponsorBean.getUrl(), absolutePath, sysFilesSponsorBean.getName(), new NetworkUtils.downloadCallback() {
+//            @Override
+//            public void onSuccess(String res) {
+//
+//                File out = new File(absolutePath + "/" + sysFilesSponsorBean.getName());
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        strings.add(out.getPath());
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     //文件下载
     private void initwangluo1(WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean) {
@@ -313,7 +314,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent();
                 //设置intent的Action属性
                 intent.setAction(Intent.ACTION_VIEW);
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 try {
@@ -409,7 +409,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             loadingDialog.show();
         }
 
-
         //提交任务单接口
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("receive", receive);//员工编号
@@ -495,6 +494,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                 if (uri != null) {
                     path = getPath(this, uri);
                     if (path != null) {
+                        num = 1;
                         //获取到的file文件
                         file = new File(path);
                         if (file.exists()) {
@@ -906,6 +906,4 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     public boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
-
-
 }

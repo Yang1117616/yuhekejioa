@@ -203,38 +203,7 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
                         }
                     });
                 }
-                if (isFixed == 0) {
-                    //跳转到修改页面
-                    holder.modify.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(context, ModifyActivity.class);
-                            intent.putExtra("taskId", id);
-                            context.startActivity(intent);
-                        }
-                    });
-                    //跳转到查看每日工作界面
-                    holder.button_examine.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(context, DailyActivity.class);
-                            intent.putExtra("taskNo", taskNo);
-                            context.startActivity(intent);
-                        }
-                    });
-                    // 跳转到终止页面
-                    holder.termination.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(context, TerminationActivity.class);
-                            intent.putExtra("taskId", id);
-                            intent.putExtra("taskNo", taskNo);
-                            intent.putExtra("inspected", 0);
-                            intent.putExtra("statusStr", statusStr);
-                            context.startActivity(intent);
-                        }
-                    });
-                } else if (isFixed == 1) {
+                if (isFixed == 0) {} else if (isFixed == 1) {
                     holder.image_expedited.setVisibility(View.VISIBLE);
                     holder.modify.setVisibility(View.VISIBLE);
                     holder.termination.setVisibility(View.GONE);
@@ -313,6 +282,7 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
                         Intent intent = new Intent(context, WaitActivity.class);
                         intent.putExtra("taskId", id);
                         intent.putExtra("isUrgent", isUrgent);
+                        intent.putExtra("isFixed",isFixed);
                         context.startActivity(intent);
                     }
                 });

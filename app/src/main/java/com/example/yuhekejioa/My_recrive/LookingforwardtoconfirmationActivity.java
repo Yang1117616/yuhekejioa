@@ -262,7 +262,6 @@ public class LookingforwardtoconfirmationActivity extends AppCompatActivity impl
                 Intent intent = new Intent(LookingforwardtoconfirmationActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                LookingforwardtoconfirmationActivity.this.finish();
                 break;
         }
     }

@@ -434,7 +434,7 @@
                 android:layout_height="1dp"
                 android:background="#EDEAEA"></View>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_marginBottom="15dp"
                 android:id="@+id/store_details_ll_close"
                 android:layout_width="match_parent"
@@ -442,38 +442,15 @@
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/applyforanextensionLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="12dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/image_time"></ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="延期"
-                        android:textColor="#ff000000"
-                        android:textSize="12sp"></TextView>
-                </LinearLayout>
 
                 <Button
                     android:id="@+id/button_view"
-                    android:layout_width="151dp"
+                    android:layout_width="0dp"
                     android:layout_height="43dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_toRightOf="@+id/applyforanextensionLayout"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_backgroud"
                     android:text="查看每日工作"
                     android:textColor="#ffffffff"
@@ -481,17 +458,16 @@
 
                 <Button
                     android:id="@+id/button_submit"
-                    android:layout_width="151dp"
+                    android:layout_width="0dp"
                     android:layout_height="43dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_toRightOf="@+id/button_view"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_backgroud"
                     android:text="完成"
                     android:textColor="#ffffffff"
                     android:textSize="16sp"></Button>
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

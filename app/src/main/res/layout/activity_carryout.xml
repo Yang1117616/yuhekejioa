@@ -167,7 +167,7 @@
             <RelativeLayout
                 android:id="@+id/store_details_ll_close"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="50dp">
 
                 <Button
@@ -175,7 +175,7 @@
                     android:layout_width="315dp"
                     android:layout_height="43dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/button_backgroud"
                     android:text="提交"

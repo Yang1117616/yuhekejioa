@@ -86,7 +86,6 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
     private String taskNo;
     private int num;
     private int id;
-    private int idd = -1;
     private HashMap<String, String> map;
 
     private String url;
@@ -96,7 +95,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
     private TimePickerView pvTime;
     private String endatext;
     private String trim;
-    private int inspected;
+
     private Dialog loadingDialog;
     private TextView text_nofile;
     private ImageView image_hurried;
@@ -125,6 +124,8 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+    private int isFixed;
+
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -136,6 +137,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
         taskId = intent.getIntExtra("taskId", 0);
         id = intent.getIntExtra("id", 0);
         isUrgent = intent.getIntExtra("isUrgent", 0);
+        isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initdata();
         map = new HashMap<>();
@@ -163,7 +165,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
         map.put(".mpg", "video/mpeg");
-        map.put(".text","text/plain");
+        map.put(".text", "text/plain");
     }
 
     //控件id
@@ -186,14 +188,19 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
         button_fail = findViewById(R.id.button_fail);
         image_hurried = findViewById(R.id.image_hurried);
 
-
-        if(isUrgent==0){
+        //判断是否是加急任务
+        if (isUrgent == 0) {
             image_hurried.setVisibility(View.GONE);
-        }else if(isUrgent==1){
+        } else if (isUrgent == 1) {
             image_hurried.setVisibility(View.VISIBLE);
         }
-
-
+        //判断是否是固定任务单
+        if (isFixed == 0) {
+        } else if (isFixed == 1) {
+            button_view.setVisibility(View.VISIBLE);
+            button_fail.setVisibility(View.VISIBLE);
+            button_submit.setVisibility(View.VISIBLE);
+        }
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);//查看每日工作
         button_submit.setOnClickListener(this);
@@ -264,6 +271,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }//提交
+
     private void initsubmit() {
 
         HashMap<String, String> hashMap1 = new HashMap<>();
@@ -345,12 +353,9 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         final String result = data.getString("result");//任务成果
                         final String title = data.getString("title");
-                        final int isUrgent = data.getInt("isUrgent");
                         //等待验收按钮显示与隐藏
-                        inspected = data.getInt("inspected");
-
+                        final int inspected = data.getInt("inspected");
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
-
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
@@ -387,7 +392,6 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
                                 } else {
                                     text_nofile.setVisibility(View.VISIBLE);
                                 }
-
                                 //重新修改按钮判断
                                 if (inspected == -1) {
                                     button_fail.setOnClickListener(new View.OnClickListener() {

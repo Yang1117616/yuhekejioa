@@ -366,7 +366,6 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                 Intent intent = new Intent(AcceptancefailedActivity.this, DailyActivity.class);
                 intent.putExtra("taskNo", taskNo);
                 startActivity(intent);
-                AcceptancefailedActivity.this.finish();
                 break;
 
         }
