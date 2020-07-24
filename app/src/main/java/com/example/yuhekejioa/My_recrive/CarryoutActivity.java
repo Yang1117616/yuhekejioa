@@ -20,6 +20,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -131,33 +132,6 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
 
     //提交任务
     private void initsubmit() {
-
-//           /*
-//        doc、docx、xls、xlsx、xlsx、ppt、pptx、txt、xmind、rar、zip、gz、bz2、pdf
-//         */
-//        //获取上传文件的后缀名
-//        for (int i = 0; i < list_file.size(); i++) {
-//            String filename = list_file.get(i).getFilename();
-//            //获取上传文件的后缀名
-//            String substring = filename.substring(filename.lastIndexOf(".") + 1);
-//            if (substring.equals("doc")) {
-//            } else if (substring.equals("docx")) {
-//            } else if (substring.equals("xls")) {
-//            } else if (substring.equals("xlsx")) {
-//            } else if (substring.equals("ppt")) {
-//            } else if (substring.equals("pptx")) {
-//            } else if (substring.equals("txt")) {
-//            } else if (substring.equals("xmind")) {
-//            } else if (substring.equals("rar")) {
-//            } else if (substring.equals("zip")) {
-//            } else if (substring.equals("gz")) {
-//            } else if (substring.equals("bz2")) {
-//            } else if (substring.equals("pdf")) {
-//            } else {
-//                Toast.makeText(this, "只能上传规定类型文件", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        }
         String bianhao = taskNos.getText().toString();
         String trim = editText.getText().toString().trim();
         if (TextUtils.isEmpty(trim)) {
@@ -403,5 +377,27 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
 
     public boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+    //防止快速点击出现多个相同页面的问题
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
     }
 }

@@ -12,6 +12,7 @@ import android.graphics.RenderNode;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,9 +50,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
     private TextView enddate_text;//结束时间
     private TextView editText;//任务描述
     private TextView editText1;//任务成果
-    private TextView text_there;//有无附件
     private RecyclerView recyclerview;//附件列表
-
     private TextView yuheedittext;//补充说明
     private Button button_view;//查看每日工作
     private ImageView back;
@@ -95,6 +94,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_acceptingmodification);
         Intent intent = getIntent();
         taskId = intent.getIntExtra("taskId", 0);
-       // isUrgent = intent.getIntExtra("isUrgent", 0);
+        // isUrgent = intent.getIntExtra("isUrgent", 0);
 
         initview();
         initdata();
@@ -134,7 +134,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
         map.put(".mpg", "video/mpeg");
-        map.put(".text","text/plain");
+        map.put(".text", "text/plain");
 
     }
 
@@ -388,5 +388,27 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
         }
     }
 
+    //防止快速点击出现多个相同页面的问题
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
+    }
 
 }

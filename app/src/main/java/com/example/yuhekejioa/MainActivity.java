@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
 import android.view.Window;
@@ -748,6 +749,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    //防止快速点击出现多个相同页面的问题
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
     }
     // @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

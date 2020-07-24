@@ -48,7 +48,6 @@ import java.util.logging.LogRecord;
 public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.ViewHolder> {
     Context context;
     List<MyreceiveBean.DataBean> list;
-
     public MyreceiveAdapter(Context context, List<MyreceiveBean.DataBean> list) {
         this.context = context;
         this.list = list;
@@ -181,16 +180,16 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                 holder.modify.setVisibility(View.VISIBLE);
             }
 
-            holder.modify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //跳转到待确认
-                    Intent intent = new Intent(context, DeterminedActivity.class);
-                    intent.putExtra("confirmType", 1);
-                    intent.putExtra("id", id);
-                    context.startActivity(intent);
-                }
-            });
+//            holder.modify.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //跳转到待确认
+//                    Intent intent = new Intent(context, DeterminedActivity.class);
+//                    intent.putExtra("confirmType", 1);
+//                    intent.putExtra("id", id);
+//                    context.startActivity(intent);
+//                }
+//            });
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -698,6 +697,4 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
             image_expedited = itemView.findViewById(R.id.image_expedited);
         }
     }
-
-
 }

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -57,6 +58,7 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_department);
         initview();
+        initdata();
     }
 
     private void initview() {
@@ -87,12 +89,6 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
         intent.putExtra("list", (Serializable) list);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initdata();
     }
     //网络请求
     private void initdata() {
@@ -259,4 +255,26 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
 //            return true;
 //        }
 //    }
+//防止快速点击出现多个相同页面的问题
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+        if (isFastDoubleClick()) {
+            return true;
+        }
+    }
+    return super.dispatchTouchEvent(ev);
+}
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
+    }
 }

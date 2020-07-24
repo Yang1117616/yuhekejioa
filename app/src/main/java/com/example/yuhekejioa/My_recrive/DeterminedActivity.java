@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -133,7 +134,6 @@ public class DeterminedActivity extends AppCompatActivity {
         hashMap.put("taskId", String.valueOf(id));
         hashMap.put("msgId", String.valueOf(idx));
         NetworkUtils.sendPost(Constant.ip + "/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
-
             @Override
             public void onSuccess(JSONObject res) {
                 //如果res为空的话就不进行下面的操作
@@ -406,5 +406,27 @@ public class DeterminedActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    //防止快速点击出现多个相同页面的问题
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
     }
 }

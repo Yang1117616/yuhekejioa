@@ -9,11 +9,13 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.MeInitiateXAdapter;
 import com.example.yuhekejioa.Adapter.MyreceiveAdapter;
 import com.example.yuhekejioa.Bean.MyreceiveBean;
@@ -60,7 +62,7 @@ public class MyreceiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myreceive);
         initview();
-
+        initdata();
     }
 
     private void initview() {
@@ -96,12 +98,6 @@ public class MyreceiveActivity extends AppCompatActivity {
         adapter = new MyreceiveAdapter(MyreceiveActivity.this, list);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initdata();
     }
 
 
@@ -252,5 +248,27 @@ public class MyreceiveActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    //防止快速点击出现多个相同页面的问题
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
     }
 }

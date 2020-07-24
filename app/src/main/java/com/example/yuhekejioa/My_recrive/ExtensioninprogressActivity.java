@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -59,8 +60,6 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
     private int id;
-
-
     private String url;
     private TextView edit_title;
     private Dialog loadingDialog;
@@ -371,6 +370,28 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                 startActivity(intent2);
 
                 break;
+        }
+    }
+    //防止快速点击出现多个相同页面的问题
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
         }
     }
 }

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,6 +111,7 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -146,7 +148,7 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
         map.put(".mpg", "video/mpeg");
-        map.put(".text","text/plain");
+        map.put(".text", "text/plain");
     }
 
     private void initview() {
@@ -505,5 +507,28 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
                 });
             }
         });
+    }
+
+    //防止快速点击出现多个相同页面的问题
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private long lastClickTime = System.currentTimeMillis();
+
+    private boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
     }
 }
