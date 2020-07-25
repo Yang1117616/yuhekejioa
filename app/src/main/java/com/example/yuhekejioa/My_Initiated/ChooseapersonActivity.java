@@ -2,6 +2,7 @@ package com.example.yuhekejioa.My_Initiated;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.example.yuhekejioa.Bean.ChoosepersonBean;
 import com.example.yuhekejioa.Bean.SonBean;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONArray;
@@ -38,6 +40,7 @@ public class ChooseapersonActivity extends AppCompatActivity {
     private Choosepersonadapter choosepersonadapter;
     private List<SonBean> list_son = new ArrayList<>();
     private int deptId;
+    private Dialog loadingDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -54,6 +57,10 @@ public class ChooseapersonActivity extends AppCompatActivity {
     }
 
     private void initwangluo() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ChooseapersonActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("deptId", String.valueOf(deptId));
         NetworkUtils.sendPost(Constant.ip + "/app/task/getReceiveUser", hashMap, this, new NetworkUtils.HttpCallback() {
@@ -79,6 +86,10 @@ public class ChooseapersonActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 choosepersonadapter = new Choosepersonadapter(ChooseapersonActivity.this, list);
                                 listView.setAdapter(choosepersonadapter);
                                 choosepersonadapter.setCallBack(new Choosepersonadapter.MyCallBack() {
@@ -114,6 +125,10 @@ public class ChooseapersonActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(ChooseapersonActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -121,12 +136,31 @@ public class ChooseapersonActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
             @Override
             public void onError(String msg) {
                 super.onError(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                        Toast.makeText(ChooseapersonActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

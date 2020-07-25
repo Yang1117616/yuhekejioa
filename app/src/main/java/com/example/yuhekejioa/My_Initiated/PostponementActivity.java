@@ -129,6 +129,10 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initwangluo() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(PostponementActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(taskId));
 
@@ -182,6 +186,10 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -218,12 +226,25 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(PostponementActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -233,6 +254,10 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(PostponementActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)

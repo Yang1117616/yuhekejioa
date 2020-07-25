@@ -212,8 +212,13 @@ public class TobeconfirmedActivity extends AppCompatActivity {
             }
         });
     }
+
     //网络请求
     private void initdata() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(TobeconfirmedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(taskId));
         hashMap.put("msgId", String.valueOf(id));
@@ -239,18 +244,13 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                         final String receiveDept = data.getString("receiveDept");//接收部门
                         final String receiveNickName = data.getString("receiveNickName");//接收人
                         statusStr = data.getString("statusStr");
-                        final int isUrgent = data.getInt("isUrgent");//加急状态
-
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//获取里面的集合
-
-
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);//集合中的实体类
                             //文件名称
                             name = jsonObject.getString("name");
                             String fileSize = jsonObject.getString("fileSize");//文件大小
                             url = Constant.ip + jsonObject.getString("url");
-
                             DeterminBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new DeterminBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setUrl(url);
                             sysFilesSponsorBean.setName(name);
@@ -261,6 +261,10 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -295,12 +299,25 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(TobeconfirmedActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -310,6 +327,10 @@ public class TobeconfirmedActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(TobeconfirmedActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)
@@ -403,6 +424,7 @@ public class TobeconfirmedActivity extends AppCompatActivity {
             }
         });
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

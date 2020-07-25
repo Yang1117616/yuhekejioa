@@ -3,6 +3,7 @@ package com.example.yuhekejioa.My_Initiated;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,6 +27,7 @@ import com.example.yuhekejioa.Bean.DepartmentBean;
 import com.example.yuhekejioa.Bean.SonBean;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONArray;
@@ -49,6 +51,7 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
     private MyExpandableListView adapter;
 
     private List<FatherBean> list = new ArrayList<>();
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,10 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
     }
     //网络请求
     private void initdata() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ChooseDepartmentActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         NetworkUtils.sendPost(Constant.ip + "/app/task/getDepts", null, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -100,6 +107,7 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     if (code == 200) {
                         JSONObject data = res.getJSONObject("data");
                         JSONArray children = data.getJSONArray("children");//父内容
@@ -124,6 +132,10 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 adapter = new MyExpandableListView(ChooseDepartmentActivity.this, list_father, list_son);
                                 expandableListView.setAdapter(adapter);
                                 expandableListView.expandGroup(0);//默认展开第一组
@@ -153,9 +165,29 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
 
                             }
                         });
+                    }else if(code==500){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
+                                Toast.makeText(ChooseDepartmentActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
 
             }
@@ -166,6 +198,10 @@ public class ChooseDepartmentActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(ChooseDepartmentActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)

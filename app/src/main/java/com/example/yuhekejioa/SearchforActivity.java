@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,8 +20,10 @@ import android.widget.Toast;
 import com.example.yuhekejioa.Adapter.MeInitiateXAdapter;
 import com.example.yuhekejioa.Adapter.SearchforAdapter;
 import com.example.yuhekejioa.Bean.SearchforBean;
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.My_Initiated.MeInitiateActivity;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.MyLog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -52,6 +55,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
     private List<SearchforBean.DataBean.ListBean> list = new ArrayList<>();
     private SearchforAdapter adapter;
     private RelativeLayout relative_no;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,9 +134,13 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
 
     //网络请求
     private void initData() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(SearchforActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNum", String.valueOf(pageNum));
-        hashMap.put("pageSize", String.valueOf(20));
+        hashMap.put("pageSize", String.valueOf(200));//一页显示的条数
         hashMap.put("title", title);
         NetworkUtils.sendPost(Constant.ip + "/app/index/search", hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
@@ -194,6 +202,10 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                             @Override
                             public void run() {
                                 if (code == 200) {
+                                    if (loadingDialog != null) {
+                                        loadingDialog.dismiss();
+                                        loadingDialog = null;
+                                    }
                                     if (list.size() > 0) {
                                         if (adapter != null) {
                                             adapter.notifyDataSetChanged();
@@ -204,6 +216,10 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            if (loadingDialog != null) {
+                                                loadingDialog.dismiss();
+                                                loadingDialog = null;
+                                            }
                                             Toast.makeText(SearchforActivity.this, msg, Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -214,6 +230,10 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 relative_no.setVisibility(View.VISIBLE);
                                 recyclerview.setVisibility(View.GONE);
                                 home_RefreshLayout.closeHeaderOrFooter();
@@ -225,6 +245,10 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
                             relative_no.setVisibility(View.VISIBLE);
                             recyclerview.setVisibility(View.GONE);
                             home_RefreshLayout.closeHeaderOrFooter();
@@ -239,6 +263,10 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         relative_no.setVisibility(View.VISIBLE);
                         recyclerview.setVisibility(View.GONE);
                         home_RefreshLayout.closeHeaderOrFooter();
@@ -253,6 +281,10 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         relative_no.setVisibility(View.VISIBLE);
                         recyclerview.setVisibility(View.GONE);
                         home_RefreshLayout.closeHeaderOrFooter();
@@ -276,6 +308,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

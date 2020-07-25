@@ -56,17 +56,13 @@ public class XiugaiprocessingActivity extends AppCompatActivity implements View.
     private Button button_submit;//提交按钮
     private ImageView back;//返回按钮
     private TextView report;//汇报
-
     private LinearLayout applyforanextensionLayout;
-
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
     private String updateTime;
-
     private HashMap<String, String> map;
     private String url;
     private int canDelay;
-
     private TextView edit_title;
     private Dialog loadingDialog;
     private TextView text_nofile;

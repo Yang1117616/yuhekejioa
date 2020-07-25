@@ -144,6 +144,10 @@ public class ProcessingActivity extends AppCompatActivity {
 
     //网络请求
     private void initdata() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ProcessingActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(id));
         NetworkUtils.sendPost(Constant.ip + "/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
@@ -184,6 +188,10 @@ public class ProcessingActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -217,23 +225,41 @@ public class ProcessingActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(ProcessingActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onError(final String msg) {
+            public void onError(String msg) {
                 super.onError(msg);
-                new AlertDialog.Builder(ProcessingActivity.this)
-                        .setMessage(msg)
-                        .setPositiveButton("确定", null)
-                        .show();
-                Toast.makeText(ProcessingActivity.this, msg, Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                        Toast.makeText(ProcessingActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -406,6 +432,7 @@ public class ProcessingActivity extends AppCompatActivity {
             }
         });
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

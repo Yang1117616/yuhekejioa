@@ -138,6 +138,10 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
     }
 
     private void initwangluo() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ModificationinprogressActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(taskId));
         hashMap.put("msgId", String.valueOf(id));
@@ -185,6 +189,10 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -221,12 +229,25 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(ModificationinprogressActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -236,6 +257,10 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(ModificationinprogressActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)

@@ -61,9 +61,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         int isRead = list.get(position).getIsRead();//红点状态
 
         int id = list.get(position).getId();//id
-        String taskNo = list.get(position).getTaskNo();
+
         int taskId = list.get(position).getTaskId();
         int isUrgent = list.get(position).getIsUrgent();//是否是加急任务单
+        int isFixed = list.get(position).getIsFixed();//是否是固定任务单
+
         if (taskStatus == 0) {
             holder.image_logo.setImageResource(R.drawable.image0);
             //跳转到我接收的--------已完成页面
@@ -73,7 +75,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, CompletedActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -85,7 +87,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, MyprocessingActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
+                    intent.putExtra("isFixed",isFixed);
                     context.startActivity(intent);
                 }
             });
@@ -105,7 +108,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     intent.putExtra("idx", id);
                     intent.putExtra("id", taskId);
                     intent.putExtra("confirmType", 1);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -119,7 +122,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, WaitActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -168,7 +171,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, ModificationinprogressActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -194,7 +197,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     intent.putExtra("taskId", id);
                     intent.putExtra("id", taskId);
                     intent.putExtra("confirmType", 2);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });
@@ -219,7 +222,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     Intent intent = new Intent(context, My_AcceptingmodificationActivity.class);
                     intent.putExtra("taskId", taskId);
                     intent.putExtra("id", id);
-                    intent.putExtra("isUrgent",isUrgent);
+                    intent.putExtra("isUrgent", isUrgent);
                     context.startActivity(intent);
                 }
             });

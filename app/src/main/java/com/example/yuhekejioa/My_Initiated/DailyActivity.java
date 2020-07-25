@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -18,6 +19,7 @@ import com.example.yuhekejioa.Bean.DailyBean;
 import com.example.yuhekejioa.My_recrive.MyreceiveActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.MyLog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -43,6 +45,7 @@ public class DailyActivity extends AppCompatActivity {
     private List<DailyBean.DataBean> list = new ArrayList<>();
     private RelativeLayout relative_no;
     private DailyAdapter adapter;
+    private Dialog loadingDialog;
 
     @Override
 
@@ -91,7 +94,6 @@ public class DailyActivity extends AppCompatActivity {
     }
 
 
-
     //网络请求
     private void initdata() {
         HashMap<String, String> hashMap = new HashMap<>();
@@ -105,6 +107,7 @@ public class DailyActivity extends AppCompatActivity {
                 }
                 try {
                     int code = res.getInt("code");
+                    String msg = res.getString("msg");
                     JSONArray data = res.getJSONArray("data");
                     if (data.length() > 0) {
                         runOnUiThread(new Runnable() {
@@ -129,6 +132,7 @@ public class DailyActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
                                 if (code == 200) {
                                     if (list.size() > 0) {
                                         //适配器刷新
@@ -138,6 +142,13 @@ public class DailyActivity extends AppCompatActivity {
                                         home_RefreshLayout.closeHeaderOrFooter();
                                     }
 
+                                } else if (code == 500) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(DailyActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -198,6 +209,7 @@ public class DailyActivity extends AppCompatActivity {
             }
         });
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

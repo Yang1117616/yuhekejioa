@@ -23,6 +23,7 @@ import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.PendingAdapter;
 import com.example.yuhekejioa.Bean.DeterminBean;
 
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
 import com.example.yuhekejioa.Utils.LoadingDialog;
@@ -130,6 +131,10 @@ public class DeterminedActivity extends AppCompatActivity {
 
     //网络请求
     private void initdata() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(DeterminedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(id));
         hashMap.put("msgId", String.valueOf(idx));
@@ -173,6 +178,10 @@ public class DeterminedActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -206,12 +215,25 @@ public class DeterminedActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(DeterminedActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -221,6 +243,10 @@ public class DeterminedActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(DeterminedActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)
@@ -359,6 +385,10 @@ public class DeterminedActivity extends AppCompatActivity {
 
     //提交
     private void initsubmit() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(DeterminedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap1 = new HashMap<>();
         hashMap1.put("taskId", String.valueOf(id));
         hashMap1.put("taskNo", taskNo);
@@ -377,6 +407,10 @@ public class DeterminedActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(DeterminedActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                                 DeterminedActivity.this.finish();
@@ -386,12 +420,25 @@ public class DeterminedActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(DeterminedActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -401,12 +448,17 @@ public class DeterminedActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(DeterminedActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

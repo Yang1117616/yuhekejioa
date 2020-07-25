@@ -10,6 +10,7 @@
         android:layout_marginTop="10dp">
 
         <CheckBox
+            android:theme="@style/My_CheckBox"
             android:focusable="false"
             android:id="@+id/box"
             style="@style/Widget.AppCompat.CompoundButton.RadioButton"

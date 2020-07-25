@@ -24,8 +24,10 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -51,6 +53,7 @@ public class ApplyforanextensionActivity extends AppCompatActivity implements Vi
     private String taskNo;
     private String wantFinishTiem;
     private int id;
+    private Dialog loadingDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -107,6 +110,7 @@ public class ApplyforanextensionActivity extends AppCompatActivity implements Vi
                 break;
         }
     }
+
     //时间选择器
     private void initTimePicker() {
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
@@ -171,7 +175,10 @@ public class ApplyforanextensionActivity extends AppCompatActivity implements Vi
             Toast.makeText(this, "请选择申请延期时间", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ApplyforanextensionActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("delayReason", edit_yuheedittext);
         hashMap.put("newTime", new_time);
@@ -190,14 +197,22 @@ public class ApplyforanextensionActivity extends AppCompatActivity implements Vi
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(ApplyforanextensionActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 ApplyforanextensionActivity.this.finish();
                             }
                         });
-                    } else if(code==500){
+                    } else if (code == 500) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(ApplyforanextensionActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                             }
@@ -205,6 +220,15 @@ public class ApplyforanextensionActivity extends AppCompatActivity implements Vi
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -214,6 +238,10 @@ public class ApplyforanextensionActivity extends AppCompatActivity implements Vi
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(ApplyforanextensionActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -221,6 +249,7 @@ public class ApplyforanextensionActivity extends AppCompatActivity implements Vi
         });
 
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

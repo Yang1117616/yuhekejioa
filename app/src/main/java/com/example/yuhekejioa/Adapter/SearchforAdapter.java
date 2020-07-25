@@ -204,7 +204,6 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
                     });
                 }
                 if (isFixed == 0) {} else if (isFixed == 1) {
-                    holder.image_expedited.setVisibility(View.VISIBLE);
                     holder.modify.setVisibility(View.VISIBLE);
                     holder.termination.setVisibility(View.GONE);
                     holder.button_examine.setVisibility(View.GONE);

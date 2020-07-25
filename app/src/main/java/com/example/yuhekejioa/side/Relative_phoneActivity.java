@@ -2,6 +2,7 @@ package com.example.yuhekejioa.side;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -13,8 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -29,6 +32,7 @@ public class Relative_phoneActivity extends AppCompatActivity implements View.On
     private Button submit;
     private RelativeLayout relative_back;//返回按钮
     private EditText new_phone;
+    private Dialog loadingDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -71,6 +75,10 @@ public class Relative_phoneActivity extends AppCompatActivity implements View.On
             Toast.makeText(this, "请输入正确格式的手机号", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(Relative_phoneActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("newPhone", phone);
         NetworkUtils.sendPost(Constant.ip + "/app/user/updatePhone", hashMap, Relative_phoneActivity.this, new NetworkUtils.HttpCallback() {
@@ -86,6 +94,10 @@ public class Relative_phoneActivity extends AppCompatActivity implements View.On
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(Relative_phoneActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 Relative_phoneActivity.this.finish();
                             }
@@ -94,12 +106,25 @@ public class Relative_phoneActivity extends AppCompatActivity implements View.On
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(Relative_phoneActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -109,6 +134,10 @@ public class Relative_phoneActivity extends AppCompatActivity implements View.On
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(Relative_phoneActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });

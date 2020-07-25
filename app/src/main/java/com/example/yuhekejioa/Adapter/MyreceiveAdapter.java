@@ -180,16 +180,16 @@ public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.View
                 holder.modify.setVisibility(View.VISIBLE);
             }
 
-//            holder.modify.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    //跳转到待确认
-//                    Intent intent = new Intent(context, DeterminedActivity.class);
-//                    intent.putExtra("confirmType", 1);
-//                    intent.putExtra("id", id);
-//                    context.startActivity(intent);
-//                }
-//            });
+            holder.modify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //跳转到待确认
+                    Intent intent = new Intent(context, DeterminedActivity.class);
+                    intent.putExtra("confirmType", 1);
+                    intent.putExtra("id", id);
+                    context.startActivity(intent);
+                }
+            });
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

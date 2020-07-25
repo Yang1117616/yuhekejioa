@@ -2,6 +2,7 @@ package com.example.yuhekejioa.side;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,8 +15,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -36,6 +39,7 @@ public class Relative_pasActivity extends AppCompatActivity implements View.OnCl
     private SharedPreferences tokens;
     private String password;
     private SharedPreferences.Editor edit;
+    private Dialog loadingDialog;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +131,10 @@ public class Relative_pasActivity extends AppCompatActivity implements View.OnCl
             return;
         }
 
-
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(Relative_pasActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("newPassword", new_mima);
         hashMap.put("oldPassword", old_mima);
@@ -145,14 +152,22 @@ public class Relative_pasActivity extends AppCompatActivity implements View.OnCl
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(Relative_pasActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                                 Relative_pasActivity.this.finish();
                             }
                         });
-                    } else if (code==500){
+                    } else if (code == 500) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(Relative_pasActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -161,6 +176,15 @@ public class Relative_pasActivity extends AppCompatActivity implements View.OnCl
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -170,6 +194,10 @@ public class Relative_pasActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(Relative_pasActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -185,6 +213,7 @@ public class Relative_pasActivity extends AppCompatActivity implements View.OnCl
         }
         return false;
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

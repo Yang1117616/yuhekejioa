@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -14,7 +14,9 @@
         <item name="android:maxHeight">50dip</item>
         <item name="android:minHeight">10dip</item>
         <item name="android:indeterminateOnly">false</item>
-        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
         <item name="android:progressDrawable">@drawable/shape_progressbar_mini</item>
     </style>
     <!--Base.Animation.AppCompat-->
@@ -25,7 +27,10 @@
     </style>
 
 
-
+    <style name="My_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox" tools:ignore="NewApi">
+        <item name="android:colorControlActivated">@color/topbar_3</item>
+        <item name="android:colorControlNormal">@color/select_title_text</item>
+    </style>
 
     <!-- Base application theme. -->
     <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
@@ -65,7 +70,6 @@
     </style>
 
 
-
     <style name="custom_dialog2" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <!-- Dialog的windowFrame框为无 -->
@@ -83,11 +87,9 @@
         <item name="android:backgroundDimAmount">0.3</item>
     </style>
 
-    <style name="picker_view_scale_anim" mce_bogus="1" parent="android:Animation">
-    </style>
+    <style name="picker_view_scale_anim" mce_bogus="1" parent="android:Animation"></style>
 
 
-    <style name="picker_view_slide_anim" mce_bogus="1" parent="android:Animation">
-    </style>
+    <style name="picker_view_slide_anim" mce_bogus="1" parent="android:Animation"></style>
 
 </resources>

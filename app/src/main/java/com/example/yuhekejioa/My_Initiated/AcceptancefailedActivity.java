@@ -149,16 +149,17 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
         text_nofile = findViewById(R.id.text_nofile);
         opinionselection = findViewById(R.id.opinionselection);//请选择验收结果
         button_view = findViewById(R.id.button_view);//查看每日工作
-
         edit_title = findViewById(R.id.edit_title);
-
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);
     }
 
     private void initdata() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(AcceptancefailedActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
-
         hashMap.put("taskId", String.valueOf(taskId));
         hashMap.put("msgId", String.valueOf(id));
         NetworkUtils.sendPost(Constant.ip + "/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
@@ -184,19 +185,14 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                         final String result = data.getString("result");//任务成果
                         final int inspected = data.getInt("inspected");//验收通过或者未通过状态
                         final String title = data.getString("title");//任务标题
-
                         final String inspectedState = data.getString("inspectedState");
-
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
-
-
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
                             String name = jsonObject.getString("name");//文件名字
                             String fileSize = jsonObject.getString("fileSize");
                             url = Constant.ip + jsonObject.getString("url");//文件url
-
                             WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setName(name);
                             sysFilesSponsorBean.setFileSize(fileSize);
@@ -207,6 +203,10 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -217,7 +217,6 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                                 editText1.setText(result);
                                 edit_title.setText(title);//添加任务标题
                                 yuheedittext.setText(inspectedState);//添加补充说明
-
                                 if (inspected == 0) {
                                     opinionselection.setText("通过");
                                 } else if (inspected == 1) {
@@ -251,12 +250,25 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(AcceptancefailedActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -266,6 +278,10 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(AcceptancefailedActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)

@@ -2,6 +2,7 @@ package com.example.yuhekejioa.My_recrive;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -24,6 +27,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+
 // 我接收的-------汇报每日工作
 public class ReportActivity extends AppCompatActivity {
 
@@ -35,6 +39,7 @@ public class ReportActivity extends AppCompatActivity {
     private EditText percentage;
     private Button button_submit;
     private ImageView back;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +97,17 @@ public class ReportActivity extends AppCompatActivity {
             Toast.makeText(this, "请输入当前完成度", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ReportActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("jobContent", edit_yuhe);
         hashMap.put("progress", trim);
         hashMap.put("taskId", String.valueOf(id));
         hashMap.put("taskNo", renwubianhao);
 
-        NetworkUtils.sendPost(Constant.ip +"/app/taskReceive/saveProgress", hashMap, this, new NetworkUtils.HttpCallback() {
+        NetworkUtils.sendPost(Constant.ip + "/app/taskReceive/saveProgress", hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
                 if (res == null || this == null) {
@@ -108,23 +117,40 @@ public class ReportActivity extends AppCompatActivity {
                     int code = res.getInt("code");
                     String msg = res.getString("msg");
                     if (code == 200) {
-                      runOnUiThread(new Runnable() {
-                          @Override
-                          public void run() {
-                              Toast.makeText(ReportActivity.this, msg, Toast.LENGTH_SHORT).show();
-                              ReportActivity.this.finish();
-                          }
-                      });
-                    }else if (code==500){
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
+                                Toast.makeText(ReportActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                ReportActivity.this.finish();
+                            }
+                        });
+                    } else if (code == 500) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(ReportActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -134,12 +160,17 @@ public class ReportActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(ReportActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

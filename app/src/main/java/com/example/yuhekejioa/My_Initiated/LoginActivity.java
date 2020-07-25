@@ -2,6 +2,7 @@ package com.example.yuhekejioa.My_Initiated;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.yuhekejioa.MainActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
 import com.example.yuhekejioa.Utils.IsNetwork;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONArray;
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button login;
     private SharedPreferences.Editor edit;
     private SharedPreferences sharedPreferences;
+    private Dialog loadingDialog;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +77,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         image_yincang = findViewById(R.id.image_yincang);
         image_xianshi = findViewById(R.id.image_xianshi);
 
-        login_phone.setLayerType(View.LAYER_TYPE_HARDWARE,null);
-        login_password.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+        login_phone.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        login_password.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         login = findViewById(R.id.login);
         login.setOnClickListener(this);
@@ -145,10 +148,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return;
             }
         }
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(LoginActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> map = new HashMap<>();
         map.put("username", edit_phone);
         map.put("password", edit_password);
-
         NetworkUtils.sendPost(Constant.ip + "/login", map, LoginActivity.this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -176,17 +182,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                // intent.putExtra("avatar",avatar);
                                 startActivity(intent);
                                 finish();
                             }
                         });
-                    } else if(code==500) {
+                    } else if (code == 500) {
                         final String msg = (String) res.get("msg");
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                             }
@@ -194,6 +207,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -203,6 +225,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+
                         Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -218,6 +245,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Matcher m = p.matcher(str);
         return m.matches();
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

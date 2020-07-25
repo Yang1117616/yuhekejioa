@@ -94,7 +94,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
-    private int isFixed;
+     private int isFixed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
         id = intent.getIntExtra("id", 0);
         statusStr = intent.getStringExtra("statusStr");
         isUrgent = intent.getIntExtra("isUrgent", 0);
-        isFixed = intent.getIntExtra("isFixed", 0);
+         isFixed = intent.getIntExtra("isFixed", 0);
         initview();
         initwanggluo();
         map = new HashMap<>();
@@ -138,6 +138,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
         map.put(".mpg", "video/mpeg");
         map.put(".text", "text/plain");
     }
+
 
     private void initview() {
         numbering = findViewById(R.id.taskNo);
@@ -178,6 +179,10 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
 
     //网络请求
     private void initwanggluo() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(MyprocessingActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(taskId));
         hashMap.put("msgId", String.valueOf(id));
@@ -200,13 +205,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                         final String updateTime = data.getString("wantFinishTiem");//结束时间
                         final String taskDescribe = data.getString("taskDescribe");//任务描述
                         final String title = data.getString("title");
-                        final int isUrgent = data.getInt("isUrgent");//加急状态
-                        //状态
-                        // inspected = data.getInt("inspected");
-
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
-
-
                         //如果集合等于0的时候
                         for (int i = 0; i < sysFilesSponsor.length(); i++) {
                             JSONObject jsonObject = sysFilesSponsor.getJSONObject(i);
@@ -223,6 +222,10 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -243,7 +246,6 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                                 } else {
                                     text_nofile.setVisibility(View.VISIBLE);
                                 }
-
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {
@@ -258,6 +260,10 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(MyprocessingActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -265,6 +271,15 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
+                    }
+                });
             }
 
             @Override
@@ -273,6 +288,10 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(MyprocessingActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)
@@ -395,6 +414,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

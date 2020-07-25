@@ -43,7 +43,6 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
         ViewHolder holder = new ViewHolder(inflate);
         return holder;
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.filename.setText(list.get(position).getName());

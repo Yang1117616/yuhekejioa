@@ -185,6 +185,10 @@ public class XiugaipendingActivity extends AppCompatActivity {
 
     //提交
     private void initsubmit() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(XiugaipendingActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap1 = new HashMap<>();
         hashMap1.put("taskId", String.valueOf(id));
         hashMap1.put("taskNo", taskNo);
@@ -203,6 +207,10 @@ public class XiugaipendingActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(XiugaipendingActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                                 XiugaipendingActivity.this.finish();
@@ -212,12 +220,25 @@ public class XiugaipendingActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(XiugaipendingActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -227,6 +248,10 @@ public class XiugaipendingActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(XiugaipendingActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -237,6 +262,10 @@ public class XiugaipendingActivity extends AppCompatActivity {
 
     //网络请求
     private void initdata() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(XiugaipendingActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(id));
         hashMap.put("msgId", String.valueOf(taskId));
@@ -278,6 +307,10 @@ public class XiugaipendingActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -310,12 +343,25 @@ public class XiugaipendingActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(XiugaipendingActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -325,6 +371,10 @@ public class XiugaipendingActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(XiugaipendingActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)

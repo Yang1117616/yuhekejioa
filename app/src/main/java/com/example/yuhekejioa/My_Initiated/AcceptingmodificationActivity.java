@@ -170,10 +170,12 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
     }
 
     private void initdata() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(AcceptingmodificationActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
-
         hashMap.put("taskId", String.valueOf(taskId));
-
         NetworkUtils.sendPost(Constant.ip + "/app/task/getTask", hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -198,9 +200,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                         final String title = data.getString("title");//任务标题
                         final String inspectedState = data.getString("inspectedState");
                         statusStr = data.getString("statusStr");
-                        int isUrgent = data.getInt("isUrgent");
                         inspectedUpdateTime = data.getString("inspectedUpdateTime");
-
                         JSONArray sysFilesSponsor = data.getJSONArray("sysFilesSponsor");//文件管理的集合类
 
                         //如果集合等于0的时候
@@ -209,8 +209,6 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                             String name = jsonObject.getString("name");//文件名字
                             String fileSize = jsonObject.getString("fileSize");
                             url = Constant.ip + jsonObject.getString("url");//文件url
-
-
                             WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean = new WantBean.DataBean.SysFilesSponsorBean();
                             sysFilesSponsorBean.setName(name);
                             sysFilesSponsorBean.setFileSize(fileSize);
@@ -221,6 +219,10 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -259,12 +261,25 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(AcceptingmodificationActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -274,6 +289,10 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(AcceptingmodificationActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)

@@ -2,6 +2,7 @@ package com.example.yuhekejioa.side;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -11,8 +12,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -21,12 +24,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 //修改邮箱页面
 public class Relative_mailboxActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RelativeLayout relative_back;//返回按钮
     private EditText new_mailbo;
     private Button submit;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,11 @@ public class Relative_mailboxActivity extends AppCompatActivity implements View.
 //            Toast.makeText(this, "请输入正确格式的邮箱", Toast.LENGTH_SHORT).show();
 //            return;
 //        }
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(Relative_mailboxActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
+
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("newEmail", s);
         NetworkUtils.sendPost(Constant.ip + "/app/user/updateEmail", hashMap, Relative_mailboxActivity.this, new NetworkUtils.HttpCallback() {
@@ -86,20 +96,38 @@ public class Relative_mailboxActivity extends AppCompatActivity implements View.
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(Relative_mailboxActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 Relative_mailboxActivity.this.finish();
                             }
                         });
-                    } else if (code==500){
+                    } else if (code == 500) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(Relative_mailboxActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -109,6 +137,10 @@ public class Relative_mailboxActivity extends AppCompatActivity implements View.
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(Relative_mailboxActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -125,6 +157,7 @@ public class Relative_mailboxActivity extends AppCompatActivity implements View.
         }
         return false;
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

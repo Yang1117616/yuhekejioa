@@ -47,6 +47,7 @@ import com.example.yuhekejioa.Adapter.MainAdapter;
 import com.example.yuhekejioa.Bean.Mainbean;
 import com.example.yuhekejioa.Jpush.ExampleUtil;
 import com.example.yuhekejioa.Jpush.LocalBroadcastManager;
+import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.My_Initiated.InitiateActivity;
 import com.example.yuhekejioa.My_Initiated.LoginActivity;
 import com.example.yuhekejioa.My_Initiated.MeInitiateActivity;
@@ -54,6 +55,7 @@ import com.example.yuhekejioa.My_audit.MyAuditActivity;
 import com.example.yuhekejioa.My_recrive.MyreceiveActivity;
 import com.example.yuhekejioa.Utils.Constant;
 import com.example.yuhekejioa.Utils.GlideEngine;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.MyLog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpringProgressView;
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
+    private Dialog loadingDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -525,6 +528,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // 首页条目网络请求
     private void initData() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(MainActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         NetworkUtils.sendPost(Constant.ip + "/app/index/getMsgList", null, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
@@ -555,12 +562,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             dataBean.setTaskId(jsonObject.getInt("taskId"));
                             dataBean.setTaskTitle(jsonObject.getString("taskTitle"));//标题
                             dataBean.setIsUrgent(jsonObject.getInt("isUrgent"));
+                            dataBean.setIsFixed(jsonObject.getInt("isFixed"));
                             list.add(dataBean);
                         }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 //适配器刷新
                                 if (adapter != null) {
                                     adapter.notifyDataSetChanged();
@@ -574,6 +585,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 dialog_one(MainActivity.this, msg).show();
                             }
                         });
@@ -582,6 +597,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                             }
@@ -592,7 +611,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
                             home_RefreshLayout.closeHeaderOrFooter();
                         }
                     });
@@ -605,7 +627,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                         home_RefreshLayout.closeHeaderOrFooter();
                     }
@@ -618,7 +643,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         home_RefreshLayout.closeHeaderOrFooter();
                     }
                 });

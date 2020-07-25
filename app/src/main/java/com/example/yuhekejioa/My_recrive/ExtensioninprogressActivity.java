@@ -130,6 +130,10 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
 
     //网络请求
     private void initwangluo() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(ExtensioninprogressActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("taskId", String.valueOf(taskId));
         hashMap.put("msgId", String.valueOf(id));
@@ -180,6 +184,10 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 numbering.setText(taskNo);
                                 current_time1.setText(createTime);
                                 sponsor_name.setText(addNickName);
@@ -213,12 +221,25 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(ExtensioninprogressActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
+                        }
+                    });
                 }
             }
 
@@ -228,6 +249,10 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         new AlertDialog.Builder(ExtensioninprogressActivity.this)
                                 .setMessage(msg)
                                 .setPositiveButton("确定", null)

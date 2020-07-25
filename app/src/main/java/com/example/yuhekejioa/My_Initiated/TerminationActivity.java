@@ -2,6 +2,7 @@ package com.example.yuhekejioa.My_Initiated;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -33,6 +35,7 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
 //    private int inspected;
     private String taskNo;
     private String statusStr;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,10 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
 
     //终止方法
     private void initsubmit() {
-
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.createLoadingDialog(TerminationActivity.this, "正在加载中...");
+            loadingDialog.show();
+        }
         String thereason = yuheedittext.getText().toString();
         if (TextUtils.isEmpty(thereason)) {
             Toast.makeText(this, "终止原因不能为空", Toast.LENGTH_SHORT).show();
@@ -104,6 +110,10 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(TerminationActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 TerminationActivity.this.finish();
                             }
@@ -112,6 +122,10 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
                                 Toast.makeText(TerminationActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -121,6 +135,10 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (loadingDialog != null) {
+                                loadingDialog.dismiss();
+                                loadingDialog = null;
+                            }
                             Toast.makeText(TerminationActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -133,6 +151,10 @@ public class TerminationActivity extends AppCompatActivity implements View.OnCli
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                            loadingDialog = null;
+                        }
                         Toast.makeText(TerminationActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
