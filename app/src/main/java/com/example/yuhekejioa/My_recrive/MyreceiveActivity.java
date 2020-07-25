@@ -62,6 +62,12 @@ public class MyreceiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myreceive);
         initview();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         initdata();
     }
 

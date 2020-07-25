@@ -156,6 +156,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         methodRequiresTwoPermission();
         initwangluo();
     }
+
     //获取控件id
     private void initview() {
         back = findViewById(R.id.back);
@@ -245,7 +246,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                         initwangluo1(list.get(position));
                                     }
                                 });
-
                                 adapter.setOnStringClickListener(new WaitAdapter.OnItemListenter() {
                                     @Override
                                     public void onItemClick(StringBuilder defile) {
@@ -408,7 +408,6 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             loadingDialog = LoadingDialog.createLoadingDialog(ModifyActivity.this, "正在加载中...");
             loadingDialog.show();
         }
-
         //提交任务单接口
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("receive", receive);//员工编号
@@ -906,6 +905,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     public boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

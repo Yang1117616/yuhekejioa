@@ -56,6 +56,12 @@ public class MeInitiateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_initiate);
         initview();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         initdata();
     }
 
@@ -94,8 +100,10 @@ public class MeInitiateActivity extends AppCompatActivity {
         adapter = new MeInitiateXAdapter(MeInitiateActivity.this, list);
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
+        recyclerView.getLayoutManager().setAutoMeasureEnabled(false);
         adapter.notifyDataSetChanged();
     }
+
 
     private void initdata() {
         if (loadingDialog == null) {
@@ -261,6 +269,7 @@ public class MeInitiateActivity extends AppCompatActivity {
             }
         });
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

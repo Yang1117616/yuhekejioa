@@ -81,26 +81,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
         back.setOnClickListener(this);
         image_delete.setOnClickListener(this);
         text_searchfor.setOnClickListener(this);
-        //下拉刷新
-        home_RefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                MyLog.e("刷新");
-                pageNum = 1;
-                initData();
-            }
-        });
-//        //上拉加载
-//        home_RefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(RefreshLayout refreshlayout) {
-//                MyLog.e("加载");
-//                pageNum = pageNum + 1;
-//                initData();
-//            }
-//        });
-        home_RefreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
-        //     home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));
+
         relative_no.setVisibility(View.GONE);
         recyclerview.setVisibility(View.GONE);
         edit_searchfor.addTextChangedListener(new TextWatcher() {
@@ -129,6 +110,37 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
         recyclerview.setHasFixedSize(true);
         adapter = new SearchforAdapter(SearchforActivity.this, list);
         recyclerview.setAdapter(adapter);
+
+        home_RefreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
+       /// home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));//设置尾布局
+        setRefreshListener();
+    }
+
+    private void setRefreshListener() {
+        //下拉刷新
+        home_RefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                MyLog.e("刷新");
+                pageNum = 1;
+                initData();
+                adapter.notifyDataSetChanged();
+            }
+        });
+        //上拉加载
+//        home_RefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(RefreshLayout refreshlayout) {
+////                MyLog.e("加载");
+////                pageNum = pageNum + 1;
+////                initData();
+////                adapter.notifyDataSetChanged();
+//                //设置加载时长
+//                home_RefreshLayout.finishLoadMore(1000);
+//
+//
+//            }
+//        });
     }
 
 

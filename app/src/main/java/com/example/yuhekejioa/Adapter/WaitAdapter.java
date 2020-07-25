@@ -43,6 +43,7 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
         ViewHolder holder = new ViewHolder(inflate);
         return holder;
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.filename.setText(list.get(position).getName());
@@ -60,20 +61,15 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
         holder.image_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("".equals(id) && id != null) {
-                    defile.append(id).append(",");
-                    mItemClickListener.onItemClick(defile);
-                }
-//                if(num==0){
-//                    list.remove(position);
-//                }else if(num==1){
-//                    strings.remove(position);
-//                    list.remove(position);
-//                }
-                if (strings.size() > 0) {
+                if (num == 0) {
                     list.remove(position);
+                    if ("".equals(id) && id != null) {
+                        strings.remove(position);
+                        defile.append(id).append(",");
+                        mItemClickListener.onItemClick(defile);
+                    }
+                } else if (num == 1) {
                     strings.remove(position);
-                }else{
                     list.remove(position);
                 }
                 WaitAdapter.this.notifyDataSetChanged();

@@ -168,9 +168,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MyLog.e("保存userNo=", "==" + userNo);
         edit = tokens.edit();
         initView();
+
         initEvent();
         methodRequiresTwoPermission();
     }
+
+
 
     //强制更新版本网络请求
     private void download() {
@@ -391,6 +394,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new MainAdapter(MainActivity.this, list);
         accomplish_List.setAdapter(adapter);
     }
+
+
+
 
 
     @Override
