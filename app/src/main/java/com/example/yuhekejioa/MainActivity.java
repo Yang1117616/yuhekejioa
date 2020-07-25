@@ -394,11 +394,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new MainAdapter(MainActivity.this, list);
         accomplish_List.setAdapter(adapter);
     }
-
-
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
