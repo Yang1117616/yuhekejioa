@@ -514,10 +514,13 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
         } else if (taskStatus == 18) {
             //我发起的------修改待确认
             holder.taskStatus.setImageResource(R.drawable.imageview18);
+            holder.image_expedited.setVisibility(View.GONE);
             holder.modify.setText("终止");
             holder.termination.setText("查看每日工作");
             holder.termination.setBackgroundResource(R.drawable.button_backgroud_blue);
             holder.termination.setTextColor(Color.parseColor("#ff006bff"));
+            holder.modify.setBackgroundResource(R.drawable.button_backgroud_red);
+            holder.modify.setTextColor(Color.parseColor("#ffff4949"));
             holder.button_examine.setVisibility(View.GONE);
             holder.modify.setVisibility(View.VISIBLE);
             holder.termination.setVisibility(View.VISIBLE);
@@ -654,5 +657,4 @@ public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.
             image_expedited = itemView.findViewById(R.id.image_expedited);
         }
     }
-
 }

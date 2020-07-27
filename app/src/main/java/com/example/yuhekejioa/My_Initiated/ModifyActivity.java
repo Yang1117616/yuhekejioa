@@ -239,7 +239,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 nestedListView.addItemDecoration(new SpacesItemDecoration(space));
                                 adapter = new WaitAdapter(ModifyActivity.this, list, strings, num);
                                 nestedListView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
+//                                adapter.notifyDataSetChanged();
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {

@@ -397,6 +397,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        download();
         initData();
         //个人信息界面玩咯请求
         NetworkUtils.sendPost(Constant.ip + "/app/user/getUserInfo", null, MainActivity.this, new NetworkUtils.HttpCallback() {
@@ -470,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void methodRequiresTwoPermission() {
         String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (EasyPermissions.hasPermissions(this, perms)) {//获取到权限
-            download();
+
         } else {
             EasyPermissions.requestPermissions(
                     new PermissionRequest.Builder(this, 1, perms)

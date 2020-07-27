@@ -55,7 +55,6 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
     private TextView enddate_text;//结束时间
     private TextView editText;//任务描述
     private TextView editText1;//任务成果
-    private TextView text_there;//有无附件
     private RecyclerView recyclerview;//附件列表
     private TextView opinionselection;//请选择验收结果
     private TextView yuheedittext;//补充说明
@@ -153,7 +152,6 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
         back.setOnClickListener(this);//返回按钮
         button_view.setOnClickListener(this);
     }
-
     private void initdata() {
         if (loadingDialog == null) {
             loadingDialog = LoadingDialog.createLoadingDialog(AcceptancefailedActivity.this, "正在加载中...");
@@ -397,9 +395,7 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
         }
         return super.dispatchTouchEvent(ev);
     }
-
     private long lastClickTime = System.currentTimeMillis();
-
     private boolean isFastDoubleClick() {
         long time = System.currentTimeMillis();
         long timeD = time - lastClickTime;

@@ -9,7 +9,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
-
+//进度条
 public class SpringProgressView extends View {
 
     /**

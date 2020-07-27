@@ -1,5 +1,6 @@
 package com.example.yuhekejioa;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,6 +57,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
     private SearchforAdapter adapter;
     private RelativeLayout relative_no;
     private Dialog loadingDialog;
+    private boolean refreshType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
         recyclerview.setAdapter(adapter);
 
         home_RefreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
-       /// home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));//设置尾布局
+        /// home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));//设置尾布局
         setRefreshListener();
     }
 
@@ -127,20 +129,29 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                 adapter.notifyDataSetChanged();
             }
         });
-        //上拉加载
+
 //        home_RefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
 //            @Override
-//            public void onLoadMore(RefreshLayout refreshlayout) {
-////                MyLog.e("加载");
-////                pageNum = pageNum + 1;
-////                initData();
-////                adapter.notifyDataSetChanged();
-//                //设置加载时长
-//                home_RefreshLayout.finishLoadMore(1000);
-//
-//
+//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                home_RefreshLayout.getLayout().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        refreshType = false;
+//                        if (pageNum > 2) {
+//                            Toast.makeText(SearchforActivity.this, "暂无更多的数据啦", Toast.LENGTH_SHORT).show();
+//                            // 将不会再次触发加载更多事件
+//                            refreshLayout.finishLoadMoreWithNoMoreData();
+//                            return;
+//                        }
+//                        initData();
+//                        refreshLayout.setEnableLoadMore(true);
+//                        refreshLayout.finishLoadMore();
+//                    }
+//                }, 2000);
 //            }
 //        });
+//        //触发自动刷新
+//        home_RefreshLayout.autoRefresh();
     }
 
 
