@@ -395,7 +395,7 @@ public class XiugaiprocessingActivity extends AppCompatActivity implements View.
                 intent2.putExtra("taskNo", taskNo);
                 intent2.putExtra("id", taskId);
                 startActivity(intent2);
-
+                XiugaiprocessingActivity.this.finish();
                 break;
             case R.id.applyforanextensionLayout://申请延期页面
                 //跳转到申请延期界面
@@ -404,7 +404,7 @@ public class XiugaiprocessingActivity extends AppCompatActivity implements View.
                 intent3.putExtra("id", taskId);
                 intent3.putExtra("wantFinishTiem", updateTime);
                 startActivity(intent3);
-
+                XiugaiprocessingActivity.this.finish();
                 break;
         }
     }

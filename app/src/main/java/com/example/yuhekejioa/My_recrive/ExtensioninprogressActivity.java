@@ -393,7 +393,7 @@ public class ExtensioninprogressActivity extends AppCompatActivity implements Vi
                 intent2.putExtra("taskNo", taskNo);
                 intent2.putExtra("id", taskId);
                 startActivity(intent2);
-
+                ExtensioninprogressActivity.this.finish();
                 break;
         }
     }

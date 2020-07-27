@@ -99,7 +99,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private File file;
     private String path;
     //添加获取的文件路径集合
-    private List<String> strings = new ArrayList<>();
+    private List<String> strings;
     //{后缀名，MIME类型}
     private final String[] MIME_MapTable = {
             ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
@@ -498,6 +498,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                         file = new File(path);
                         if (file.exists()) {
                             //文件路径
+                            strings = new ArrayList<>();
                             strings.add(file.getPath());
                             //文件名字
                             upLoadFileName = file.getName();

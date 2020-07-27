@@ -390,6 +390,7 @@ public class ModificationpendingActivity extends AppCompatActivity implements Vi
                 intent1.putExtra("inspected", inspected);
                 intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
+                ModificationpendingActivity.this.finish();
                 break;
         }
     }

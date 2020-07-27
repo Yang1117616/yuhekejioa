@@ -407,7 +407,7 @@ public class ModificationinprogressActivity extends AppCompatActivity implements
                 intent3.putExtra("inspected", inspected);
                 intent3.putExtra("statusStr", statusStr);
                 startActivity(intent3);
-
+                ModificationinprogressActivity.this.finish();
                 break;
         }
     }

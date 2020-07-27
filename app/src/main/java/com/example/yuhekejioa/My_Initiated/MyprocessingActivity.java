@@ -410,7 +410,7 @@ public class MyprocessingActivity extends AppCompatActivity implements View.OnCl
                 //     intent3.putExtra("inspected", inspected);
                 intent3.putExtra("statusStr", statusStr);
                 startActivity(intent3);
-
+                MyprocessingActivity.this.finish();
                 break;
         }
     }

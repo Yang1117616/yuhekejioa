@@ -26,7 +26,7 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
     private FileAdapter.OnItemClickListener onItemClickListener = null;
 
     private StringBuilder defile = new StringBuilder();
-    private OnItemListenter mItemClickListener = null;
+    private WaitAdapter.OnItemListenter mItemClickListener = null;
     private int num;
 
     public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list, List<String> strings, int num) {
@@ -62,13 +62,12 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if (num == 0) {
-                    list.remove(position);
-                    if ("".equals(id) && id != null) {
-                        strings.remove(position);
+                    if (id != null) {
                         defile.append(id).append(",");
                         mItemClickListener.onItemClick(defile);
                     }
-                } else if (num == 1) {
+                    list.remove(position);
+                } else if (num != 0) {
                     strings.remove(position);
                     list.remove(position);
                 }
@@ -110,7 +109,7 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
         void onItemClick(StringBuilder s);
     }
 
-    public void setOnStringClickListener(OnItemListenter mItemClickListener) {
+    public void setOnStringClickListener(WaitAdapter.OnItemListenter mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 

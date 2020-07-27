@@ -88,6 +88,7 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
             ".zip", "application/x-zip-compressed",
             "", "*/*"
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
@@ -125,7 +126,7 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
         map.put(".mpe", "video/mpeg");
         map.put(".mpeg", "video/mpeg");
         map.put(".mpg", "video/mpeg");
-        map.put(".text","text/plain");
+        map.put(".text", "text/plain");
     }
 
     private void initwangluo() {
@@ -401,10 +402,11 @@ public class PostponementActivity extends AppCompatActivity implements View.OnCl
                 intent1.putExtra("taskId", taskId);
                 intent1.putExtra("inspected", inspected);
                 startActivity(intent1);
-
+                PostponementActivity.this.finish();
                 break;
         }
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

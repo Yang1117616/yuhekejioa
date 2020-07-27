@@ -401,7 +401,7 @@ public class MyExtensioninprogressActivity extends AppCompatActivity implements 
                 intent1.putExtra("taskId", taskId);
                 intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
-
+                MyExtensioninprogressActivity.this.finish();
                 break;
         }
     }

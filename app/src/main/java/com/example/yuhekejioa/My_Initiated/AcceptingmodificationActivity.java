@@ -402,6 +402,7 @@ public class AcceptingmodificationActivity extends AppCompatActivity implements 
                 intent1.putExtra("inspected", 0);
                 intent1.putExtra("statusStr", statusStr);
                 startActivity(intent1);
+                AcceptingmodificationActivity.this.finish();
                 break;
 
         }

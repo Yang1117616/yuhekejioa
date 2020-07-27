@@ -389,6 +389,7 @@ public class ProcessingActivity extends AppCompatActivity {
                 intent.putExtra("id", id);
                 intent.putExtra("wantFinishTiem", updateTime);
                 startActivity(intent);
+                ProcessingActivity.this.finish();
 
             }
         });

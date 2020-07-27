@@ -356,7 +356,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
                 intent2.putExtra("taskNo", taskNo);
                 intent2.putExtra("id", taskId);
                 startActivity(intent2);
-
+               My_AcceptingmodificationActivity.this.finish();
                 break;
 //            case R.id.applyforanextensionLayout://申请延期页面
 //                //跳转到申请延期界面
