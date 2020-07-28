@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,10 +20,12 @@ import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Adapter.MeInitiateXAdapter;
 import com.example.yuhekejioa.Adapter.MyreceiveAdapter;
 import com.example.yuhekejioa.Bean.MyreceiveBean;
+import com.example.yuhekejioa.MainActivity;
 import com.example.yuhekejioa.My_Initiated.MeInitiateActivity;
 import com.example.yuhekejioa.My_Initiated.WaitActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.IsNetwork;
 import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.MyLog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
@@ -63,7 +66,13 @@ public class MyreceiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myreceive);
         initview();
-
+        //判断有无网络
+        if (!new IsNetwork().isNetworkAvailable(MyreceiveActivity.this)) {
+            Toast toast = Toast.makeText(MyreceiveActivity.this, "当前没有可用网络", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
     }
 
 //    @Override

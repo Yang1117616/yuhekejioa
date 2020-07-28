@@ -28,6 +28,7 @@ import android.os.Bundle;
 
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +56,7 @@ import com.example.yuhekejioa.My_audit.MyAuditActivity;
 import com.example.yuhekejioa.My_recrive.MyreceiveActivity;
 import com.example.yuhekejioa.Utils.Constant;
 import com.example.yuhekejioa.Utils.GlideEngine;
+import com.example.yuhekejioa.Utils.IsNetwork;
 import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.MyLog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
@@ -168,12 +170,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MyLog.e("保存userNo=", "==" + userNo);
         edit = tokens.edit();
         initView();
-
         initEvent();
         methodRequiresTwoPermission();
+
     }
-
-
 
     //强制更新版本网络请求
     private void download() {
@@ -394,9 +394,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new MainAdapter(MainActivity.this, list);
         accomplish_List.setAdapter(adapter);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
+        //判断有无网络
+        if (!new IsNetwork().isNetworkAvailable(MainActivity.this)) {
+            Toast toast = Toast.makeText(MainActivity.this, "当前没有可用网络", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
         download();
         initData();
         //个人信息界面玩咯请求
@@ -717,6 +725,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     drawerLayout.openDrawer(main_left_drawer_layout);
                 }
+                //判断有无网络
+                if (!new IsNetwork().isNetworkAvailable(MainActivity.this)) {
+                    Toast toast = Toast.makeText(MainActivity.this, "当前没有可用网络", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
                 break;
             case R.id.Initiated_layout:
                 startActivity(new Intent(MainActivity.this, MeInitiateActivity.class));
@@ -730,7 +745,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.store_details_ll_close://发起
                 Intent intent = new Intent(MainActivity.this, InitiateActivity.class);
                 intent.putExtra("nickName", nickName);
-
                 startActivity(intent);
                 break;
             case R.id.relative_phone://修改手机号侧面布局
@@ -748,7 +762,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 edit.remove("username");
                 edit.remove("password");
                 edit.remove("token");
-
                 edit.clear();//数据清空
                 edit.commit();
                 JPushInterface.deleteAlias(this, 0);

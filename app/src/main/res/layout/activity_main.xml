@@ -222,7 +222,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="52dp"
                 android:layout_marginRight="12dp"
-
+                android:src="@drawable/avatarlogo"
                 ></de.hdodenhof.circleimageview.CircleImageView>
 
             <RelativeLayout

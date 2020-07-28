@@ -62,7 +62,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String username = sharedPreferences.getString("username", "");
         Log.e("TAG", "onCreate: " + username);
         //用户名不为空 不为null 就跳转到首页
-
         if (username != null && !username.equals("")) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);

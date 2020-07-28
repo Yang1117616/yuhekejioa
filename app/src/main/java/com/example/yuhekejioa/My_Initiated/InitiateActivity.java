@@ -34,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,8 +49,10 @@ import com.example.yuhekejioa.Adapter.FileAdapter;
 import com.example.yuhekejioa.Bean.SonBean;
 import com.example.yuhekejioa.Bean.filebean;
 
+import com.example.yuhekejioa.MainActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.IsNetwork;
 import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
 import com.example.yuhekejioa.Utils.SpacesItemDecoration;
@@ -157,7 +160,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
     };
     private TextView prompt;
     private String extendType;
-
+    private LinearLayout linear_missiolist;
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -172,6 +175,14 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
 
         initView();
         methodRequiresTwoPermission();
+        //判断有无网络
+        if (!new IsNetwork().isNetworkAvailable(InitiateActivity.this)) {
+            Toast toast = Toast.makeText(InitiateActivity.this, "当前没有可用网络", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            linear_missiolist.setVisibility(View.GONE);
+            return;
+        }
     }
 
     @Override
@@ -303,7 +314,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
             expedited = 0;
             Log.e("TAG", "initView:" + expedited);
         }
-
+        linear_missiolist=findViewById(R.id.linear_missiolist);
         back.setOnClickListener(this);//返回按钮
         choosedepartment_text.setOnClickListener(this);//接收部门
         receiver_text.setOnClickListener(this);//接收人
@@ -855,6 +866,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return format.format(date);
     }
+
     //防止快速点击出现多个相同页面的问题
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

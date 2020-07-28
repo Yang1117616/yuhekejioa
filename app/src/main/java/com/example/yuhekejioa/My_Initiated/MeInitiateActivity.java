@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.MeInitiateXAdapter;
 import com.example.yuhekejioa.Bean.MeInitiateBean;
+import com.example.yuhekejioa.MainActivity;
 import com.example.yuhekejioa.My_recrive.MyreceiveActivity;
 import com.example.yuhekejioa.R;
 import com.example.yuhekejioa.Utils.Constant;
+import com.example.yuhekejioa.Utils.IsNetwork;
 import com.example.yuhekejioa.Utils.LoadingDialog;
 import com.example.yuhekejioa.Utils.MyLog;
 import com.example.yuhekejioa.Utils.NetworkUtils;
@@ -57,7 +60,13 @@ public class MeInitiateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_initiate);
         initview();
-
+        //判断有无网络
+        if (!new IsNetwork().isNetworkAvailable(MeInitiateActivity.this)) {
+            Toast toast = Toast.makeText(MeInitiateActivity.this, "当前没有可用网络", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
     }
 
     @Override
