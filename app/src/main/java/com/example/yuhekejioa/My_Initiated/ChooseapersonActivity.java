@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.yuhekejioa.Adapter.Choosepersonadapter;
@@ -33,7 +34,7 @@ import java.util.List;
 //选择人员
 public class ChooseapersonActivity extends AppCompatActivity {
 
-    private ImageView back;
+    private RelativeLayout back;
     private ListView listView;
     private Button button_submit;
     private List<ChoosepersonBean.DataBean> list = new ArrayList<>();

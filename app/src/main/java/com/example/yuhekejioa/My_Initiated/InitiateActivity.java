@@ -76,7 +76,7 @@ import pub.devrel.easypermissions.PermissionRequest;
 
 //首页-----发起
 public class InitiateActivity extends AppCompatActivity implements View.OnClickListener {
-    private ImageView back;//返回按钮
+    private RelativeLayout back;//返回按钮
     private TextView current_time1;//当前时间
     private TextView sponsor_name;//发起人姓名
     private TextView choosedepartment_text;//请选择接收部门

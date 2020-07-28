@@ -46,7 +46,7 @@ import java.util.List;
 public class MyreceiveActivity extends AppCompatActivity {
 
 
-    private ImageView back;
+    private RelativeLayout back;
     private RecyclerView recyclerView;
     private List<MyreceiveBean.DataBean.ListBean> list = new ArrayList<>();
     private int pageNum = 1;

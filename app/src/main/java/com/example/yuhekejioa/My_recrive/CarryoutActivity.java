@@ -26,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView recyclerView;
     private ImageView add_image;
     private Button button_submit;
-    private ImageView back;
+    private RelativeLayout back;
     public static final int IMPORT_REQUEST_CODE = 10005;
 
     private File file;

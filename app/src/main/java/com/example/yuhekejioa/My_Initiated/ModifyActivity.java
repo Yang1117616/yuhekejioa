@@ -77,7 +77,7 @@ import pub.devrel.easypermissions.PermissionRequest;
 
 //  我发起的-----修改页面
 public class ModifyActivity extends AppCompatActivity implements View.OnClickListener {
-    private ImageView back;
+    private RelativeLayout back;
     private TextView sponsor_name;//发起人姓名
     private TextView choosedepartment_text;//请选择接收部门
     private TextView receiver_text;//请选择接收人
@@ -137,7 +137,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private WaitAdapter adapter;
     private WantBean.DataBean.SysFilesSponsorBean sysFilesSponsorBean;
     private String deptIds;
-    private int num;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {

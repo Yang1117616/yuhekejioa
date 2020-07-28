@@ -54,7 +54,7 @@ public class XiugaiprocessingActivity extends AppCompatActivity implements View.
     private RecyclerView recyclerview;//附件列表
     private Button button_view;//查看每日工作
     private Button button_submit;//提交按钮
-    private ImageView back;//返回按钮
+    private RelativeLayout back;//返回按钮
     private TextView report;//汇报
     private LinearLayout applyforanextensionLayout;
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();

@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ import java.util.List;
 
 public class My_NotreceivedActivity extends AppCompatActivity {
     private int taskId;
-    private ImageView back;
+    private RelativeLayout back;
     private TextView numbering;//任务编号
     private TextView current_time1;//发起时间
     private TextView sponsor_name;//发起人

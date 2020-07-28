@@ -3,6 +3,8 @@ package com.example.yuhekejioa.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,20 +54,25 @@ import java.util.List;
 
 public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.ViewHolder> {
     Context context;
-
     List<SearchforBean.DataBean.ListBean> list;
+
+
 
     public SearchforAdapter(Context context, List<SearchforBean.DataBean.ListBean> list) {
         this.context = context;
         this.list = list;
+
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View inflate = LayoutInflater.from(context).inflate(R.layout.meinitiate_layout, parent, false);
-        ViewHolder holder = new ViewHolder(inflate);
-        return holder;
+            ViewHolder holder = new ViewHolder(inflate);
+            return holder;
+
+
     }
 
     @Override
@@ -1245,13 +1252,13 @@ public class SearchforAdapter extends RecyclerView.Adapter<SearchforAdapter.View
     @Override//防止数据错乱
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
+
     }
 
-//    //适配器刷新方法
-//    public void fresh(List<SearchforBean.DataBean.ListBean> datax) {
-//        list = datax;
-//        notifyDataSetChanged();
-//    }
+
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView taskNo;//任务标题

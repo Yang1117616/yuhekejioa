@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ import java.util.List;
 //我发起的 未接收
 public class NotreceivedActivity extends AppCompatActivity {
     private int taskId;
-    private ImageView back;
+    private RelativeLayout back;
     private TextView numbering;//任务编号
     private TextView current_time1;//发起时间
     private TextView sponsor_name;//发起人
@@ -52,9 +53,7 @@ public class NotreceivedActivity extends AppCompatActivity {
     private int id;
     private List<DeterminBean.DataBean.SysFilesSponsorBean> list = new ArrayList<>();
     private String taskNo;
-    private int confirmType;
     private String url;
-
     private TextView edit_title;
     private TextView choosedepartment_text;//接收部门
     private TextView receiver_text;//接收人

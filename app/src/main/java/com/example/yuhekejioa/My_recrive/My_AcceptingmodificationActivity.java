@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,7 @@ public class My_AcceptingmodificationActivity extends AppCompatActivity implemen
     private TextView text_there;//有无附件
     private RecyclerView recyclerview;//附件列表
     private Button button_view;//查看每日工作
-    private ImageView back;
+    private RelativeLayout back;
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
     private HashMap<String, String> map;

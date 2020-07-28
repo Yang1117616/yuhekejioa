@@ -40,15 +40,13 @@ public class DailyActivity extends AppCompatActivity {
     private SmartRefreshLayout home_RefreshLayout;
     private RecyclerView accomplish_List;
     private String taskNo;
-    private ImageView back;
+    private RelativeLayout back;
     private int pageNum = 1;
     private List<DailyBean.DataBean> list = new ArrayList<>();
     private RelativeLayout relative_no;
     private DailyAdapter adapter;
-    private Dialog loadingDialog;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();

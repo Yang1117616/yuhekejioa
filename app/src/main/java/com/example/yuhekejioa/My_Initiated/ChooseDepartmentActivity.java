@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ import java.util.List;
 
 //我发起的-----选择部门
 public class ChooseDepartmentActivity extends AppCompatActivity {
-    private ImageView back;
+    private RelativeLayout back;
     private ExpandableListView expandableListView;
     private Button button_submit;
 

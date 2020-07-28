@@ -81,7 +81,7 @@ public class WaitActivity extends AppCompatActivity implements View.OnClickListe
     private EditText yuheedittext;//补充说明
     private TextView button_view;//查看每日工作
     private Button button_submit;//通过按钮
-    private ImageView back;
+    private RelativeLayout back;
 
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;

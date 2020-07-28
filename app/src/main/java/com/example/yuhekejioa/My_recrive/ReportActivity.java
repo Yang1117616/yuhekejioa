@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class ReportActivity extends AppCompatActivity {
     private EditText yuheedittext;
     private EditText percentage;
     private Button button_submit;
-    private ImageView back;
+    private RelativeLayout back;
     private Dialog loadingDialog;
 
     @Override

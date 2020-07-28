@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ import java.util.HashMap;
 //我发起的-------申请延期
 public class ApplyforanextensionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView back;
+    private RelativeLayout back;
     private TextView numbering;//任务编号
     private TextView currentdate;//当前日期
     private TextView originaltime;//原地时间

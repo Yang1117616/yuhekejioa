@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,7 @@ public class TerminatedActivity extends AppCompatActivity implements View.OnClic
     private TextView editText;//任务描述
     private RecyclerView recyclerview;//附件列表
     private Button button_submit;//查看每日工作
-    private ImageView back;
+    private RelativeLayout back;
     private TextView choosedepartment_text;//接收部门
     private TextView receiver_text;//接收人
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();

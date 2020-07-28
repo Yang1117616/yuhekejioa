@@ -19,6 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class AcceptancefailedActivity extends AppCompatActivity implements View.
     private TextView opinionselection;//请选择验收结果
     private TextView yuheedittext;//补充说明
     private Button button_view;//查看每日工作
-    private ImageView back;
+    private RelativeLayout back;
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;
     private String url;

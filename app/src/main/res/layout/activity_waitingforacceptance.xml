@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,315 +8,334 @@
     tools:context=".My_recrive.WaitingforacceptanceActivity">
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:id="@+id/back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="13dp"
+            android:layout_marginLeft="13dp">
 
             <ImageView
-                android:id="@+id/back"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
+                android:id="@+id/imageview"
+                android:layout_width="10dp"
+                android:layout_height="17dp"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
                 android:src="@drawable/back" />
 
             <TextView
-                android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="等待验收"
-                android:textColor="@color/theme_black"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/image_hurried"
-                android:layout_width="14dp"
-                android:layout_height="18dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/text"
-                android:src="@drawable/image_hurried"
-                android:visibility="gone"></ImageView>
-
+                android:layout_toRightOf="@+id/imageview"
+                android:text="返回"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
         </RelativeLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="等待验收"
+            android:textColor="@color/theme_black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/image_hurried"
+            android:layout_width="14dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/text"
+            android:src="@drawable/image_hurried"
+            android:visibility="gone"></ImageView>
+
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="42.66dp">
+        android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:text="任务编号"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-            <TextView
-                android:id="@+id/taskNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ffe5e5e5"></View>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="42.66dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:text="发起时间"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-            <TextView
-                android:id="@+id/current_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEAEA"></View>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="42.66dp">
-
-            <TextView
-                android:id="@+id/sponsor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:text="发起人"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-            <TextView
-                android:id="@+id/sponsor_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEAEA"></View>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="42.66dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:text="结束时间"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-            <TextView
-                android:id="@+id/enddate_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEAEA"></View>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11.66dp"
-            android:layout_marginTop="5dp"
-            android:text="任务标题"
-            android:textColor="#ff000000"
-            android:textSize="15sp"></TextView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15.66dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/edit_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:textColor="#000000"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEAEA"></View>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11.66dp"
-            android:layout_marginTop="5dp"
-            android:text="任务描述"
-            android:textColor="#ff000000"
-            android:textSize="15sp"></TextView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15.66dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:textColor="#000000"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEAEA"></View>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11.66dp"
-            android:layout_marginTop="5dp"
-            android:text="任务成果"
-            android:textColor="#ff000000"
-            android:textSize="15sp"></TextView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15.66dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/editText1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:textColor="#000000"
-                android:textSize="15sp"></TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EDEAEA"></View>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="42dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:text="附件上传"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-            <TextView
-                android:id="@+id/text_nofile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:text="暂无附件"
-                android:textColor="#ff000000"
-                android:textSize="15sp"></TextView>
-
-        </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="5dp"
-            android:scrollbarSize="5dp"
-            android:scrollbarThumbVertical="@color/theme_gray"
-            android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
-
-        <RelativeLayout
-            android:layout_marginBottom="15dp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button_submit"
-                android:layout_width="315dp"
-                android:layout_height="43dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:background="@drawable/button_backgroud"
-                android:text="查看每日工作"
-                android:textColor="#ffffffff"
-                android:textSize="16sp"></Button>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42.66dp">
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="任务编号"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
 
-    </LinearLayout>
-</ScrollView>
+                <TextView
+                    android:id="@+id/taskNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffe5e5e5"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42.66dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="发起时间"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+
+                <TextView
+                    android:id="@+id/current_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EDEAEA"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42.66dp">
+
+                <TextView
+                    android:id="@+id/sponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="发起人"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+
+                <TextView
+                    android:id="@+id/sponsor_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EDEAEA"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42.66dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="结束时间"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+
+                <TextView
+                    android:id="@+id/enddate_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EDEAEA"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11.66dp"
+                android:layout_marginTop="5dp"
+                android:text="任务标题"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15.66dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/edit_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EDEAEA"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11.66dp"
+                android:layout_marginTop="5dp"
+                android:text="任务描述"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15.66dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EDEAEA"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11.66dp"
+                android:layout_marginTop="5dp"
+                android:text="任务成果"
+                android:textColor="#ff000000"
+                android:textSize="15sp"></TextView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15.66dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/editText1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EDEAEA"></View>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="附件上传"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+
+                <TextView
+                    android:id="@+id/text_nofile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:text="暂无附件"
+                    android:textColor="#ff000000"
+                    android:textSize="15sp"></TextView>
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:scrollbarSize="5dp"
+                android:scrollbarThumbVertical="@color/theme_gray"
+                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp">
+
+                <Button
+                    android:id="@+id/button_submit"
+                    android:layout_width="315dp"
+                    android:layout_height="43dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/button_backgroud"
+                    android:text="查看每日工作"
+                    android:textColor="#ffffffff"
+                    android:textSize="16sp"></Button>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

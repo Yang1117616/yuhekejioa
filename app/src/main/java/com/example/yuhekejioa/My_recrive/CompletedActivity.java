@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class CompletedActivity extends AppCompatActivity {
     private RecyclerView recyclerview;//附件列表
 
     private Button button_view;//查看每日工作
-    private ImageView back;
+    private RelativeLayout back;
 
     private List<WantBean.DataBean.SysFilesSponsorBean> list = new ArrayList();
     private String taskNo;

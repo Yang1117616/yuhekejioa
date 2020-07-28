@@ -40,7 +40,7 @@ import java.util.List;
 
 //我发起的
 public class MeInitiateActivity extends AppCompatActivity {
-    private ImageView back;
+    private RelativeLayout back;
     private RecyclerView recyclerView;
     private List<MeInitiateBean.DataBean.ListBean> list = new ArrayList<MeInitiateBean.DataBean.ListBean>();
     private SmartRefreshLayout home_RefreshLayout;

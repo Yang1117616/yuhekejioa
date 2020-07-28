@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class YanqideterminedActivity extends AppCompatActivity implements View.O
     private EditText yuheedittext;//补充说明
     private Button button_view;//查看每日工作
     private Button button_submit;//提交按钮
-    private ImageView back;//返回按钮
+    private RelativeLayout back;//返回按钮
     private TextView degreeofcompletion;//当前完成度
     private TextView extensiontime;//申请延期时间
     private int taskId;

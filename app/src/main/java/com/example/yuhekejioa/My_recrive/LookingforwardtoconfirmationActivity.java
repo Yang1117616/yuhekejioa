@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class LookingforwardtoconfirmationActivity extends AppCompatActivity impl
     private TextView editText;//任务描述
     private TextView editText1;//延期原因
     private Button button_view;//查看每日工作
-    private ImageView back;
+    private RelativeLayout back;
     private TextView degreeofcompletion;//当前完成度
     private TextView extensiontime;//申请延期时间
     private int taskId;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ import java.util.HashMap;
 
 // 我发起的--------终止
 public class TerminationActivity extends AppCompatActivity implements View.OnClickListener {
-    private ImageView back;
+    private RelativeLayout back;
     private TextView numbering;
     private TextView status;
     private EditText yuheedittext;
