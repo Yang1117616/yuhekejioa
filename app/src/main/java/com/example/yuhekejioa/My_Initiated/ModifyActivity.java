@@ -99,7 +99,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     private File file;
     private String path;
     //添加获取的文件路径集合
-    private List<String> strings;
+    private List<String> strings = new ArrayList<>();
     //{后缀名，MIME类型}
     private final String[] MIME_MapTable = {
             ".3gp", "video/3gpp", ".apk", "application/vnd.android.package-archive", ".asf", "video/x-ms-asf",
@@ -221,7 +221,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                num = 0;
+
                                 sponsor_name.setText(addNickName);
                                 receiver_text.setText(receiveNickName);
                                 enddate_text.setText(updateTime);
@@ -237,9 +237,10 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 nestedListView.setLayoutManager(linearLayoutManager);
                                 int space = 8;
                                 nestedListView.addItemDecoration(new SpacesItemDecoration(space));
-                                adapter = new WaitAdapter(ModifyActivity.this, list, strings, num);
+
+                                adapter = new WaitAdapter(ModifyActivity.this, list, strings);
                                 nestedListView.setAdapter(adapter);
-//                                adapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
                                 adapter.setOnItemClickListener(new FileAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {
@@ -249,7 +250,12 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                                 adapter.setOnStringClickListener(new WaitAdapter.OnItemListenter() {
                                     @Override
                                     public void onItemClick(StringBuilder defile) {
-                                        deptIds = defile.toString();
+                                        //判断是否为空
+                                        if (TextUtils.isEmpty(defile)) {
+
+                                        } else {
+                                            deptIds = defile.toString();
+                                        }
                                     }
                                 });
                             }
@@ -493,13 +499,13 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                 if (uri != null) {
                     path = getPath(this, uri);
                     if (path != null) {
-                        num = 1;
+
                         //获取到的file文件
                         file = new File(path);
                         if (file.exists()) {
                             //文件路径
-                            strings = new ArrayList<>();
                             strings.add(file.getPath());
+                            Log.e("TAG", "onActivityResult:---" + strings.size());
                             //文件名字
                             upLoadFileName = file.getName();
                         }

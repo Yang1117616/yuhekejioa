@@ -27,13 +27,13 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
 
     private StringBuilder defile = new StringBuilder();
     private WaitAdapter.OnItemListenter mItemClickListener = null;
-    private int num;
 
-    public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list, List<String> strings, int num) {
+
+    public WaitAdapter(Context context, List<WantBean.DataBean.SysFilesSponsorBean> list, List<String> strings) {
         this.context = context;
         this.list = list;
         this.strings = strings;
-        this.num = num;
+
     }
 
     @NonNull
@@ -61,16 +61,16 @@ public class WaitAdapter extends RecyclerView.Adapter<WaitAdapter.ViewHolder> {
         holder.image_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (num == 0) {
-                    if (id != null) {
-                        defile.append(id).append(",");
-                        mItemClickListener.onItemClick(defile);
+
+                defile.append(id).append(",");
+                mItemClickListener.onItemClick(defile);
+                //如果集合的长度大于0就删除点击的条目
+                if (strings.size() > 0) {
+                    for (int i = 1; i < strings.size(); i++) {
+                        strings.remove(i);
                     }
-                    list.remove(position);
-                } else if (num != 0) {
-                    strings.remove(position);
-                    list.remove(position);
                 }
+                list.remove(position);
                 WaitAdapter.this.notifyDataSetChanged();
             }
         });

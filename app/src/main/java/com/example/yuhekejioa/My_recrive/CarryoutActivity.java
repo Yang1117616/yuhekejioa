@@ -228,6 +228,7 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
                         if (file.exists()) {
                             //创建的集合 每次添加一条文件就往集合中添加一条
                             strings.add(file.getPath());
+
                             //文件名字
                             upLoadFileName = file.getName();
                         }
