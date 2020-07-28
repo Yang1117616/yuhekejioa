@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,7 +50,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
     private EditText edit_searchfor;//输入框
     private ImageView image_delete;//输入框删除按钮
     private TextView text_searchfor;
-    private SmartRefreshLayout home_RefreshLayout;
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerview;
     private int pageNum = 1;
     private String title;
@@ -57,7 +59,9 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
     private SearchforAdapter adapter;
     private RelativeLayout relative_no;
     private Dialog loadingDialog;
-    private boolean refreshType;
+
+    private final int TOP_REFRESH = 1;
+    private final int BOTTOM_REFRESH = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +79,15 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
         edit_searchfor = findViewById(R.id.edit_searchfor);
         image_delete = findViewById(R.id.image_delete);
         text_searchfor = findViewById(R.id.text_searchfor);
-        home_RefreshLayout = findViewById(R.id.home_RefreshLayout);
+        refreshLayout = findViewById(R.id.home_RefreshLayout);
         recyclerview = findViewById(R.id.recyclerview);
         relative_no = findViewById(R.id.relative_no);
-
-
         back.setOnClickListener(this);
         image_delete.setOnClickListener(this);
         text_searchfor.setOnClickListener(this);
-
         relative_no.setVisibility(View.GONE);
         recyclerview.setVisibility(View.GONE);
+        //edittext实现的搜索功能
         edit_searchfor.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -113,47 +115,24 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
         adapter = new SearchforAdapter(SearchforActivity.this, list);
         recyclerview.setAdapter(adapter);
 
-        home_RefreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
-        /// home_RefreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));//设置尾布局
+//        home_RefreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
         setRefreshListener();
     }
 
     private void setRefreshListener() {
+        //设置刷新功能颜色
+        refreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         //下拉刷新
-        home_RefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                MyLog.e("刷新");
-                pageNum = 1;
-                initData();
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-//        home_RefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//        home_RefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 //            @Override
-//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//                home_RefreshLayout.getLayout().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        refreshType = false;
-//                        if (pageNum > 2) {
-//                            Toast.makeText(SearchforActivity.this, "暂无更多的数据啦", Toast.LENGTH_SHORT).show();
-//                            // 将不会再次触发加载更多事件
-//                            refreshLayout.finishLoadMoreWithNoMoreData();
-//                            return;
-//                        }
-//                        initData();
-//                        refreshLayout.setEnableLoadMore(true);
-//                        refreshLayout.finishLoadMore();
-//                    }
-//                }, 2000);
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                MyLog.e("刷新");
+//                pageNum = 1;
+//                initData();
+//                adapter.notifyDataSetChanged();
 //            }
 //        });
-//        //触发自动刷新
-//        home_RefreshLayout.autoRefresh();
     }
-
 
     //网络请求
     private void initData() {
@@ -233,7 +212,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                                         if (adapter != null) {
                                             adapter.notifyDataSetChanged();
                                         }
-                                        home_RefreshLayout.closeHeaderOrFooter();
+                                        //    home_RefreshLayout.closeHeaderOrFooter();
                                     }
                                 } else if (code == 500) {
                                     runOnUiThread(new Runnable() {
@@ -243,6 +222,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                                                 loadingDialog.dismiss();
                                                 loadingDialog = null;
                                             }
+
                                             Toast.makeText(SearchforActivity.this, msg, Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -259,7 +239,8 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                                 }
                                 relative_no.setVisibility(View.VISIBLE);
                                 recyclerview.setVisibility(View.GONE);
-                                home_RefreshLayout.closeHeaderOrFooter();
+
+                                // home_RefreshLayout.closeHeaderOrFooter();
                             }
                         });
                     }
@@ -274,7 +255,8 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                             }
                             relative_no.setVisibility(View.VISIBLE);
                             recyclerview.setVisibility(View.GONE);
-                            home_RefreshLayout.closeHeaderOrFooter();
+
+                            // home_RefreshLayout.closeHeaderOrFooter();
                         }
                     });
                 }
@@ -292,7 +274,8 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                         }
                         relative_no.setVisibility(View.VISIBLE);
                         recyclerview.setVisibility(View.GONE);
-                        home_RefreshLayout.closeHeaderOrFooter();
+
+                        //home_RefreshLayout.closeHeaderOrFooter();
 
                     }
                 });
@@ -310,7 +293,8 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                         }
                         relative_no.setVisibility(View.VISIBLE);
                         recyclerview.setVisibility(View.GONE);
-                        home_RefreshLayout.closeHeaderOrFooter();
+
+                        // home_RefreshLayout.closeHeaderOrFooter();
                     }
                 });
             }
@@ -354,4 +338,5 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
             return false;
         }
     }
+
 }

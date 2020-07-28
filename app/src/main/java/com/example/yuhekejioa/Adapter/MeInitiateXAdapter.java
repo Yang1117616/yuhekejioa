@@ -18,6 +18,7 @@ import com.example.yuhekejioa.Bean.MeInitiateBean;
 import com.example.yuhekejioa.My_Initiated.AcceptancefailedActivity;
 import com.example.yuhekejioa.My_Initiated.AcceptingmodificationActivity;
 import com.example.yuhekejioa.My_Initiated.DailyActivity;
+import com.example.yuhekejioa.My_Initiated.MeInitiateActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationinprogressActivity;
 import com.example.yuhekejioa.My_Initiated.ModificationpendingActivity;
 import com.example.yuhekejioa.My_Initiated.ModifyActivity;
@@ -38,13 +39,15 @@ import java.util.List;
 
 public class MeInitiateXAdapter extends RecyclerView.Adapter<MeInitiateXAdapter.ViewHolder> {
     Context context;
-    List<MeInitiateBean.DataBean> list;
 
+    List<MeInitiateBean.DataBean.ListBean> list;
 
-    public MeInitiateXAdapter(Context context, List<MeInitiateBean.DataBean> list) {
-        this.list = list;
+    public MeInitiateXAdapter(Context context, List<MeInitiateBean.DataBean.ListBean> list) {
+
         this.context = context;
+        this.list = list;
     }
+
 
     @NonNull
     @Override

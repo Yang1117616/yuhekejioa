@@ -80,12 +80,12 @@
             android:textSize="11sp"></TextView>
 
         <EditText
+            android:cursorVisible="true"
             android:id="@+id/new_phone"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginRight="20dp"
             android:background="@null"
-            android:cursorVisible="true"
             android:digits="1234567890"
             android:hint="请输入新的手机号"
             android:inputType="phone"
@@ -94,7 +94,6 @@
             android:phoneNumber="true"
             android:textColor="#ff000000"
             android:textColorHint="#ffbbbbbb"
-            android:textCursorDrawable="@color/topbar_3"
             android:textSize="15sp"></EditText>
 
         <View

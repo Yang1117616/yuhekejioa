@@ -39,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 // 我接收的
@@ -47,7 +48,7 @@ public class MyreceiveActivity extends AppCompatActivity {
 
     private ImageView back;
     private RecyclerView recyclerView;
-    private List<MyreceiveBean.DataBean> list = new ArrayList<>();
+    private List<MyreceiveBean.DataBean.ListBean> list = new ArrayList<>();
     private int pageNum = 1;
     private SmartRefreshLayout home_RefreshLayout;
 
@@ -118,7 +119,10 @@ public class MyreceiveActivity extends AppCompatActivity {
             loadingDialog = LoadingDialog.createLoadingDialog(MyreceiveActivity.this, "正在加载中...");
             loadingDialog.show();
         }
-        NetworkUtils.sendPost(Constant.ip + "/app/taskReceive/myReceiveTaskList", null, this, new NetworkUtils.HttpCallback() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNum", String.valueOf(pageNum));
+        hashMap.put("pageSize", String.valueOf(200));
+        NetworkUtils.sendPost(Constant.ip + "/app/taskReceive/myReceiveTaskList", hashMap, this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
                 //如果res为空的话就不进行下面的操作
@@ -128,8 +132,9 @@ public class MyreceiveActivity extends AppCompatActivity {
                 try {
                     int code = res.getInt("code");
                     String msg = res.getString("msg");
-                    JSONArray data = res.getJSONArray("data");
-                    if (data.length() > 0) {
+                    JSONObject data = res.getJSONObject("data");
+                    JSONArray list = data.getJSONArray("list");
+                    if (list.length() > 0) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -143,10 +148,10 @@ public class MyreceiveActivity extends AppCompatActivity {
                         });
                         //判断等于1的时候集合清除
                         if (String.valueOf(pageNum).equals("1")) {
-                            list.clear();
+                            MyreceiveActivity.this.list.clear();
                         }
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject jsonObject = data.getJSONObject(i);
+                        for (int i = 0; i < list.length(); i++) {
+                            JSONObject jsonObject = list.getJSONObject(i);
                             final String taskNo = jsonObject.getString("taskNo");//任务编号
                             String addNickName = jsonObject.getString("addNickName");//发起人
                             String wantFinishTiem = jsonObject.getString("wantFinishTiem");//结束时间
@@ -157,7 +162,7 @@ public class MyreceiveActivity extends AppCompatActivity {
                             int isUrgent = jsonObject.getInt("isUrgent");
                             int isFixed = jsonObject.getInt("isFixed");//是否是固定任务单
 
-                            MyreceiveBean.DataBean myreceiveBean = new MyreceiveBean.DataBean();
+                            MyreceiveBean.DataBean.ListBean myreceiveBean = new MyreceiveBean.DataBean.ListBean();
                             myreceiveBean.setAddNickName(addNickName);
                             myreceiveBean.setTaskNo(taskNo);
                             myreceiveBean.setWantFinishTiem(wantFinishTiem);
@@ -167,13 +172,13 @@ public class MyreceiveActivity extends AppCompatActivity {
                             myreceiveBean.setTitle(title);
                             myreceiveBean.setIsUrgent(isUrgent);
                             myreceiveBean.setIsFixed(isFixed);
-                            list.add(myreceiveBean);
+                            MyreceiveActivity.this.list.add(myreceiveBean);
                         }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if (code == 200) {
-                                    if (list.size() > 0) {
+                                    if (MyreceiveActivity.this.list.size() > 0) {
                                         if (loadingDialog != null) {
                                             loadingDialog.dismiss();
                                             loadingDialog = null;

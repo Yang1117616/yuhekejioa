@@ -47,8 +47,8 @@ import java.util.logging.LogRecord;
 
 public class MyreceiveAdapter extends RecyclerView.Adapter<MyreceiveAdapter.ViewHolder> {
     Context context;
-    List<MyreceiveBean.DataBean> list;
-    public MyreceiveAdapter(Context context, List<MyreceiveBean.DataBean> list) {
+    List<MyreceiveBean.DataBean.ListBean> list;
+    public MyreceiveAdapter(Context context, List<MyreceiveBean.DataBean.ListBean> list) {
         this.context = context;
         this.list = list;
     }

@@ -35,13 +35,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 //我发起的
 public class MeInitiateActivity extends AppCompatActivity {
     private ImageView back;
     private RecyclerView recyclerView;
-    private List<MeInitiateBean.DataBean> list = new ArrayList<MeInitiateBean.DataBean>();
+    private List<MeInitiateBean.DataBean.ListBean> list = new ArrayList<MeInitiateBean.DataBean.ListBean>();
     private SmartRefreshLayout home_RefreshLayout;
     private int pageNum = 1;
     private MeInitiateXAdapter adapter;
@@ -58,12 +59,6 @@ public class MeInitiateActivity extends AppCompatActivity {
         initview();
 
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//    }
 
     @Override
     protected void onResume() {
@@ -100,9 +95,7 @@ public class MeInitiateActivity extends AppCompatActivity {
         //设置布局管理器
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MeInitiateActivity.this);
-
         recyclerView.setLayoutManager(linearLayoutManager);
-
         adapter = new MeInitiateXAdapter(MeInitiateActivity.this, list);
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
@@ -116,7 +109,10 @@ public class MeInitiateActivity extends AppCompatActivity {
             loadingDialog = LoadingDialog.createLoadingDialog(MeInitiateActivity.this, "正在加载中...");
             loadingDialog.show();
         }
-        NetworkUtils.sendPost(Constant.ip + "/app/task/myAddTaskList", null, MeInitiateActivity.this, new NetworkUtils.HttpCallback() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNum", String.valueOf(pageNum));
+        hashMap.put("pageSize", String.valueOf(200));
+        NetworkUtils.sendPost(Constant.ip + "/app/task/myAddTaskList", hashMap, MeInitiateActivity.this, new NetworkUtils.HttpCallback() {
             @Override
             public void onSuccess(JSONObject res) {
                 //如果res为空的话就不进行下面的操作
@@ -126,9 +122,11 @@ public class MeInitiateActivity extends AppCompatActivity {
                 try {
                     int code = res.getInt("code");
                     String msg = res.getString("msg");
+                    JSONObject data = res.getJSONObject("data");
+                    JSONArray list = data.getJSONArray("list");
                     //获取的接口中的集合
-                    JSONArray data = res.getJSONArray("data");
-                    if (data.length() > 0) {
+                  //  JSONArray data = res.getJSONArray("data");
+                    if (list.length() > 0) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -142,10 +140,10 @@ public class MeInitiateActivity extends AppCompatActivity {
                         });
                         //判断等于1的时候集合清除
                         if (String.valueOf(pageNum).equals("1")) {
-                            list.clear();
+                            MeInitiateActivity.this.list.clear();
                         }
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject jsonObject = data.getJSONObject(i);
+                        for (int i = 0; i < list.length(); i++) {
+                            JSONObject jsonObject = list.getJSONObject(i);
                             String taskNo = jsonObject.getString("taskNo");//任务编号
                             String addNickName = jsonObject.getString("addNickName");//发起人
                             String receiveNickName = jsonObject.getString("receiveNickName");//接收人
@@ -162,7 +160,7 @@ public class MeInitiateActivity extends AppCompatActivity {
                             int isFixed = jsonObject.getInt("isFixed");//是否是固定任务单
 
 
-                            MeInitiateBean.DataBean mereceiveBean = new MeInitiateBean.DataBean();
+                            MeInitiateBean.DataBean.ListBean mereceiveBean = new MeInitiateBean.DataBean.ListBean();
                             mereceiveBean.setReceiveDept(receiveDept);
                             mereceiveBean.setAddNickName(addNickName);
                             mereceiveBean.setTaskDescribe(taskDescribe);
@@ -176,13 +174,13 @@ public class MeInitiateActivity extends AppCompatActivity {
                             mereceiveBean.setIsUrgent(isUrgent);
                             mereceiveBean.setCanUpdate(canUpdate);
                             mereceiveBean.setIsFixed(isFixed);
-                            list.add(mereceiveBean);
+                            MeInitiateActivity.this.list.add(mereceiveBean);
                         }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if (code == 200) {
-                                    if (list.size() > 0) {
+                                    if (MeInitiateActivity.this.list.size() > 0) {
                                         if (loadingDialog != null) {
                                             loadingDialog.dismiss();
                                             loadingDialog = null;
