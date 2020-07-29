@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout relative_searchfor;
     private String remark;
     private String nickName;
-    //测试
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
     private Dialog loadingDialog;
