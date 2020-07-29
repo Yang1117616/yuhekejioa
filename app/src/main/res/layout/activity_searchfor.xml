@@ -13,26 +13,37 @@
 
         <RelativeLayout
             android:id="@+id/back"
-            android:layout_width="40dp"
-            android:layout_height="match_parent">
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerInParent="true"
+                android:id="@+id/imageview"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_centerVertical="true"
                 android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/imageview"
+                android:text="返回"
+                android:textColor="#000000"
+                android:textSize="15dp"></TextView>
         </RelativeLayout>
 
 
         <RelativeLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_width="245dp"
+            android:layout_width="251dp"
             android:layout_height="33dp"
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/back"
-            android:background="@drawable/button_backgroud_shouye">
+            android:background="@drawable/button_backgroud_shouye"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <ImageView
                 android:id="@+id/imageview_searchfor"
@@ -44,7 +55,6 @@
 
             <EditText
 
-                android:cursorVisible="true"
                 android:id="@+id/edit_searchfor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -53,6 +63,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/imageview_searchfor"
                 android:background="@null"
+                android:cursorVisible="true"
                 android:editable="true"
                 android:gravity="top|left"
                 android:hint="请输入标题"
@@ -120,7 +131,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F3F1F1"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        app:srlEnableFooterFollowWhenLoadFinished="true"
+        app:srlEnableScrollContentWhenLoaded="true">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
@@ -133,6 +147,7 @@
             android:overScrollMode="never"
             android:scrollbars="none"
             android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 

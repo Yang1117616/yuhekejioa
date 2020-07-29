@@ -39,8 +39,8 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/AppTheme">
+        <!--android:screenOrientation="portrait" 防止横竖屏切换-->
         <activity android:name=".My_recrive.My_NotreceivedActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".My_Initiated.NotreceivedActivity"

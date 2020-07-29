@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         setContentView(R.layout.activity_main);
-
         registerMessageReceiver();  // used for receive msg
         SharedPreferences tokens = getSharedPreferences("tokens", MODE_PRIVATE);
         String userNo = tokens.getString("userNo", "");
@@ -175,12 +174,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    //强制更新版本网络请求
+    //强制更新版本网络请求、
     private void download() {
         String versionName = null;
         try {
+            //获取当前项目版本号
             versionName = MainActivity.this.getPackageManager().getPackageInfo(MainActivity.this.getPackageName(), 0).versionName;
-            Log.e("TAG", "download: " + versionName);
             versionnumber.setText("版本" + versionName);//添加版本
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -861,4 +860,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            }
 //        }
 //    }
+    /*
+      进首页根据登录保存的手机号来判断手机号是不是为空
+      如果为空就不显示数据 弹个提示框 提示跳转到登录界面
+        private boolean islogin ;
+        islogin=islogin;
+        public boolean islogin() {
+            SharedPreferences pre = getActivity().getSharedPreferences("transition", MODE_PRIVATE);
+            String phone = pre.getString("phone", null);
+            if (phone == null) {
+                return false;
+            } else {
+                return true;
+           }
+        }
+     */
+
 }

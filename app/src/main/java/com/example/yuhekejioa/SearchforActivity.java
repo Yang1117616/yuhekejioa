@@ -105,13 +105,17 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchforActivity.this);
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        recyclerview.setNestedScrollingEnabled(false);
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.setHasFixedSize(true);
         adapter = new SearchforAdapter(SearchforActivity.this, list);
         recyclerview.setAdapter(adapter);
 
-        refreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));
+        refreshLayout.setRefreshHeader(new ClassicsHeader(SearchforActivity.this));//开启头
+        refreshLayout.setRefreshFooter(new ClassicsFooter(SearchforActivity.this));//开启尾
         setRefreshListener();
     }
 
@@ -126,10 +130,16 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                 adapter.notifyDataSetChanged();
             }
         });
-    }
 
-    private void dataOption(int top_refresh) {
-
+//        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//          public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//          pageNum++;//每次上拉page+1
+//         initData();//初始化数据
+//         refreshLayout.finishLoadMore();//完成上拉加载
+//         refreshLayout.finishRefresh();//完成下拉刷新
+//            }
+//        });
     }
 
     //网络请求
@@ -220,7 +230,7 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
                                                 loadingDialog.dismiss();
                                                 loadingDialog = null;
                                             }
-
+                                            refreshLayout.closeHeaderOrFooter();
                                             Toast.makeText(SearchforActivity.this, msg, Toast.LENGTH_SHORT).show();
                                         }
                                     });
