@@ -100,7 +100,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15.66dp">
 
                 <EditText
@@ -139,23 +139,23 @@
                     android:textSize="15sp"></TextView>
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:id="@+id/text_prompt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/updatingfiles"
                     android:layout_marginLeft="11.66dp"
+                    android:layout_marginTop="5dp"
                     android:text="上传类型只能是"
                     android:textColor="@color/pickerview_wheelview_textcolor_out"
                     android:textSize="14sp"></TextView>
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:id="@+id/prompt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/updatingfiles"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toRightOf="@+id/text_prompt"
                     android:textColor="@color/store_item_residue"
                     android:textSize="14sp"></TextView>

@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout relative_searchfor;
     private String remark;
     private String nickName;
-
+    //测试
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
     private Dialog loadingDialog;
@@ -157,8 +157,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().hide();
         }
         super.onCreate(savedInstanceState);
-        //安卓按下Home键至手机桌面后，重新点开应用时无法进入退出时的页面
-        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+//        //安卓按下Home键至手机桌面后，重新点开应用时无法进入退出时的页面
+//        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+//            finish();
+//            return;
+//        }
+        if (!isTaskRoot()) {
             finish();
             return;
         }
