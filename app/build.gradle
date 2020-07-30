@@ -86,6 +86,7 @@ dependencies {
     implementation('com.github.bumptech.glide:glide:4.9.0') {
         exclude group: "com.android.support"
     }
+    //侧边布局
     implementation 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:27.1.1'
@@ -109,4 +110,7 @@ dependencies {
     implementation files('libs/jcore-android-2.3.8.jar')
     implementation files('libs/jpush-android-3.6.6.jar')
     implementation 'pub.devrel:easypermissions:3.0.0'
+    //沉浸式状态栏
+    implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
 }

@@ -5,6 +5,8 @@
     android:id="@+id/main_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -206,6 +208,7 @@
         android:id="@+id/main_left_drawer_layout"
         android:layout_width="310dp"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:layout_gravity="start"
         android:background="#F4F1F1"
         android:orientation="vertical">

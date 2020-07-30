@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.yuhekejioa.Adapter.MainAdapter;
+import com.example.yuhekejioa.Base.BaseActivity;
 import com.example.yuhekejioa.Bean.Mainbean;
 import com.example.yuhekejioa.Jpush.ExampleUtil;
 import com.example.yuhekejioa.Jpush.LocalBroadcastManager;
@@ -64,6 +65,7 @@ import com.example.yuhekejioa.Utils.SpringProgressView;
 import com.example.yuhekejioa.side.Relative_mailboxActivity;
 import com.example.yuhekejioa.side.Relative_pasActivity;
 import com.example.yuhekejioa.side.Relative_phoneActivity;
+import com.gyf.barlibrary.ImmersionBar;
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -92,7 +94,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private CircleImageView circle;//圆形头像
 
     private RelativeLayout Initiated_layout;//发起的  布局
@@ -152,9 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Dialog loadingDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().hide();
+//        }
         super.onCreate(savedInstanceState);
 //        //安卓按下Home键至手机桌面后，重新点开应用时无法进入退出时的页面
 //        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
             return;
         }
+        ImmersionBar.with(this).statusBarDarkFont(true).statusBarColor("#00000000").init();
         setContentView(R.layout.activity_main);
         registerMessageReceiver();  // used for receive msg
         SharedPreferences tokens = getSharedPreferences("tokens", MODE_PRIVATE);
@@ -727,6 +730,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     drawerLayout.openDrawer(main_left_drawer_layout);
                 }
+
                 //判断有无网络
                 if (!new IsNetwork().isNetworkAvailable(MainActivity.this)) {
                     Toast toast = Toast.makeText(MainActivity.this, "当前没有可用网络", Toast.LENGTH_SHORT);

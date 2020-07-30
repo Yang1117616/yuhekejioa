@@ -288,7 +288,6 @@ public class CarryoutActivity extends AppCompatActivity implements View.OnClickL
         FileAdapter fileAdapter = new FileAdapter(this, list_file, strings);
         recyclerView.setAdapter(fileAdapter);
     }
-
     //选择文件的一些方法
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String getPath(final Context context, final Uri uri) {
