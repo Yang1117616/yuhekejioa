@@ -68,8 +68,6 @@ public class SearchforActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_searchfor);
         initview();
     }
-
-
     private void initview() {
         back = findViewById(R.id.back);
         edit_searchfor = findViewById(R.id.edit_searchfor);
