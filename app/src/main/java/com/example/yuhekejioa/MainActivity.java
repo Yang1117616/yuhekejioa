@@ -840,6 +840,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                        try {
 //                            int code = res.getInt("code");
 //                            if (code == 200) {
+    //在这里要从新请求一遍后台接口中返回图片的接口
 //                                runOnUiThread(new Runnable() {
 //                                    @Override
 //                                    public void run() {
