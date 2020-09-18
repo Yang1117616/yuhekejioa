@@ -7,8 +7,8 @@ android {
         applicationId "com.example.yuhekejioa"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 125
-        versionName "1.2.5"
+        versionCode 1072501
+        versionName "1.072501"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //极光推送 密钥
         manifestPlaceholders = [

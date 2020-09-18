@@ -170,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String token = data.getString("token");
                         String name = data.getString("name");
                         Log.e("TAG", "onSuccess: " + userNo);
+                        //任务单极光推送时根据用户编号推送的
                         JPushInterface.setAlias(LoginActivity.this, 0, userNo);
                         edit.putString("token", token);
                         edit.putString("userNo", userNo);
