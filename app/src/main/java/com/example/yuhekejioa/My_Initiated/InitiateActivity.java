@@ -210,7 +210,7 @@ public class InitiateActivity extends AppCompatActivity implements View.OnClickL
                             public void run() {
                                 /*
                                 获取用户角色：1、董事长；2、部门经理；3、员工；
-                                新数据测试111
+                                新数据测试11111111111111
                                  */
                                 if (role == 1) {
                                     typeofdelivery.setText("个人");

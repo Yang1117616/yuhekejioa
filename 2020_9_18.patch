@@ -1,0 +1,16 @@
+Index: app/src/main/java/com/example/yuhekejioa/My_Initiated/InitiateActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/yuhekejioa/My_Initiated/InitiateActivity.java	(revision 3dcadbc2102d46796008baa13120897a34cd4e52)
++++ app/src/main/java/com/example/yuhekejioa/My_Initiated/InitiateActivity.java	(date 1600401240319)
+@@ -210,7 +210,7 @@
+                             public void run() {
+                                 /*
+                                 获取用户角色：1、董事长；2、部门经理；3、员工；
+-                                新数据测试
++                                新数据测试111
+                                  */
+                                 if (role == 1) {
+                                     typeofdelivery.setText("个人");
